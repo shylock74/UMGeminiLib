@@ -1,0 +1,1126 @@
+episodio: "Côte-Rôtie Neve 2016 - M. Chapoutier"
+vino:
+  nome: "Côte-Rôtie 'Neve', Maison M. Chapoutier"
+  vitigno: "Syrah 100%"
+  tecnica: "Vinificazione in biodinamica, fermentazione con lieviti indigeni, diraspatura 100%, macerazione prolungata per polimerizzazione dei tannini, affinamento 15-18 mesi (80% legno di cui 20% nuovo, 20% cemento), non filtrato, non chiarificato."
+  profilo: [ciliegia, mora di gelso, pepe nero marcato, note terrose, cacao, vaniglia, sentori balsamici, tannino setoso, riduttivo]
+piatto:
+  nome: "Manzo brasato con purea di castagne e funghi cardoncelli"
+  cottura: "Brasatura a lunga cottura (cappello del prete), CBT per i funghi cardoncelli seguita da piastra."
+  struttura: [succulenza, grassezza, dolcezza della castagna/fava tonka, croccantezza chips topinambur, complessità aromatica, consistenza fibrosa]
+abbinamento:
+  teoria: "Ricerca di contrapposizione tra il tannino del Syrah e la componente grassa/succulenta del brasato; le note terrose del vino dialogano con la componente fungina del piatto."
+  perche_funziona: "L'abbinamento risulta parziale: la struttura e il tannino giovane del vino (2016) sovrastano la succulenza del cappello del prete. La persistenza del piatto supera quella del vino, indicando la necessità di un taglio con maggiore connettivo (es. guancia) per bilanciare l'astringenza del tannino."
+
+---
+episodio: "Pomorosso - Coppo"
+vino:
+  nome: "Pomorosso, Coppo"
+  vitigno: "Barbera 100%"
+  tecnica: "Vinificazione separata per parcelle (Agliano Terme, Castelnuovo Calcea, Nizza Monferrato); fermentazione alcolica e malolattica in acciaio; affinamento 14-18 mesi in barrique di rovere francese nuovo."
+  profilo: [prugna secca, confettura di more, rabarbaro, eucalipto, vaniglia, liquirizia, cuoio, note terrose, sottobosco]
+piatto:
+  nome: "Filetto di maiale bardato allo speck con salsa di Robiola di Roccaverano, terrina di patate e nocciole, gel di mela renetta speziato"
+  cottura: "Cottura tradizionale (arrosto) con bardatura e assemblaggio di elementi composti"
+  struttura: [grassezza, succulenza, sapidità, aromaticità complessa, croccantezza, acidità rinfrescante, tendenza dolce]
+abbinamento:
+  teoria: "Armonia per contrapposizione (acidità del vino vs grassezza della salsa e della carne) e concordanza (persistenza aromatica)."
+  perche_funziona: "L'acidità spiccata e la struttura tannica polimerizzata del Barbera tagliano la grassezza della Robiola e del grasso dello speck, mentre le note speziate del gel di mela creano un ponte con l'affinamento in legno del vino."
+
+---
+episodio: "Il Nobile di Montepulciano 2019 - Avignonesi"
+vino:
+  nome: "Nobile di Montepulciano 2019, Avignonesi"
+  vitigno: "Sangiovese (Prugnolo Gentile)"
+  tecnica: "Biodinamica, inoculo con pied-de-cuve, macerazione di 20-22 giorni, affinamento 18 mesi in botte grande e piccoli contenitori (barrique/tonneau), 6 mesi di affinamento in bottiglia."
+  profilo: [prugna, marasca, arancia amara, vaniglia, pepe, cuoio, note terrose, verticale, succoso, tannini a trama fitta]
+piatto:
+  nome: "Guancetta di maiale brasata, terrina di zucca, crema di zucca e patate, croccante di castagne, spinaci al burro e zest di limone"
+  cottura: "Brasatura lunga (cbt/stufato) su fondo di verdure, frittura (chips di castagne), sbollentatura (spinaci)"
+  struttura: [succulenza, scioglievolezza, grassezza, dolcezza della zucca, croccantezza, persistenza aromatica, note agrumate]
+abbinamento:
+  teoria: "Bilanciamento per concordanza e contrapposizione: l'alcolicità e l'acidità del Sangiovese contrastano la grassezza e la succulenza della guancia, mentre la trama tannica si ammorbidisce grazie alla dolcezza della zucca e alla consistenza del piatto."
+  perche_funziona: "L'equilibrio tra la spinta acida/alcolica del vino e la componente grassa/umami della guancia, sostenuto da una persistenza aromatica speculare indotta dalle note terziarie del Nobile e dalle sfumature vegetali/agrumate del piatto."
+
+---
+episodio: "Valtellina Superiore Sassella Rocce Rosse 2016"
+vino:
+  nome: "ARPEPE - Valtellina Superiore Sassella Riserva 'Rocce Rosse'"
+  vitigno: "Nebbiolo (Chiavennasca)"
+  tecnica: "Vinificazione in tini troncoconici da 50 hl, macerazione lunga (100 giorni), affinamento 3 anni in botti storiche di castagno/rovere/acacia, ulteriore affinamento 3 anni in bottiglia."
+  profilo: [violetta, cassis, ciliegia, prugna, pepe nero, sottobosco, pellame, note ferrose, rabarbaro, chinotto]
+piatto:
+  nome: "Coppa di maialino arrosto, purè di zucca, dadolata di mele renette e croccante di farina di castagne"
+  cottura: "CBT (68°C per 12h) con finitura in forno a 240°C per croccantezza cotenna"
+  struttura: [succulenza, untuosità, tendenza dolce, aromaticità speziata, croccantezza, nota amaricante, acidità bilanciata]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: la spiccata acidità e la trama tannica setosa del nebbiolo di montagna bilanciano l'untuosità della coppa di maialino."
+  perche_funziona: "La verticalità del vino pulisce la bocca dal grasso, mentre le note terziarie del vino (affinamento in castagno) creano un ponte aromatico con la farina di castagne del croccante."
+
+---
+episodio: "Krug Rosé 28ème Édition"
+vino:
+  nome: "Krug Rosé 28ème Édition (Maison Krug)"
+  vitigno: "Assemblaggio plurivitigno (prevalenza Pinot Noir, con quota 10% vinificata in rosso da Aÿ e Mareuil-sur-Aÿ)"
+  tecnica: "Assemblaggio di 32 vini di 6 annate (base 2016, riserve dal 2010), 5 anni di affinamento sui lieviti"
+  profilo: [rosa buccia di cipolla, vinoso, ciliegia, prugna, note ossidative, caffè, salmastro, pane in cassetta, perlage cremoso]
+piatto:
+  nome: "Bignè ripieno di crema di zucca, zafferano e mais"
+  cottura: "Forno (sviluppo dell'impasto tipo pizza per rigonfiamento a camera d'aria)"
+  struttura: [involucro croccante, ripieno morbido, elevata cremosità, tendenza dolce, note di tostatura, aromaticità dello zafferano]
+abbinamento:
+  teoria: "Armonia sinestetica per contrasto e completamento: l'acidità e la bollicina dello Champagne sezionano la componente grassa della crema e la tendenza dolce della zucca/mais."
+  perche_funziona: "La struttura del Pinot Noir e le note ossidative (caffè) creano un ponte aromatico con la tostatura del mais e la speziatura dello zafferano, pulendo il palato e moltiplicando la percezione sensoriale."
+
+---
+episodio: "Barbaresco Riserva Currà 2012 - Bruno Rocca"
+vino:
+  nome: "Barbaresco Riserva Currà 2012, Bruno Rocca"
+  vitigno: "Nebbiolo (selezione massale cloni specifici)"
+  tecnica: "Fermentazione in tini di legno, macerazione prolungata (fino a 50 giorni), tecnica a cappello sommerso, affinamento 24-32 mesi in botte grande (16-18 hl)"
+  profilo: [ciliegia sotto spirito, violetta, liquirizia, note terziarie, rabarbaro, tè, cipria, tannini setosi, chiusura amaricante]
+piatto:
+  nome: "Picanha ai profumi mediterranei con caponatina, gel di basilico e zenzero semicandito"
+  cottura: "CBT (51°C per 7 ore), piastra"
+  struttura: [succulenza moderata, croccantezza (pistacchio/capperi), aromaticità complessa, nota agrodolce, perisistenza speziata]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione e concordanza; il tannino polimerizzato e la morbidezza del vino bilanciano la componente grassa della picanha, mentre l'alcolicità e la persistenza aromatica sorreggono l'agrodolce della caponata."
+  perche_funziona: "La struttura fine ed elegante del Barbaresco rispetta l'intensità del piatto, con lo zenzero semicandito che funge da elemento di pulizia tattile e la sapidità delle olive/capperi che richiama la mineralità del cru Currà."
+
+---
+episodio: "Trebbiano d'Abruzzo 2004 - Emidio Pepe"
+vino:
+  nome: "Trebbiano d'Abruzzo, Emidio Pepe"
+  vitigno: "Trebbiano d'Abruzzo"
+  tecnica: "Agricoltura biodinamica, pigiatura con i piedi, fermentazione spontanea in vasche di cemento vetrificate, affinamento lungo senza filtrazione."
+  profilo: [frutta candita, marmellata, note resinose, idrocarburi, pietra focaia, fiori gialli, sottobosco, speziatura evoluta]
+piatto:
+  nome: "Hamburger di faraona con maionese al lime e riduzione di acqua di pomodoro"
+  cottura: "Griglia (hamburger), emulsione (maionese), riduzione (acqua di pomodoro)"
+  struttura: [tendenza dolce del bun, grassezza della maionese, umami dell'acqua di pomodoro, sapidità della pancetta, croccantezza lattuga, succosità carne bianca]
+abbinamento:
+  teoria: "Equilibrio per contrasto e concordanza: la struttura tannica fenolica del vino e la sua acidità evoluta bilanciano la grassezza della maionese e del bun, mentre la componente resinosa trova una sponda nei profumi erbacei del piatto."
+  perche_funziona: "L'acidità del Trebbiano del 2004 pulisce la cavità orale dalla persistenza lipidica della pancetta e della maionese, mentre il corpo del vino sostiene la struttura proteica della faraona senza sovrastarla."
+
+---
+episodio: "Extra - Krug Vintage 2011"
+vino:
+  nome: "Krug Vintage 2011"
+  vitigno: "46% Pinot Noir, 37% Chardonnay, 17% Pinot Meunier"
+  tecnica: "Vinificazione parziale in legno, fermentazione malolattica, affinamento sui lieviti per 12 anni."
+  profilo: [lamponi, fragoline di bosco, agrumi canditi, crosta di pane, yogurt, burro, note di muschio, sentore ossidativo nobile]
+piatto:
+  nome: "Fiore di zucca ripieno di tartare di gambero rosso"
+  cottura: "Fritto in pastella (fecola, farina, birra, ghiaccio) con componenti a crudo, sferificazioni e creme."
+  struttura: [tendenza dolce, elevata untuosità, grassezza, complessità aromatica, persistenza umami, nota erbacea]
+abbinamento:
+  teoria: "Armonia per contrasto e complementarità: il perlage cremoso agisce meccanicamente sgrassando la frittura e la burrata, mentre l'acidità vibrante del millesimato bilancia la dolcezza del crostaceo."
+  perche_funziona: "Il richiamo tra le note di erbe officinali (nepitella, timo cedrino) del piatto e la scia sapida e balsamica dello Champagne, unita all'equilibrio tra la struttura del Pinot Noir e la delicatezza del gambero."
+
+---
+episodio: "Marianova 2015 - Michele Satta"
+vino:
+  nome: "Marianova, Michele Satta"
+  vitigno: "Sangiovese, Syrah"
+  tecnica: "Vinificazione in anfora, affinamento in barrique con svolgimento della malolattica"
+  profilo: [ciliegia matura, mora di gelso, viola, vaniglia, cuoio, terra, cacao, pepe, liquirizia, sentori mediterranei]
+piatto:
+  nome: "Soufflé di grano saraceno e pizzoccheri, fonduta di toma piemontese, patate fondenti, gel di erbette e verza croccante"
+  cottura: "Sbollentatura, cottura al vapore, essiccazione, montaggio al burro"
+  struttura: [croccantezza, grassezza, untuosità, sapidità, persistenza aromatica intensa, tendenza dolce]
+abbinamento:
+  teoria: "Equilibrio tra struttura e persistenza. L'acidità e la trama tannica del vino bilanciano la componente lipidica e la sapidità della fonduta di toma."
+  perche_funziona: "L'abbinamento è basato sull'armonia tra la complessità aromatica mediterranea del vino e le note vegetali/erbacee del piatto; la struttura importante del vino sostiene perfettamente la grassezza del soufflé, chiudendo il palato con una pulizia millimetrica."
+
+---
+episodio: "Marsala Vergine Riserva 2004 Florio"
+vino:
+  nome: "Marsala Vergine Riserva 2004, Cantine Florio"
+  vitigno: "Grillo (90%+) "
+  tecnica: "Fortificazione con alcol, affinamento in single wood (caratello) per 18 anni, perdita per evaporazione (Angel's share) del 33%, zonazione basata su distanza dal mare"
+  profilo: [iodato, salmastro, dattero, fico secco, albicocca, miele, caramello, caffè, tè esausto, balsamico]
+piatto:
+  nome: "Polpo piastrato con crema di patate e profumi mediterranei"
+  cottura: "Piastratura (reazione di Maillard) e tecnica di riduzione per maionese di polpo"
+  struttura: [consistenza tenace, untuosità moderata, sapidità marcata, aromaticità mediterranea, nota amaricante (crumble di pinoli), tendenza dolce della patata]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: abbattimento della percezione alcolica tramite servizio a 8-10°C; la spiccata acidità e sapidità del vino detergono la parte grassa e untuosa del piatto."
+  perche_funziona: "Il crumble di pinoli fornisce la nota amaricante e la tostatura necessaria per bilanciare i sentori terziari (ossidativi) del Marsala, creando un ponte di persistenza aromatica intensa tra solido e liquido."
+
+---
+episodio: "Dom Pérignon Vintage 2004 Plénitude 2"
+vino:
+  nome: "Dom Pérignon Vintage 2004 Plénitude 2"
+  vitigno: "Pinot Noir, Chardonnay"
+  tecnica: "Metodo Classico, vinificazione in acciaio (assenza di legno), lungo affinamento sui lieviti (19 anni)"
+  profilo: [miele millefiori, crosta di pane, burro, caramello, pesca matura, scorza di agrumi, nocciolina, iodio, sentori minerali]
+piatto:
+  nome: "Tortello di canocchie su crema Parmentier con bisque di canocchie e bottarga"
+  cottura: "Pasta fresca ripiena, riduzione (bisque), emulsione (crema)"
+  struttura: [tendenza dolce, grassezza, umami elevato, persistenza aromatica intensa, sapidità marcata, setosità]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: il perlage e l'acidità verticale del vino detergono la componente lipidica (panna/burro), mentre la sapidità minerale e lo iodato dello Champagne si fondono con l'umami del crostaceo e della bottarga."
+  perche_funziona: "L'effetto 'gomma da cancellare' del vino pulisce la bocca dalla grassezza, lasciando spazio alla persistenza umami del piatto, creando un continuo e dinamico rimando tra le componenti aromatiche terziarie del Dom Pérignon e la sapidità del pescato."
+
+---
+episodio: "Contrada R 2020 - Passopisciaro"
+vino:
+  nome: "Contrada R, Passopisciaro"
+  vitigno: "Nerello Mascalese 100%"
+  tecnica: "Fermentazione in acciaio, affinamento 18 mesi in botti grandi di legno, riposo in bottiglia prima della commercializzazione."
+  profilo: [rubino tendente all'aranciato, liquirizia, pepe, anice stellato, prugna, ciliegia matura, arancia sanguinella, note empireumatiche, goudrom, asfalto]
+piatto:
+  nome: "Filetto di cervo con salsa di mirtilli e vino rosso, spuma di topinambur e chips di topinambur"
+  cottura: "Rosolatura in burro (Maillard) e riduzione aromatica (cannella, chiodo di garofano, pepe di Giamaica)"
+  struttura: [morbidezza proteica, succulenza, tendenza dolce, sapidità, grassezza della spuma, croccantezza, aromaticità speziata]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: l'acidità e la sapidità del nerello mascalese bilanciano la tendenza dolce della salsa ai mirtilli e della spuma di topinambur."
+  perche_funziona: "Il tannino fine e la spiccata freschezza del vino ripuliscono il palato dalla grassezza e dalla succulenza del filetto, mentre la persistenza aromatica del vitigno di alta quota si fonde con le spezie della riduzione."
+
+---
+episodio: "Ribolla 3781 Radikon"
+vino:
+  nome: "Ribolla 3781, Radikon"
+  vitigno: "Ribolla Gialla"
+  tecnica: "Macerazione prolungata (3 mesi) sulle bucce; invecchiamento 4 anni in botte grande di rovere; affinamento prolungato in bottiglia"
+  profilo: [arancia candita, albicocca disidratata, sentori resinosi, nota iodata, salmastra, tannino gallico, materico, persistenza aromatica 9-10s]
+piatto:
+  nome: "Rana pescatrice con crema di vongole, pancetta e salicornia"
+  cottura: "Bardatura in padella, crema di vongole (estrazione liquidi), erbe aromatiche a freddo"
+  struttura: [succulenza untuosa, sapidità salmastra, croccantezza (tuile), aromaticità complessa, finale dolce]
+abbinamento:
+  teoria: "Equilibrio per contrasto tra la struttura tannica/alcolica del vino e l'untuosità/sapidità del piatto; convergenza iodata."
+  perche_funziona: "La struttura materica del vino regge l'intensità della pescatrice, mentre l'acidità e il tannino puliscono il palato dalla componente grassa della pancetta e della crema di vongole."
+
+---
+episodio: "Capichera - Santigaini 2017"
+vino:
+  nome: "Santigaini, Capichera"
+  vitigno: "Vermentino 100%"
+  tecnica: "Vinificazione in purezza, fermentazione spontanea con lieviti indigeni, affinamento sulle fecce fini, maturazione in legno (variabile per annata) seguito da prolungato affinamento in bottiglia."
+  profilo: [giallo dorato intenso, balsamico, macchia mediterranea, salvia, alloro, bergamotto, pesca matura, miele millefiori, resina, chiusura amandorlata]
+piatto:
+  nome: "Salmone marinato, spugna al prezzemolo, salsa acidula, cialda al nero di seppia e caviale"
+  cottura: "Marinatura a secco (sale bilanciato 60/40), tecnica CBT o montaggio a sifone (spugna), frittura/cottura su piastra (cialda)"
+  struttura: [untuosità, grassezza, sapidità iodata, croccantezza, acidità lattica, note agrumate, retrogusto amaricante]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: l'alcolicità e la sapidità del vino bilanciano l'untuosità del salmone, mentre la struttura del cru sostiene la complessità aromatica del piatto."
+  perche_funziona: "La spiccata acidità e la componente salmastra del Vermentino puliscono la bocca dalla grassezza del pesce, mentre la chiusura amandorlata del vino richiama la nota amaricante del caviale e del nero di seppia."
+
+---
+episodio: "Villa Bucci 2017 - Verdicchio dei Castelli di Jesi"
+vino:
+  nome: "Villa Bucci, Bucci"
+  vitigno: "Verdicchio"
+  tecnica: "Vinificazione in bianco con rimozione delle bucce, fermentazione a temperatura controllata, affinamento per 18 mesi in botti di rovere di Slavonia (75 hl) con micro-ossigenazione naturale, senza fermentazione malolattica."
+  profilo: [mandorla, pesca bianca, albicocca, miele millefiori, note minerali, fiori di robinia, erbe aromatiche, agrumi (pompelmo), finale amaricante]
+piatto:
+  nome: "Faraona ripiena al Casera con fonduta di caprino"
+  cottura: "Rosolatura in padella seguita da cottura in forno con aromi"
+  struttura: [carne bianca strutturata, grasso, succulenza, sapidità, aromaticità complessa, terroso/vegetale (bietole)]
+abbinamento:
+  teoria: "Accostamento per contrasto e bilanciamento tra la struttura alcolica/sapida del bianco evoluto e la componente proteica e grassa della selvaggina da penna."
+  perche_funziona: "L'acidità del Verdicchio e la sua spiccata sapidità detergono la componente grassa del caprino e della pelle della faraona, nonostante una lieve discrepanza nella persistenza gustativa, risolvibile con l'aggiunta di una base amidacea (pane/focaccia)."
+
+---
+episodio: "Amarone de Buris 2010 - Famiglia Tommasi"
+vino:
+  nome: "Amarone della Valpolicella Riserva de Buris, Tommasi"
+  vitigno: "Corvina, Corvinone, Rondinella, Oseleta"
+  tecnica: "Appassimento naturale in cassette per 110 giorni (perdita 40% acqua), fermentazione indigena in tini troncoconici (30-40gg), affinamento 5 anni in botti di rovere (15-30hl), 1 anno di sosta in bottiglia"
+  profilo: [ciliegia in confettura, marasche sotto spirito, miele di castagno, note terrose, ginepro, rabarbaro, cacao, caffè, alloro, cipria]
+piatto:
+  nome: "Pancia di maiale croccante con purè affumicato alla senape"
+  cottura: "Marinatura 24h, scottatura cotenna con acqua bollente, cottura forno (170°C-200°C) o CBT (72°C/24h) con finitura crisping"
+  struttura: [croccantezza, succulenza, elevata grassezza, persistenza aromatica, nota amara (tarassaco), contrasto acido (senape/aceto)]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: tannino polimerizzato e freschezza del vino bilanciano la componente lipidica della carne; la secchezza dell'Amarone contrasta la tendenza dolce del maiale."
+  perche_funziona: "Interazione sinestetica tra il tannino fitto del vino e la succulenza proteica, con una risonanza aromatica specifica tra la nota di senape e il finale speziato del vino."
+
+---
+episodio: "3x03 - Franciacorta e Alta Cucina"
+vino:
+  nome: "Palazzo Lana Extreme 2007, Guido Berlucchi"
+  vitigno: "100% Pinot Nero"
+  tecnica: "Metodo Classico; pressatura soffice a resa estremamente bassa (30L/100kg); affinamento parziale in barrique; oltre 10 anni sui lieviti; dosaggio Extra Brut (2-3 g/l)"
+  profilo: [giallo dorato intenso, perlage finissimo e persistente, nocciola, miele, funghi, crosta di pane, frutta candita, note di riduzione, finale amaro-iodato]
+piatto:
+  nome: "Filetto di rombo con tortino di patate all'aneto e tapenade di olive taggiasche"
+  cottura: "Tecnica mista: CBT/cottura tradizionale (pesce), vetrificazione (chips di patata), riduzione (fondo di rombo)"
+  struttura: [grassezza del rombo, tendenza dolce della patata, sapidità della tapenade e colatura di alici, croccantezza, acidità agrumata da zest di limone]
+abbinamento:
+  teoria: "Equilibrio tra struttura e contrasto di consistenze"
+  perche_funziona: "L'importante acidità e il perlage spumoso del Pinot Nero in purezza detergono l'untuosità del pesce e delle patate al burro, mentre la complessità terziaria del vino (10 anni sui lieviti) sostiene la persistenza aromatica e la sapidità della tapenade."
+
+---
+episodio: "Terza Stagione / Villa Gemma 1999"
+vino:
+  nome: "Villa Gemma Rosso, Masciarelli"
+  vitigno: "Montepulciano d'Abruzzo"
+  tecnica: "Vinificazione in acciaio (15-20gg), macerazione pellicolare (20-30gg), affinamento 18 mesi in barrique nuove di rovere francese, ulteriore evoluzione in bottiglia di 2 anni (totale 5 anni pre-release)"
+  profilo: [granato, austero, prugna secca, confettura di more, note terrose, ginepro, pepe, liquirizia, cuoio, tannino polveroso]
+piatto:
+  nome: "Raviolo ripieno di ragù d'anatra con fondo bruno e fonduta di parmigiano"
+  cottura: "Fondo bruno ristretto (estrazione profonda), pasta fresca ripiena, fonduta di parmigiano 24 mesi"
+  struttura: [sapida, umami, succulenta, croccantezza delle verdure (mirepoix), persistenza aromatica intensa]
+abbinamento:
+  teoria: "Armonia per concordanza di struttura e complessità, contrappunto tra la morbidezza del tannino evoluto e la spinta umami della fonduta."
+  perche_funziona: "Il tannino terziarizzato (non astringente) gestisce la succulenza del fondo d'anatra; l'acidità e l'alcolicità residua del vino ripuliscono il palato dalla componente grassa del parmigiano."
+
+---
+episodio: "Krug Grande Cuvée 170ème Édition"
+vino:
+  nome: "Krug Grande Cuvée 170ème Édition, Maison Krug"
+  vitigno: "Assemblaggio plurivarietale (Pinot Noir, Chardonnay, Meunier)"
+  tecnica: "Multi-vintage, blend di 195 vini da 12 annate diverse, fermentazione in piccoli fusti di rovere, affinamento sui lieviti prolungato"
+  profilo: [crema pasticcera, crosta di pane, note fungine, mandarino, fiori d'arancio, mielato, minerale, caffè]
+piatto:
+  nome: "Rivisitazione Riso, Patate e Cozze (Chef Leonardo Vescera)"
+  cottura: "Frittura (chips di riso), sifonatura (spuma di patate), spadellatura (cubetti di patata)"
+  struttura: [croccantezza, grassezza (fonduta di pecorino), sapidità marina, morbidezza (spuma), aromaticità (maggiorana, timo)]
+abbinamento:
+  teoria: "Abbinamento per contrasto e bilanciamento volto all'esaltazione del vino (approccio 'gregario')"
+  perche_funziona: "La struttura croccante e la sapidità del piatto reggono la complessità dello Champagne, mentre la componente grassa (pecorino/patata) mitiga la spiccata acidità e la carbonica, pulendo il palato e preparando al sorso successivo."
+
+---
+episodio: "Soave Classico Calvarino 2016 - Pieropan"
+vino:
+  nome: "Soave Classico Calvarino, Pieropan"
+  vitigno: "70% Garganega, 30% Trebbiano di Soave"
+  tecnica: "Vinificazione in vasche di cemento tulip, affinamento sui lieviti fini per 12-15 mesi"
+  profilo: [minerale gessoso, scorza di lime, pesca matura, mango, timo, miele, idrocarburi, mandorla amara]
+piatto:
+  nome: "Gnocchetti di seppia con maionese di piselli, crema di vongole, spugna di nero di seppia e bottarga"
+  cottura: "Cottura a vapore (seppia), tecnica del sifone (spugne), emulsione (maionese)"
+  struttura: [grassezza, sapidità iodata, persistenza aromatica, consistenza morbida, nota vegetale]
+abbinamento:
+  teoria: "Equilibrio tra contrapposizione (acidità/sapidità del vino vs grassezza del piatto) e concordanza (note minerali/erbacee vs freschezza vegetale)."
+  perche_funziona: "La spiccata acidità e la chiusura amaricante del Calvarino puliscono il palato dall'untuosità della maionese e bilanciano la persistenza tenace della bottarga."
+
+---
+episodio: "Stagione 3 - Barolo Liste 2017"
+vino:
+  nome: "Barolo Liste, Giacomo Borgogno"
+  vitigno: "Nebbiolo 100%"
+  tecnica: "Fermentazione spontanea in vasche di cemento, macerazione a cappello sommerso (25 giorni), affinamento >36 mesi in botti grandi di rovere di Slavonia non tostate"
+  profilo: [terroso, balsamico, alloro, liquirizia, spezie, cuoio, prugna, viola, austero]
+piatto:
+  nome: "Filetto di manzo con spuma di Castelmagno e crumble di nocciole"
+  cottura: "Rosolatura (Maillard) e CBT/Forno a bassa temperatura (50°C al cuore)"
+  struttura: [succulenza, grassezza, aromaticità intensa, texture croccante, sapidità marcata, persistenza elevata]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione tra la tannicità astringente e la struttura del vino e la grassezza/succulenza proteica del piatto"
+  perche_funziona: "L'alcolicità e il tannino del Nebbiolo seccano la salivazione indotta dalla carne, mentre la nota piccante del Castelmagno funge da amplificatore sensoriale per le sfumature balsamiche del cru"
+
+---
+episodio: "Ferrari Perlé 2011"
+vino:
+  nome: "Ferrari Perlé, Cantine Ferrari"
+  vitigno: "Chardonnay di montagna"
+  tecnica: "Metodo Classico (Rifermentazione in bottiglia), affinamento >10 anni sui lieviti"
+  profilo: [pasticceria, crema pasticcera, brioche, frutta secca, nocciola, sottobosco, fungo porcino, note salmastre, boisè leggero]
+piatto:
+  nome: "Risotto al giusto di pesce con tartare di gambero rosso e limone semicandito"
+  cottura: "Tostatura a secco, mantecatura con burro acido e fondo bruno di crostacei"
+  struttura: [untuosità della mantecatura, dolcezza del gambero, persistenza aromatica, acidità del burro, note amaricanti del limone]
+abbinamento:
+  teoria: "Equilibrio per contrasto tra la cremosità/dolcezza del riso e l'acidità/sapidità del metodo classico."
+  perche_funziona: "L'acidità vibrante e la bollicina del Ferrari Perlé detergono la cavità orale dalla componente grassa (burro) e zuccherina (amido del riso), mentre la complessità terziaria dell'affinamento decennale sostiene l'intensità aromatica della maionese di gambero."
+
+---
+episodio: "Stagione 3 - Gewürztraminer Nussbaumer"
+vino:
+  nome: "Gewürztraminer Nussbaumer, Cantina Tramin"
+  vitigno: "Gewürztraminer 100%"
+  tecnica: "Vinificazione in solo acciaio per preservare l'integrità aromatica primaria; assenza di affinamento in legno per evitare appesantimenti ossidativi."
+  profilo: [mango, papaya, rosa damascena, litchi, chiodi di garofano, cannella, zafferano, uva spina, pesca matura, balsamicità di timo limone]
+piatto:
+  nome: "Strudel salato di trota salmonata, spuma affumicata e crema di fave"
+  cottura: "Assemblaggio con pasta fillo (croccantezza), trota cotta sottovuoto (delicatezza), spuma al sifone (aerazione)"
+  struttura: [tendenza dolce delle fave, grassezza della trota, note amaricanti delle uova di pesce, spinta acida del gel di limone, affumicatura tecnica]
+abbinamento:
+  teoria: "Bilanciamento per contrasto e concordanza: la struttura glicerica e l'alcolicità del vino trovano contrappunto nell'acidità del gel di limone; la complessità aromatica del Gewürztraminer sposa le erbe (nepitella, timo) e l'affumicatura della trota."
+  perche_funziona: "L'abbinamento è di tipo 'sinestetico-tecnico': la verticalità del Nussbaumer (acidità/sapidità) domina la grassezza del piatto, mentre la persistenza aromatica del vitigno pulisce il palato, lasciando riemergere le note amaricanti e saline in un gioco di dinamica gustativa alternata."
+
+---
+episodio: "3x04 - Taurasi Grande Cerzito"
+vino:
+  nome: "Taurasi Riserva 'Vigna Grande Cerzito' - Quinto Decimo"
+  vitigno: "Aglianico 100%"
+  tecnica: "Raccolta manuale, doppia cernita, fermentazione in acciaio inox (20-25 gg), fermentazione malolattica in barriques di rovere francese nuove, affinamento 24 mesi in legno e 24 mesi in bottiglia."
+  profilo: [Rosso rubino con riflessi porpora, Prugna secca, Ciliegia, Marmellata di more, Balsamico (menta, alloro), Vaniglia, Chiodo di garofano, Pepe nero, Sottobosco]
+piatto:
+  nome: "Spalla di agnello farcita con spinaci, salsiccia, prosciutto crudo di Parma e Parmigiano Reggiano 24 mesi"
+  cottura: "Olio cottura (bassa temperatura con aromi)"
+  struttura: [Alta succulenza, Struttura proteica complessa, Tendenza grassa, Sapidità marcata, Intensità aromatica elevata]
+abbinamento:
+  teoria: "Equilibrio per concordanza di struttura tra la massa tannica polimerizzata del vino e la consistenza della carne; contrasto tra la tendenza grassa dell'agnello e la freschezza/tannicità del Taurasi."
+  perche_funziona: "La potenza del tannino del Grande Cerzito 2017 trova compensazione nella succulenza e nella complessità sapida del ripieno (insaccati e formaggio stagionato), portando a un bilanciamento ottimale del sorso."
+
+---
+episodio: "3x08 - Dantan 2008 La Scolca"
+vino:
+  nome: "Dantan Riserva 2008, La Scolca"
+  vitigno: "Cortese 100%"
+  tecnica: "Vinificazione in bianco con lunga sosta sui lieviti (sur lies) in acciaio per un periodo variabile tra i 10 e i 12 anni; assenza di legno per preservare la purezza varietale."
+  profilo: [nota balsamica, frutti esotici, mango, ananas, agrumato, burroso, crema pasticcera, biscotto inglese, sapidità salina, nota tostata di arachide]
+piatto:
+  nome: "Paccheri di patate farciti con baccalà alla vicentina"
+  cottura: "Cottura al forno (paccheri), stufatura del baccalà (latte ed erbe aromatiche), riduzione (acqua di pomodoro), frittura (chips di pelle)"
+  struttura: [untuosità elevata, succulenza, marcata intensità umami, persistenza aromatica intensa, morbidezza delle patate, contrappunto dolce della cipolla stufata]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione tra la componente grassa/untuosa del piatto e la spinta acido-sapida del vino; sinergia tra la complessità terziaria del Dantan e l'intensità del baccalà."
+  perche_funziona: "L'acidità sferzante e la salinità del Cortese 'Dantan' agiscono da 'cleanser' palatale, ripulendo l'untuosità del baccalà e del burro chiarificato, mentre le note di lievito e tostatura del vino creano un legame aromatico perfetto con la complessità del ripieno."
+
+---
+episodio: "Stagione 3 - The Wine Collection Pinot Nero"
+vino:
+  nome: "Pinot Nero Riserva 'The Wine Collection', San Michele Appiano"
+  vitigno: "Pinot Nero (100%)"
+  tecnica: "Macerazione pellicolare a freddo (7-8°C) in serbatoio per 10gg sotto azoto, fermentazione in inox (23-24°C), fermentazione malolattica in barrique/tonneau, affinamento 12 mesi in legno"
+  profilo: [vaniglia, caffè, tabacco, ribes, lamponi, ginepro, origano, note tostate]
+piatto:
+  nome: "Piccione in doppia cottura (petto alla plancia e polpettina di coscia fritta)"
+  cottura: "CBT (petto), frittura (coscia), riduzione (fondo bruno)"
+  struttura: [grassezza, succulenza, tendenza dolce, croccantezza, acidità del cavolo marinato, intensità ferrosa della carne]
+abbinamento:
+  teoria: "Armonia per contrasto e concordanza: l'acidità e i tannini maturi del Pinot Nero sgrassano l'untuosità del fritto e la succulenza del piccione; la nota amaricante del vino bilancia la dolcezza del topinambo."
+  perche_funziona: "L'intensità aromatica del Pinot Nero supporta la carnosità nobile del volatile, mentre la trama tannica fine ed elegante non prevarica la delicatezza delle fibre della carne."
+
+---
+episodio: "3x02 - Villa di Capezzana"
+vino:
+  nome: "Villa di Capezzana, Tenuta di Capezzana"
+  vitigno: "Sangiovese, Cabernet Sauvignon (10-20%)"
+  tecnica: "Vinificazione classica con controllo della temperatura, macerazione 15-21 giorni, fermentazione malolattica in acciaio. Affinamento: 18 mesi in fusti da 350/500L e botti da 24hl, seguito da affinamento prolungato in bottiglia (Progetto 10 anni)."
+  profilo: [Rosso granato, cuoio, tabacco, ciliegia matura, note sottospirito, ginepro, tannino polveroso, acidità vibrante, persistenza elevata]
+piatto:
+  nome: "Manzo alla Bourguignon con chips di cotenna"
+  cottura: "Brasatura prolungata (fuoco lento) dopo rosolatura"
+  struttura: [Succulenza, untuosità, tendenza dolce (cipolla borretana), complessità aromatica, persistenza gusto-olfattiva, croccantezza]
+abbinamento:
+  teoria: "Armonia per contrapposizione (tannini/acidità vs succulenza/untuosità) e per concordanza di persistenza e struttura."
+  perche_funziona: "L'acidità e i tannini maturi del Carmignano detergono la cavità orale dall'untuosità del fondo bruno e dalla componente grassa della pancetta, mentre la complessità terziaria del vino si fonde con la profondità aromatica della carne brasata."
+
+---
+episodio: "1 - Terza Stagione: Valter Massa e il Dertona"
+vino:
+  nome: "Dertona (Timorasso) - Vigneti Massa"
+  vitigno: "Timorasso 100%"
+  tecnica: "Criomacerazione prefermentativa (2gg), fermentazione alcolica controllata max 22°C, batonnage su fecce fini, affinamento in acciaio, microfiltrazione pre-imbottigliamento, tappatura differenziata (Stelvin vs Sughero)"
+  profilo: [Frutta esotica, mango, agrumato, talco, minerale, floreale, miele, frutta secca, acidità vibrante, struttura salina]
+piatto:
+  nome: "Tagliatelle di farro con battuto di coniglio"
+  cottura: "Battuto al coltello, rosolatura in grasso nobile, mantecatura con oli essenziali e finitura in essiccatore"
+  struttura: [Aromaticità marcata, untuosità moderata, tendenza amarognola (olive secche), sapidità, persistenza aromatica intensa, note balsamiche (timo)]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione e complementarietà: la spina dorsale acida e il pH basso del Timorasso tagliano l'untuosità del ragù, mentre la struttura del vino regge l'intensità aromatica del coniglio."
+  perche_funziona: "La nota di timo nel piatto richiama la componente erbacea del vitigno; l'acidità citrina del Dertona (nella versione Stelvin) detersifica il palato, bilanciando il grasso del battuto e favorendo la persistenza gusto-olfattiva."
+
+---
+episodio: "Teaser Terza Stagione"
+vino:
+  nome: "N/A (Format in fase di lancio)"
+  vitigno: "Varietale emblematico dell'eccellenza enologica italiana"
+  tecnica: "Vinificazione integrale e affinamento in legno/anfora definiti dal produttore"
+  profilo: [Complessità aromatica, persistenza gusto-olfattiva, equilibrio acido-tannico, evoluzione terziaria, profondità minerale]
+piatto:
+  nome: "Portata creativa inedita"
+  cottura: "Tecniche multidisciplinari (CBT, reazione di Maillard, riduzioni)"
+  struttura: [Equilibrio armonico, contrappunto aromatico, bilanciamento lipidico, intensità sapida, texture contrastante]
+abbinamento:
+  teoria: "Approccio 'Wine-First': costruzione di un'architettura gustativa basata sulle caratteristiche organolettiche preesistenti del vino"
+  perche_funziona: "Sinergia tra il profilo sensoriale del vino iconico e lo studio tecnico della materia prima, ottimizzando la percezione di tannini e acidità"
+
+---
+episodio: "Finale di Stagione - Ungheria"
+vino:
+  nome: "Terrano IGT, Carso"
+  vitigno: "Refosco dal peduncolo rosso (100%)"
+  tecnica: "Raccolta manuale, macerazione di 3 settimane, affinamento 36 mesi in barrique di rovere"
+  profilo: [sulfureo, ferroso, terroso, sottobosco, balsamico, ginepro, prugna, ciliegia matura, liquirizia]
+piatto:
+  nome: "Gulasch tradizionale"
+  cottura: "Stufatura prolungata (3.5 ore) a fuoco basso"
+  struttura: [alta intensità olfattiva, aromaticità speziata, succulenza, untuosità contenuta, pungenza da paprica, persistenza del cumino]
+abbinamento:
+  teoria: "Equilibrio tra intensità e struttura, con uso dell'acidità e del tannino per la pulizia della cavità orale"
+  perche_funziona: "L'acidità vibrante e il tannino verde del Terrano contrastano efficacemente la succulenza del piatto, mentre la complessità balsamica e speziata del vino crea un ponte armonico con la paprica dolce e il cumino."
+
+---
+episodio: "Il vino lo porto io - Podcast di cultura enologica"
+vino:
+  nome: "Cloudy Bay, Sauvignon Blanc - Marlborough (Nuova Zelanda)"
+  vitigno: "100% Sauvignon Blanc"
+  tecnica: "Decantazione a freddo del mosto, fermentazione in acciaio con lieviti selezionati, 4% della massa fermentato in vecchie barrique di rovere francese e tini di grande formato"
+  profilo: [Giallo paglierino con riflessi verdolini, menta, salvia, asparago, talco, lime, litchi, frutto della passione]
+piatto:
+  nome: "Pad Thai (Street Food thailandese)"
+  cottura: "Saltatura rapida in wok"
+  struttura: [Untuosità moderata, sapidità marcata (salsa di pesce/oyster sauce), tendenza dolce del riso, nota vegetale (pak choi, germogli), componente acida da lime]
+abbinamento:
+  teoria: "Armonia per concordanza di freschezza e contrapposizione per sgrassamento"
+  perche_funziona: "L'acidità nervosa e sferzante del Sauvignon Blanc, coadiuvata dal lime aggiunto al piatto, neutralizza l'untuosità del soffritto e dell'uovo fritto, bilanciando perfettamente la sapidità della salsa di pesce e pulendo il palato."
+
+---
+episodio: "Il vino lo porto io - Zuppa Thailandese"
+vino:
+  - nome: "Riesling Alsaziano"
+    vitigno: "Riesling Renano 100%"
+    tecnica: "Fermentazione spontanea con lieviti indigeni, affinamento 12 mesi in grandi botti di rovere non tostato su suolo calcareo"
+    profilo: [agrumi, pompelmo, mango, frutta esotica, idrocarburi, timo lemon, sapidità persistente]
+  - nome: "Rosato d'Anjou (IGP)"
+    vitigno: "Cabernet Sauvignon, Cabernet Franc"
+    tecnica: "Macerazione sulle bucce 20-25 ore, vino abboccato con residuo zuccherino"
+    profilo: [cerasuolo, rosa, fragoline, susine, morbido, tannino leggero, nota amara finale]
+piatto:
+  nome: "Zuppa di cocco thailandese (Tom Kha Gai)"
+  cottura: "Sobbollitura (pochiata) in base di latte di cocco"
+  struttura: [intensità elevata, tendenza dolce pronunciata, grassezza lattica, speziatura piccante, acidità del lime, consistenza media]
+abbinamento:
+  teoria: "Bilanciamento per concordanza e contrapposizione. Le morbidezze (residuo zuccherino) del rosé contrastano la piccantezza e la sapidità del piatto, mentre la freschezza e la mineralità del Riesling incidono sulla grassezza del cocco."
+  perche_funziona: "Il rosé sfrutta il residuo zuccherino per mitigare il peperoncino; il Riesling, tramite la sua acidità tagliente e sapidità, sgrassa il palato dalla componente lipidica del latte di cocco."
+
+---
+episodio: "Fajitas di mare e Albariño"
+vino:
+  nome: "Albariño, D.O. Rías Baixas (Sottozona Salnés)"
+  vitigno: "Albariño 100%"
+  tecnica: "Vinificazione e affinamento esclusivamente in acciaio, senza passaggio in legno per preservare l'integrità varietale."
+  profilo: [Giallo paglierino, minerale (gesso), floreale (fiori bianchi), fruttato (kiwi, pesca), alta freschezza, elevata sapidità, corpo medio-leggero, buona persistenza]
+piatto:
+  nome: "Fajitas di gamberi e pesce spada"
+  cottura: "Saltatura rapida in padella (tecnica espressa)"
+  struttura: [Aromaticità medio-alta, consistenza media, grassezza moderata (guacamole), spezzatura modulabile (peperoncino serrano), complessità aromatica contenuta]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione e concordanza: l'acidità e la sapidità del vino bilanciano la grassezza del guacamole, mentre la morbidezza del vino mitiga la piccantezza del peperoncino."
+  perche_funziona: "L'intensità olfattiva e la struttura del corpo sono in perfetta simmetria; la freschezza atlantica del vino pulisce la bocca senza sopraffare la delicatezza dei crostacei e del pesce spada."
+
+---
+episodio: "Il vino lo porto io - Messico"
+vino:
+  nome: "Châteauneuf-du-Pape (2018)"
+  vitigno: "Grenache (90%), Syrah (10%)"
+  tecnica: "Macerazione 8-10 giorni, affinamento 14 mesi in tini di rovere da 60hl"
+  profilo: [porpora profondo, vaniglia, liquirizia, caffè, cacao, sottobosco, nota balsamica, tannino a trama fitta, alta alcolicità]
+piatto:
+  nome: "Stufato di manzo Tex-Mex con mais e fagioli neri"
+  cottura: "Stufatura lenta in brodo con rosolatura preventiva di pancetta"
+  struttura: [consistenza tenace, succulenza, tendenza dolce del mais, nota piccante, aromaticità complessa, speziatura (cumino/peperoncino)]
+abbinamento:
+  teoria: "Contrapposizione tra la morbidezza del vino e la piccantezza del piatto; bilanciamento tra succulenza della carne e tannini"
+  perche_funziona: "La morbidezza della Grenache mitiga la piccantezza del peperoncino; il vino necessita di una evoluzione in bottiglia per ammorbidire i tannini che, allo stato attuale, risultano lievemente dominanti rispetto alla succulenza del piatto"
+
+---
+episodio: "Grecia - Tiropitachia"
+vino:
+  nome: "Santorini PDO - Assyrtiko"
+  vitigno: "90% Assyrtiko, 10% Athiri e Aidani"
+  tecnica: "Vinificazione in acciaio, affinamento sur lie per almeno 5 mesi"
+  profilo: [Giallo paglierino, note esotiche, ananas, banana, scorza di lime, balsamicità, origano, salvia, citrico]
+piatto:
+  nome: "Tiropitachia"
+  cottura: "Forno"
+  struttura: [Croccantezza pasta fillo, untuosità, sapidità marcata, aromaticità erbacea, freschezza agrumata, struttura media]
+abbinamento:
+  teoria: "Armonia per contrapposizione: l'acidità citrica del vino contrasta l'untuosità del burro e la grassezza dei formaggi."
+  perche_funziona: "L'importante freschezza e sapidità del vitigno Assyrtiko pulisce la cavità orale dalla persistenza grassa del ripieno di feta e ricotta, sebbene la persistenza del vino risulti leggermente inferiore a quella del piatto."
+
+---
+episodio: "Il vino lo porto io - Grecia/Moussaka"
+vino:
+  nome: "Ziska (Naxele, Imeretia, Georgia)"
+  vitigno: "Ziska 100%"
+  tecnica: "Macerazione sulle bucce (7 giorni) in qvevri, fermentazione metodo imeretiano (5-10% raspi), affinamento 12 mesi in qvevri interrati"
+  profilo: [Giallo paglierino carico velato, Tè al limone, Prugna gialla, Pesca, Miele, Fiori dolci, Astringenza tannica, Persistente]
+piatto:
+  nome: "Moussaka greca rivisitata"
+  cottura: "Sbollentatura patate, forno (patate e melanzane), brasatura lenta (ragù)"
+  struttura: [Stratificata, Grassezza del ragù, Texture delle melanzane, Avvolgenza della besciamella, Sapidità dei formaggi, Aromaticità speziata]
+abbinamento:
+  teoria: "Bilanciamento per contrasto e concordanza: l'acidità e la tannicità del vino macerato neutralizzano la componente grassa/sapida e la tendenza dolce della besciamella."
+  perche_funziona: "La struttura del vino in qvevri regge l'intensità del ragù; la trama tannica (seppur bianca) pulisce la bocca dai grassi; la complessità aromatica crea una sinergia speziata."
+
+---
+episodio: "Beer Can Chicken & Greco di Tufo"
+vino:
+  nome: "Greco di Tufo - Vigna del Giallo d'Arl (Prof. Luigi Moio)"
+  vitigno: "Greco di Tufo 100%"
+  tecnica: "Raccolta manuale, fermentazione 70% acciaio inox e 30% barrique di rovere nuove"
+  profilo: [susina, mango, melone, miele, robinia, timo, vanigliato, minerale, sapido]
+piatto:
+  nome: "Beer Can Chicken"
+  cottura: "Barbecue indiretto (140-160°C) con affumicatura lieve al legno di melo"
+  struttura: [pelle croccante, carne succulenta, untuosità moderata, speziatura aromatica, affumicatura delicata]
+abbinamento:
+  teoria: "Equilibrio per contrasto e pulizia del palato"
+  perche_funziona: "La spiccata acidità e sapidità del Greco di Tufo, nobilitate dalle note vanigliate dell'affinamento in legno, neutralizzano l'untuosità della pelle del pollo, resettando i recettori gustativi dopo ogni boccone."
+
+---
+episodio: "6 / American Barbecue e Vini da Garage"
+vino:
+  nome: "Bordeaux Saint-Émilion - Jean-Luc Thunevin (Bad Boy)"
+  vitigno: "80% Merlot, 10% Cabernet Franc, 5% Cabernet Sauvignon, 5% Petit Verdot"
+  tecnica: "Vin de garage, affinamento in barrique nuove"
+  profilo: [boisé, vaniglia, cuoio, tabacco, terra, prugna marmellatizzata, balsamico, tannino setoso]
+piatto:
+  nome: "Pulled Pork (Maiale sfilacciato)"
+  cottura: "Low & Slow (Affumicatura indiretta 18h, 100-120°C)"
+  struttura: [succulento, burroso, speziato, alta persistenza, fibroso, untuosità marcata, crosticina aromatica (bark)]
+abbinamento:
+  teoria: "Sfida tra l'elevata intensità aromatica/persistenza del BBQ e la struttura morbida del blend bordolese; focus su equilibrio tra componente lipidica e tannini."
+  perche_funziona: "La morbidezza del Merlot domina la speziatura, mentre la sapidità del vino contrasta l'untuosità. L'acidità correttiva della salsa BBQ (aceto di mele/tabasco) tenta di compensare la minor persistenza del vino rispetto alla tenacia del maiale."
+
+---
+episodio: "Pillola - Fish & Chips"
+vino:
+  nome: "Savennières, Clos du Papillon"
+  vitigno: "Chenin Blanc"
+  tecnica: "Vinificazione e affinamento esclusivamente in acciaio"
+  profilo: [acidità tagliente, freschezza, sapidità, sentori floreali, pesca, papaia, media persistenza]
+piatto:
+  nome: "Fish & Chips (versione gourmet con baccalà)"
+  cottura: "Frittura profonda in doppia temperatura (130°C/180°C)"
+  struttura: [croccantezza della pastella, untuosità, sapidità del baccalà, consistenza soda, spinta aromatica di menta e limone]
+abbinamento:
+  teoria: "Equilibrio per contrasto e concordanza"
+  perche_funziona: "L'acidità spiccata e la componente sapida dello Chenin Blanc agiscono da sgrassante sulla patina lipidica della frittura, mentre la struttura del vino, non eccessivamente complessa, si allinea perfettamente alla persistenza del baccalà e dei piselli."
+
+---
+episodio: "Filetto alla Wellington"
+vino:
+  nome: "Syrah - Cornas (Rhône)"
+  vitigno: "Syrah"
+  tecnica: "Affinamento 16 mesi (80% rovere, 20% cemento). Selezione da vigneti in esposizione est/sud-est su suoli di limo e granito."
+  profilo: [pepe nero, prugna matura, liquirizia, note ematiche, sottobosco, muschio, oliva verde, balsamico]
+piatto:
+  nome: "Filetto alla Wellington"
+  cottura: "Cottura in forno (rosolatura iniziale a 200°C, mantenimento a 180°C con controllo a sonda 50-55°C)"
+  struttura: [croccantezza della sfoglia, sapidità del prosciutto di Parma, succulenza della carne al sangue, untuosità della duxelles di funghi, aromaticità della senape]
+abbinamento:
+  teoria: "Ricerca di equilibrio tra la complessità aromatica del piatto (speziato/funghi/crosta) e la struttura tannico-acida del vino per pulire la bocca dall'untuosità."
+  perche_funziona: "L'abbinamento è parzialmente mancante a livello gustativo: il tannino del 2016 risulta leggermente dominante e asciugante rispetto alla succulenza del piatto, nonostante l'ottima corrispondenza retro-olfattiva."
+
+---
+episodio: "Paella Valenciana"
+vino:
+  nome: "Lagrein Rosato, Cantina di Terlano"
+  vitigno: "Lagrein"
+  tecnica: "Macerazione breve sulle bucce, affinamento sui lieviti (sur lies) per 5-7 mesi in acciaio"
+  profilo: [buccia di cipolla, ramato, floreale, rosa, fragoline di bosco, sapido, astringenza tannica, amaricante]
+piatto:
+  nome: "Paella Valenciana di mare"
+  cottura: "Fuoco vivo (legna) con rifinitura al grill per crosticina (socarrat)"
+  struttura: [riso bomba, asciutto, gamberi, cozze, vongole, totano, zafferano, aromi marini, speziato]
+abbinamento:
+  teoria: "Bilanciamento per contrasto di consistenza e pulizia tattile della componente sapida."
+  perche_funziona: "L'acidità e la sapidità del Lagrein (terroir di Terlano) detergono la persistenza iodata del pescato, mentre il tannino fine asciuga gli umori del fondo di cottura senza sovrastare il piatto."
+
+---
+episodio: "Stagione 2 - Sushi e Abbinamenti (Grillo vs Orange Wine)"
+vino:
+  nome: "Grillo, Sicilia (Cantina selezionata)"
+  vitigno: "Grillo (Vigne 21 anni)"
+  tecnica: "Vinificazione in acciaio, 6 mesi di affinamento sulle fecce fini"
+  profilo: [Giallo dorato scarico, Riflessi verdolini, Burro, Pompelmo, Cedro, Bergamotto, Note minerali, Fiori bianchi]
+piatto:
+  nome: "Degustazione Sushi (Nigiri, Gunkan, Uramaki, Temaki)"
+  cottura: "Crudo (Sushi) e cottura tradizionale (Polpo/Gambero cotto)"
+  struttura: [Grasso, Proteico, Umami, Salino, Agro-dolce (aceto di riso), Speziato (Wasabi), Aromatico (Alga Nori)]
+abbinamento:
+  teoria: "Ricerca di equilibrio tra acidità, sapidità e morbidezza per contrastare la componente grassa e l'umami della salsa di soia/glutammato."
+  perche_funziona: "L'affinamento sulle fecce fini conferisce una struttura che bilancia la salinità; l'acidità naturale dell'uva Grillo da terreno calcareo agisce da 'reset' gustativo sulle note del pesce crudo."
+
+---
+episodio: "Il vino lo porto io - Brasato al Barolo"
+vino:
+  nome: "Barolo DOCG, Castiglione Falletto"
+  vitigno: "Nebbiolo (Cloni: Lampia, Michet, Rosé)"
+  tecnica: "Vinificazione in purezza, affinamento 30 mesi in botti da 20hl, ulteriore affinamento in bottiglia. Vendemmia 2014, vigneti di 65 anni, resa 65 q/ha"
+  profilo: [granato, riflessi aranciati, cuoio, liquirizia, rabarbaro, prugna secca, violetta, tè esausto, eucalipto]
+piatto:
+  nome: "Brasato al Barolo"
+  cottura: "Brasatura (cottura in umido a fuoco lento/forno <100°C)"
+  struttura: [carne tenera, sugosità, untuosità, grassezza, intensità aromatica da bouquet garni, note speziate (ginepro, pepe)]
+abbinamento:
+  teoria: "Armonia per concordanza e contrappunto: il tannino evoluto del vino bilancia la succulenza proteica, mentre l'acidità pulisce l'untuosità del fondo di cottura."
+  perche_funziona: "Equilibrio tra la complessità olfattiva del Barolo e l'aromaticità del brasato; la persistenza gusto-olfattiva del vino (esaltata dai tannini setosi) sostiene perfettamente la struttura della carne."
+
+---
+episodio: "Speciale Festività"
+vino:
+  nome: "Passito di Pantelleria (Zibibbo)"
+  vitigno: "Zibibbo (Moscato d'Alessandria)"
+  tecnica: "Appassimento naturale delle uve su graticci o pianta, fermentazione alcolica controllata, possibile fortificazione con alcol vinico."
+  profilo: [miele di acacia, albicocca disidratata, scorza d'arancia candita, note iodate, dattero, mandorla tostata, spiccata glicerina]
+piatto:
+  nome: "Panettone artigianale con crema di ricotta"
+  cottura: "Lievitazione naturale prolungata e doppia cottura in forno statico"
+  struttura: [tessitura alveolata, elevata grassezza, spiccata persistenza gusto-olfattiva, tendenza dolce, ricchezza proteica della ricotta]
+abbinamento:
+  teoria: "Concordanza per struttura e dolcezza, arricchita da un contrasto sapido-iodato."
+  perche_funziona: "L'alcolicità e l'estrazione zuccherina del Passito bilanciano la densità grassa della crema di ricotta, mentre il patrimonio aromatico dello Zibibbo (terpeni) esalta le note agrumate e vanigliate dell'impasto."
+
+---
+episodio: "Episodio 01 - Sfatare i falsi miti sull'abbinamento"
+vino:
+  nome: "Selezione specifica per abbinamento"
+  vitigno: "Variabile in base alla tipologia di portata"
+  tecnica: "Vinificazione orientata a bassa carica olfattiva o struttura contenuta (spesso acciaio)"
+  profilo: [Fresco, sapido, non aromatico, equilibrato, minerale, asciutto]
+piatto:
+  nome: "Tartare di manzo al tartufo"
+  cottura: "Crudo (a crudo)"
+  struttura: [Untuosità lipidica, bassa consistenza, persistenza aromatica elevata (tartufo), note piccanti (pepe), succulenza indotta]
+abbinamento:
+  teoria: "Bilanciamento per contrasto di struttura e concordanza di intensità olfattiva."
+  perche_funziona: "L'uso di un bianco strutturato (es. Chardonnay in legno) o rosso a tannini lievi (es. Rossese) evita che la componente tannica aggressiva di un grande rosso oscuri la carne e bilancia l'untuosità dell'olio."
+
+---
+episodio: "Episodio 01 - Sfatare i falsi miti sull'abbinamento"
+vino:
+  nome: "Muscadet Sèvre et Maine"
+  vitigno: "Melon de Bourgogne"
+  tecnica: "Vinificazione in acciaio, sur lies"
+  profilo: [Acidità spiccata, sapidità, aromaticità neutra, pulito, minerale]
+piatto:
+  nome: "Ostriche"
+  cottura: "Crudo"
+  struttura: [Bassa intensità olfattiva, iodato, consistenza carnosa o viscida, salinità, bassa persistenza]
+abbinamento:
+  teoria: "Armonia per pulizia palatale."
+  perche_funziona: "L'elevata acidità del Muscadet sgrassa la salinità dell'ostrica, mentre il profilo olfattivo neutro non sovrasta la delicatezza del frutto di mare, evitando l'effetto coprente dello Champagne."
+
+---
+episodio: "Il vino lo porto io"
+vino:
+  nome: "Müller-Thurgau (Alto Adige)"
+  vitigno: "Riesling, Madeleine Royale"
+  tecnica: "Vinificazione parziale in grandi botti (fermentazione) e parte in acciaio, affinamento 6 mesi in bottiglia, tappo Stelvin"
+  profilo: [Giallo dorato intenso, Minerale, Idrocarburi, Agrumi avvizziti, Mandarino candito, Fiori gialli secchi, Camomilla, Sapido]
+piatto:
+  nome: "Tortelli di zucca (variante senza mostarda)"
+  cottura: "Zucca arrostita in forno, finitura con tecnica di essiccazione (polvere di zucca)"
+  struttura: [Untuosità (burro), Grassezza (burro/parmigiano), Pseudolcezza marcata (zucca), Aromaticità elevata (timo/salvia/amaretto), Croccantezza (cialda), Struttura compatta]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione e concordanza: l'acidità e la sapidità del vino tagliano la componente grassa e untuosa del burro, bilanciando la spiccata pseudolcezza della zucca."
+  perche_funziona: "L'elevata freschezza del Müller-Thurgau, unita alla sua complessità estrattiva data dall'affinamento in botte, sostiene l'aromaticità complessa dell'amaretto e del timo, ripulendo il cavo orale."
+
+---
+episodio: "Saltimbocca alla romana"
+vino:
+  nome: "Barco Reale di Carmignano Rosato"
+  vitigno: "80% Sangiovese, 10% Cabernet, 10% Canaiolo"
+  tecnica: "Vinificazione in rosato, affinamento in acciaio"
+  profilo: [colore cerasuolo, note di ciliegia, sentori di mora e mirtillo, nuance di susina, accenni floreali di geranio, lieve nota vegetale, corpo medio, tannino equilibrato, persistenza aromatica intensa]
+piatto:
+  nome: "Saltimbocca alla romana"
+  cottura: "Rosolatura rapida unilaterale e deglassatura del fondo"
+  struttura: [carne di vitello sottile, sapidità del prosciutto crudo, aromaticità pungente della salvia, succulenza dell'intingolo, untuosità indotta dal burro, tenuità della componente proteica]
+abbinamento:
+  teoria: "Contrapposizione tra freschezza acida del vino e grassezza/sapidità del piatto."
+  perche_funziona: "L'acidità del rosato sgrassa efficacemente l'intingolo burroso e la succulenza del prosciutto, mentre la trama tannica, seppur contenuta, contrasta la morbidezza del vitello; la persistenza del vino elegge l'abbinamento a una sfida tecnica sulla dominanza aromatica."
+
+---
+episodio: "Pasta Cacio e Pepe"
+vino:
+  nome: "Moscato di Terracina (varie cantine), Lazio"
+  vitigno: "Moscato di Alessandria (Zibibbo)"
+  tecnica: "Criomacerazione (36h a freddo con neve carbonica), fermentazione in acciaio, affinamento in acciaio"
+  profilo: [muschio, fiori gialli, pesca, uva spina, salvia, erba bagnata, aromatico, secco]
+piatto:
+  nome: "Bucatini Cacio e Pepe (metodo Antonello Colonna)"
+  cottura: "Risottatura (estrazione amidi)"
+  struttura: [sapidità marcata, untuosità, succulenza, pungenza del pepe nero, cremosità, persistenza aromatica intensa]
+abbinamento:
+  teoria: "Bilanciamento per concordanza (aromaticità) e contrapposizione (morbidezza vs piccantezza/pungenza)"
+  perche_funziona: "La spiccata morbidezza e la componente glicerica del Moscato mitigano l'aggressività del pepe nero, mentre l'aromaticità primaria (terpeni) si armonizza con l'intensità del pecorino romano, creando un equilibrio simmetrico nelle intensità."
+
+---
+episodio: "Speciale Rodano Nord / Approfondimento Syrah"
+vino:
+  nome: "Syrah - Cornas (AOC)"
+  vitigno: "Syrah 100%"
+  tecnica: "Vinificazione in rosso con macerazione prolungata, possibile criomacerazione prefermentativa, affinamento in legno piccolo (barrique/tonneau) per esaltare la struttura fenolica."
+  profilo: [pepe nero, mora di rovo, cuoio, tabacco, grafite, tannini gallici, sottobosco, note ematiche]
+piatto:
+  nome: "Cervo in crosta di cacao e bacche di ginepro"
+  cottura: "CBT (Cottura a Bassa Temperatura) a 54°C, seguita da reazione di Maillard in padella con burro nocciola."
+  struttura: [tendenza dolce, succulenza ematica, persistenza gusto-olfattiva elevata, speziatura balsamica, complessità aromatica]
+abbinamento:
+  teoria: "Concordanza per struttura e contrapposizione per le durezze: la trama tannica serrata e le note speziate del Cornas si bilanciano con la carnosità della selvaggina."
+  perche_funziona: "L'affinità elettiva tra il profilo speziato-pepato del Syrah e l'aromaticità del ginepro, unita alla capacità del vino di pulire la succulenza proteica grazie alla componente fenolica."
+
+---
+episodio: "Puntata pillolica - Salmone e Sylvaner"
+vino:
+  nome: "Sylvaner, Alto Adige DOC"
+  vitigno: "Sylvaner"
+  tecnica: "Vinificazione in bianco con eventuale affinamento in acciaio per preservare freschezza e sentori primari."
+  profilo: [menta, salvia, fiori bianchi, magnolia, maracuja, frutto della passione, banana, ananas, pietra focaia]
+piatto:
+  nome: "Filetto di salmone con crema di zucchine al timo"
+  cottura: "Piastra (salmone), Sobbollitura/Crema (zucchine)"
+  struttura: [tendenza dolce (grasso del pesce), grassezza, succulenza, intensità vegetale, aromaticità erbacea (timo), morbidezza vellutata]
+abbinamento:
+  teoria: "Armonia per concordanza e contrappunto"
+  perche_funziona: "L'acidità del Sylvaner sgrassa la componente lipidica del salmone, l'alcolicità contrasta la succulenza della crema, mentre l'intensità olfattiva (note vegetali e minerali) si allinea perfettamente all'aromaticità del timo e alla dolcezza della zucchina."
+
+---
+episodio: "13"
+vino:
+  nome: "Malvasia Istriana, Carso"
+  vitigno: "Malvasia Istriana"
+  tecnica: "12 mesi in barrique usate (affinamento ossidativo), 6 mesi in acciaio, non filtrato"
+  profilo: [frutta bianca, pesca, magnolia, note vanigliate, sapidità, acidità vibrante, minerale, persistente]
+piatto:
+  nome: "Risotto agli scampi"
+  cottura: "Mantecatura classica con bisque di crostacei"
+  struttura: [tendenza dolce, untuosità, succulenza, persistenza aromatica intensa, corpo medio, al dente]
+abbinamento:
+  teoria: "Armonia per concordanza e contrappunto: freschezza e sapidità del Carso bilanciano la tendenza dolce e l'untuosità del crostaceo."
+  perche_funziona: "L'acidità e la sapidità minerale del vino detersero il palato dalla componente grassa della bisque, mentre la persistenza aromatica del vino pareggia quella del crostaceo."
+
+---
+episodio: "Finale di stagione - Birra e Abbinamenti"
+vino:
+  nome: "Degustazione tecnica su Ferrari Perlé Bianco"
+  vitigno: "Chardonnay in purezza"
+  tecnica: "Metodo Classico, rifermentazione in bottiglia, lungo affinamento sui lieviti"
+  profilo: [Minerale, agrumato, brioche, nocciola tostata, perlage fine, sapido, persistente]
+piatto:
+  nome: "Filetto di maiale laccato al miele con mele"
+  cottura: "Rosolatura in tegame con laccatura"
+  struttura: [Proteico, succulento, aromaticità speziata, dolcezza mitigata, nota affumicata (speck)]
+abbinamento:
+  teoria: "Equilibrio tra struttura e contrasto di componenti"
+  perche_funziona: "L'uso di una birra Stout o Porter bilancia la succulenza e la complessità aromatica della carne con note tostate/amare; l'acidità e l'alcolicità aiutano a detergere la bocca dalla componente burrosa/grassa, mentre il richiamo al malto si sposa con la laccatura al miele."
+
+---
+episodio: "Episodio Live - Abbinamenti Formaggi e Ricette Gourmet"
+vino:
+  nome: "Selezione Multiregionale (Alto Adige, Friuli, Umbria, Campania, Veneto)"
+  vitigno: "Sauvignon Blanc, Friulano, Chardonnay, Grechetto, Trebbiano, Melon de Bourgogne, Riesling, Falanghina, Fiano, Greco di Tufo, Garganega"
+  tecnica: "Vinificazione in acciaio, affinamento sui lieviti (sur lie), metodo ancestrale, fermentazione in barrique"
+  profilo: [acidità spiccata, mineralità, persistenza olfattiva, corpo medio, note agrumate, sentori di frutta bianca, freschezza, complessità evolutiva]
+piatto:
+  nome: "Selezione: Tortino di Grana e Asparagi, Mozzarella in carrozza (Panko), Gnocchi allo zafferano e zola, Uovo in camicia su fonduta e funghi, Calamari ripieni"
+  cottura: "Bagnomaria, microonde, frittura, vapore, piastra"
+  struttura: [untuosità, sapidità, succulenza, croccantezza, pungenza della muffa nobile, intensità aromatica]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione: l'acidità e la CO2 (perlage) neutralizzano l'untuosità dei fritti e la grassezza dei formaggi; la struttura alcolica sostiene la complessità del piatto."
+  perche_funziona: "L'acidità del vino 'sgrassa' la persistenza del gorgonzola e la componente grassa della frittura, mentre la mineralità sostiene la complessità olfattiva dei piatti a base vegetale e ittica."
+
+---
+episodio: "Speciale Cucina Vegetariana"
+vino:
+  nome: "Grillo, Cantine Siciliane"
+  vitigno: "Grillo"
+  tecnica: "Vinificazione in acciaio, assenza di affinamento in legno per preservare freschezza."
+  profilo: [intenso, agrumato, minerale, sapido, acidità vibrante, corpo medio, persistente]
+piatto:
+  nome: "Pasta con le sarde amare"
+  cottura: "Saltatura in padella"
+  struttura: [untuosa, aromatica, croccante (pinoli/pane), persistenza aromatica, media consistenza]
+abbinamento:
+  teoria: "Equilibrio per contrasto tra la parte lipidica/untuosa del piatto e l'acidità spiccata del vino."
+  perche_funziona: "L'acidità e la struttura minerale del Grillo detergono il palato dall'olio, bilanciando l'aromaticità del finocchietto e dell'aneto."
+
+---
+episodio: "Speciale Cucina Vegetariana"
+vino:
+  nome: "Müller-Thurgau, Alto Adige"
+  vitigno: "Riesling x Madeleine Royale"
+  tecnica: "Vinificazione in acciaio, possibile breve passaggio in legno per complessità."
+  profilo: [aromatico, fresco, floreale, acidità tagliente, speziato, snello, minerale]
+piatto:
+  nome: "Lasagna verde alla zucca"
+  cottura: "Forno (gratinatura)"
+  struttura: [grassa, succulenta, aromatica, morbida, persistente]
+abbinamento:
+  teoria: "Armonia per similitudine aromatica e contrasto per pulizia gustativa."
+  perche_funziona: "L'importante acidità e l'aromaticità del Müller-Thurgau contrastano la grassezza della besciamella e del formaggio, bilanciando la dolcezza della zucca."
+
+---
+episodio: "Speciale Cucina Vegetariana"
+vino:
+  nome: "Chardonnay, Langhe"
+  vitigno: "Chardonnay"
+  tecnica: "Fermentazione in botte, affinamento in acciaio/botte."
+  profilo: [strutturato, rotondo, minerale, elegante, persistenza lunga, equilibrato]
+piatto:
+  nome: "Tagliolini al tartufo estivo"
+  cottura: "Mantecatura"
+  struttura: [unta, aromatica, delicata, persistente, leggera]
+abbinamento:
+  teoria: "Concordanza per persistenza aromatica intensa, evitando tannini invasivi."
+  perche_funziona: "Lo Chardonnay sostiene l'intensità del tartufo senza sovrapporsi, pulendo l'untuosità dell'olio con la sua acidità strutturata."
+
+---
+episodio: "Menu a tutto pasto (Lockdown Edition)"
+vino:
+  nome: "Soave DOCG Superiore (Garganega) o Chardonnay (Sicilia)"
+  vitigno: "Garganega / Chardonnay"
+  tecnica: "Vinificazione in acciaio (Soave) o affinamento in botte con passaggio su fecce fini (Chardonnay)"
+  profilo: [sapidità vulcanica, freschezza agrumata, corpo medio, persistenza aromatica, note esotiche, alcolicità bilanciata]
+piatto:
+  nome: "Hamburger di seppia con crema di piselli, Lumaconi al baccalà, Filetto di pesce in crosta di patate"
+  cottura: "Grigliatura, mantecatura, cottura in crosta al forno"
+  struttura: [consistenza morbida, sapidità marcata, untuosità lieve, aromaticità marina, dolcezza vegetale]
+abbinamento:
+  teoria: "Ricerca dell'equilibrio per compensazione su menu a portata unica, accettando compromessi tattili tra diverse strutture."
+  perche_funziona: "La spiccata acidità del vino pulisce la bocca dall'untuosità del baccalà e dei piselli, mentre il corpo medio sostiene la sapidità del pesce senza sovrastarne la delicatezza."
+
+---
+episodio: "Speciale Cucina degli Avanzi"
+vino:
+  nome: "Selezione Multiregionale (Friulano, Passerina, Prosecco, Verdicchio, Timorasso, Etna Bianco, Aglianico, Barbera d'Asti, Nosiola, Soave, Manzoni Bianco, Blanc de Morgex)"
+  vitigno: "Autoctoni e internazionali (es. Friulano, Passerina, Glera, Verdicchio, Timorasso, Carricante, Aglianico, Piedirosso, Barbera, Nosiola, Garganega, Manzoni Bianco, Prié Blanc)"
+  tecnica: "Vinificazione prevalentemente in acciaio (es. Charmat per spumanti, affinamento in legno per Barbera Superiore)"
+  profilo: [acidità vibrante, sapidità minerale, basso corpo, persistenza aromatica, freschezza agrumata, note floreali]
+piatto:
+  nome: "Verticale di recupero (Pizza, Arancine, Riso al salto, Croissant salati, Quiche Lorraine)"
+  cottura: "Forno statico, frittura per immersione, spadellatura, rosolatura"
+  struttura: [grassezza lattica, croccantezza esterna, umami (prosciutto/formaggio), aromaticità speziata (zafferano), tendenza dolce dei farinacei]
+abbinamento:
+  teoria: "Principio del reset gustativo: il vino deve bilanciare la persistenza e sgrassare il palato, garantendo la pulizia necessaria per ogni boccone successivo."
+  perche_funziona: "L'acidità del vino contrasta l'untuosità del fritto e la grassezza dei formaggi; la struttura del vino viene calibrata sull'intensità aromatica degli ingredienti principali (es. zafferano o uova)."
+
+---
+episodio: "Il vino lo porto io - Speciale Lockdown"
+vino:
+  nome: "Selezione Varietale (Metodo Classico, Lagrein, Cesanese, Aleatico)"
+  vitigno: "Nebbiolo, Lagrein, Cesanese, Cabernet Sauvignon, Lacrima di Morro d'Alba, Raboso, Aleatico"
+  tecnica: "Vinificazione con criomacerazione e affinamento in legno (riserva) per ottimizzare la complessità olfattiva"
+  profilo: [perisistenza, acidità tagliente, note di cuoio, sentori selvatici, tannini evoluti, aromaticità semi-aromatica, morbidezza]
+piatto:
+  nome: "Degustazione Multipla (Risotto Spumante/Tartufo, Goulash, Costolette Agnello, Scaloppine Marsala, Pere al Vino)"
+  cottura: [CBT/Stufatura lenta, deglassamento, mantecatura con burro acido, reazione di Maillard]
+  struttura: [grassezza, succulenza, aromaticità speziata, complessità olfattiva, tenacità proteica, croccantezza]
+abbinamento:
+  teoria: "Armonia per concordanza di struttura e persistenza; utilizzo del principio dell'acidità del vino per sgrassare e del tannino per asciugare l'intingolo."
+  perche_funziona: "L'abbinamento segue la regola del 'fratello maggiore' (riserva) per il consumo e 'fratello minore' (base) per la cottura, preservando l'integrità aromatica ed esaltando la complessità derivante dalla permanenza sui lieviti."
+
+---
+episodio: "Il vino lo porto io - Speciale Pesce"
+vino:
+  nome: "Vernaccia di San Gimignano DOCG"
+  vitigno: "Vernaccia"
+  tecnica: "Vinificazione in acciaio, affinamento breve per mantenere acidità e alcolicità"
+  profilo: [acidità vibrante, sapidità minerale, alcolicità calda, mandorla amara, persistenza agrumata]
+piatto:
+  nome: "Risotto al nero di seppia"
+  cottura: "Tostatura a secco, risottatura con brodo di fumetto di pesce, mantecatura finale"
+  struttura: [intensità olfattiva marina, succulenza, sapidità iodata, pseudolcezza, cremosità]
+abbinamento:
+  teoria: "Bilanciamento per contrasto: acidità e grado alcolico agiscono come solventi per la grassezza e la succulenza del nero di seppia, evitando l'ossidazione ferrosa dei tannini."
+  perche_funziona: "L'alcolicità marcata della Vernaccia asciuga la bocca dalla sensazione pseudodolce del mollusco, mentre la freschezza pulisce il palato dalla sapidità estrema del nero."
+
+episodio: "Il vino lo porto io - Speciale Pesce"
+vino:
+  nome: "Etna Bianco DOC"
+  vitigno: "Carricante, Cataratto"
+  tecnica: "Vinificazione in bianco, possibile sosta sulle fecce fini"
+  profilo: [mineralità vulcanica, acidità tagliente, spalla acida, sentori di pietra focaia, freschezza]
+piatto:
+  nome: "Spaghetti allo scoglio"
+  cottura: "Pasta risottata in padella con emulsione di acqua di cottura dei molluschi"
+  struttura: [intensità aromatica, sapidità salmastra, piccantezza del peperoncino, succulenza]
+abbinamento:
+  teoria: "Armonia per concordanza di freschezza e intensità: la spinta minerale dell'Etna Bianco regge l'intensità del mix di crostacei e molluschi."
+  perche_funziona: "La nota vulcanica del Carricante esalta la sapidità naturale dei frutti di mare, mentre l'acidità netta bilancia la piccantezza del peperoncino."
+
+episodio: "Il vino lo porto io - Speciale Pesce"
+vino:
+  nome: "Lugana DOC"
+  vitigno: "Turbiana"
+  tecnica: "Vinificazione in acciaio (senza legno)"
+  profilo: [freschezza discreta, neutralità aromatica, sentori minerali, sapidità, eleganza asciutta]
+piatto:
+  nome: "Branzino al sale"
+  cottura: "Cottura in crosta di sale (impasto albumi/sale o pasta di sale)"
+  struttura: [delicatezza proteica, trama fine, umidità, sapidità controllata, note agrumate]
+abbinamento:
+  teoria: "Principio di neutralità: un vino che non sovrasta la delicatezza del pesce cotto al sale, fungendo da pulitore del palato."
+  perche_funziona: "La versatilità del Lugana in acciaio evita interferenze aromatiche, mantenendo intatta la percezione della materia prima proteica."
+
+episodio: "Il vino lo porto io - Speciale Pesce"
+vino:
+  nome: "Ribolla Gialla"
+  vitigno: "Ribolla Gialla"
+  tecnica: "Vinificazione in acciaio, eventuale breve contatto con le bucce"
+  profilo: [acidità vibrante, corpo medio, note floreali, spessore, persistenza]
+piatto:
+  nome: "Salmone alla piastra"
+  cottura: "Piastratura con reazione di Maillard, ultimazione in camera di vapore"
+  struttura: [grassezza, intensità olfattiva da griglia, consistenza fibrosa, untuosità]
+abbinamento:
+  teoria: "Contrasto strutturale e alcolico: la grassezza del salmone richiede un vino con buona spalla acida e corpo per non sparire."
+  perche_funziona: "La componente acida della Ribolla Gialla 'taglia' l'untuosità del salmone, mentre la struttura del vitigno sostiene l'intensità della cottura alla piastra."
+
+---
+episodio: "Speciale Manzo - Tecniche di abbinamento"
+vino:
+  nome: "Gavi DOCG (Produttore generico)"
+  vitigno: "Cortese"
+  tecnica: "Vinificazione in acciaio, affinamento breve su fecce fini"
+  profilo: [fresco, minerale, alta acidità, agrumato, mandorlato, secco, pulente]
+piatto:
+  nome: "Tartare di manzo (base)"
+  cottura: "Cruda, taglio a coltello"
+  struttura: [bassa aromaticità, consistenza proteica, untuosità lipidica, scarsa succulenza, tendenza dolce]
+abbinamento:
+  teoria: "Bilanciamento per contrapposizione dell'untuosità (lipidi) tramite freschezza e acidità del vino."
+  perche_funziona: "L'acidità del Gavi pulisce il palato dalla patinatura oleosa dell'olio EVO, mantenendo la delicatezza della carne cruda."
+
+---
+
+episodio: "Speciale Manzo - Tecniche di abbinamento"
+vino:
+  nome: "Barbera d'Asti/Alba DOCG"
+  vitigno: "Barbera"
+  tecnica: "Vinificazione in acciaio, possibile breve passaggio in legno"
+  profilo: [dirompente, tannini morbidi, alta acidità, frutti rossi, speziatura ematica, succoso]
+piatto:
+  nome: "Pasta al ragù di manzo"
+  cottura: "Stufatura prolungata (min. 3 ore)"
+  struttura: [alta aromaticità, complessa, sapida, succulenta, untuosa, tendenza dolce (pasta)]
+abbinamento:
+  teoria: "Accostamento per concordanza aromatica e bilanciamento della succulenza."
+  perche_funziona: "L'elevata acidità della Barbera contrasta la sapidità e la grassezza del ragù, mentre la struttura del vino sostiene la complessità della carne cotta."
+
+---
+
+episodio: "Speciale Manzo - Tecniche di abbinamento"
+vino:
+  nome: "Cabernet Sauvignon (variabile)"
+  vitigno: "Cabernet Sauvignon"
+  tecnica: "Macerazione pellicolare, fermentazione malolattica, affinamento in barrique"
+  profilo: [strutturato, tannini gallici, perisistente, note ematiche, tostato, frutti neri, erbaceo]
+piatto:
+  nome: "Filetto al pepe verde"
+  cottura: "Padella (reazione di Maillard) e deglassatura"
+  struttura: [alta succulenza, untuosità, perisistenza, speziatura marcata, grasso (panna)]
+abbinamento:
+  teoria: "Armonia strutturale e contrasto alla componente grassa."
+  perche_funziona: "Il tannino evoluto del Cabernet doma la succulenza del filetto e le note ematiche della carne reagiscono positivamente alla struttura del vino."
+
+---
+episodio: "Speciale Indispensabili - Decamerone Enologico"
+vino:
+  nome: "Selezione Must-Have (Varia)"
+  vitigno: "Internazionali (Chardonnay, Pinot Nero) e Autoctoni (Nebbiolo, Sangiovese, Vermentino, Lambrusco di Sorbara)"
+  tecnica: "Diversificata: metodo classico, Charmat, vinificazione in bianco, macerazione pellicolare e affinamento in legno"
+  profilo: [acidità vibrante, corpo evolutivo, tannini gallici, persistenza aromatica, salinità marina, note floreali, effervescenza fine, complessità terziaria]
+piatto:
+  nome: "Salmone affumicato su avocado toast (Esempio)"
+  cottura: "Assemblaggio a freddo"
+  struttura: [grassezza elevata, aromaticità intensa, sapidità minerale, untuosità, persistenza gustativa, consistenza morbida]
+abbinamento:
+  teoria: "Bilanciamento per concordanza (aromaticità) e contrasto (secchezza/acidità)"
+  perche_funziona: "L'acidità e le bollicine del metodo Charmat/Classico agiscono da 'detergente' chimico, recidendo la patina lipidica del salmone e dell'avocado e resettando la papilla gustativa."
+
+---
+episodio: "Spaghetti alle vongole e Costa d'Amalfi"
+vino:
+  nome: "Costa d'Amalfi DOC (Blend)"
+  vitigno: "60% Falanghina, 40% Biancolella"
+  tecnica: "Vinificazione in bianco con assemblaggio pre-imbottigliamento, affinamento in acciaio per preservare l'integrità aromatica"
+  profilo: [fiori bianchi, banana, note erbacee di timo, spiccata mineralità, acidità vibrante, lievi sentori amaricanti]
+piatto:
+  nome: "Spaghetti alle vongole (versione bianca)"
+  cottura: "Mantecatura espressa in padella (tecnica dell'emulsione per risottatura)"
+  struttura: [succulenza da emulsione, sapidità marina, persistenza gustativa media, texture setosa, nota pungente del peperoncino, freschezza aromatica del prezzemolo]
+abbinamento:
+  teoria: "Armonia per concordanza e contrappunto: l'acidità e la trama minerale del vino contrastano la grassezza dell'emulsione, bilanciando la salinità del mollusco."
+  perche_funziona: "La spiccata acidità del blend (Falanghina/Biancolella) innesca una salivazione protettiva che pulisce il palato dalla componente untuosa della pasta, mentre la mineralità del vino esalta la sapidità iodata delle vongole."
+
+---
+episodio: "Il vino lo porto io - Analisi del Fritto Misto"
+vino:
+  nome: "Franciacorta DOCG Dosaggio Zero"
+  vitigno: "Chardonnay, Pinot Nero, eventuale Pinot Bianco"
+  tecnica: "Metodo Classico, rifermentazione in bottiglia (prise de mousse), sboccatura (dégorgement) dopo 96 mesi di permanenza sui lieviti, dosaggio zero (pas dosé)"
+  profilo: [crosta di pane, lievito autolitico, pesca bianca, sentori agrumati, erbe aromatiche, timo, perlage fine, persistente]
+piatto:
+  nome: "Fritto misto di mare (mazzancolle, calamari, totani, merluzzo)"
+  cottura: "Frittura in olio, panatura leggera di farina"
+  struttura: [untuosità perisistente, croccantezza elevata, sapidità marina, consistenza tenace, tendenza dolce del pesce]
+abbinamento:
+  teoria: "Contrapposizione delle sensazioni tattili: la spiccata acidità e l'effervescenza (CO2) del Metodo Classico operano la detersione della cavità orale dal residuo lipidico dell'frittura."
+  perche_funziona: "L'elevata permanenza sui lieviti (96 mesi) conferisce al vino una struttura e una complessità olfattiva (crosta di pane) che sostiene la croccantezza della panatura, mentre il dosaggio zero esalta la pulizia palatale senza interferenze zuccherine."
+
+---
+episodio: "Pillole - Pollo al Curry & Kerner"
+vino:
+  nome: "Kerner (Alto Adige/Sudtirol)"
+  vitigno: "Kerner (incrocio Schiava x Riesling)"
+  tecnica: "Vinificazione in bianco con fermentazione a temperatura controllata, affinamento sur lie per incremento di morbidezza."
+  profilo: [litchi, pompelmo, note agrumate, fiori bianchi, erbe aromatiche, bouquet intenso, morbidezza glicerica, spiccata freschezza, 14% vol]
+piatto:
+  nome: "Pollo al Curry con riso Basmati"
+  cottura: "Soffritto (mirepoix) seguito da rosolatura in Wok e stufatura in ristretto di carne."
+  struttura: [speziatura pungente (curry), succulenza del fondo bruno, aromaticità dello zenzero fresco, pseudo-dolcezza dell'amido (riso), sapidità elevata, consistenza media, nota fruttata (mela)]
+abbinamento:
+  teoria: "Armonia per contrapposizione tattile e concordanza aromatica."
+  perche_funziona: "La morbidezza e l'alcolicità del Kerner bilanciano la pungenza del curry e la nota piccante dello zenzero; l'acidità vibrante del vitigno monda la cavità orale dalla succulenza del fondo di cottura, mentre la spinta aromatica del vino si allinea con l'esotismo delle spezie."
+
+---
+episodio: "Dolci di Carnevale e Picolit"
+vino:
+  nome: "Picolit DOCG Colli Orientali del Friuli (Sottozona Cialla)"
+  vitigno: "Picolit, Verduzzo"
+  tecnica: "Blend di uve appassite in fruttaio e in pianta (attacco di Botrytis cinerea), fermentazione e affinamento in barrique per 20 mesi, ulteriore affinamento in bottiglia per 24 mesi, non filtrato."
+  profilo: [zafferano, frutta secca, noci, pesca sciroppata, albicocca disidratata, miele, caramello, noce moscata, vaniglia, latte di mandorla]
+piatto:
+  nome: "Bugie ripiene di marmellata di albicocca"
+  cottura: "Frittura"
+  struttura: [croccantezza, untuosità contenuta, dolcezza bilanciata, corpo strutturato, viscosità della confettura]
+abbinamento:
+  teoria: "Equilibrio per contrapposizione e sinergia chimica: il vino dolce contrasta la grassezza del fritto e la dolcezza del ripieno, mentre l'acidità e l'alcolicità puliscono il cavo orale."
+  perche_funziona: "La struttura del Picolit (corposo e denso) regge perfettamente la consistenza della pasta delle bugie, mentre la vena acida e l'alcolicità 'asciugano' l'untuosità residua della frittura, esaltando la percezione sensoriale del boccone successivo."
+
+---
+episodio: "Risotto alla Milanese e Barbera"
+vino:
+  nome: "Oltrepò Pavese Barbera DOC"
+  vitigno: "90% Barbera, 10% Croatina"
+  tecnica: "Vinificazione e affinamento esclusivamente in acciaio, senza passaggio in legno"
+  profilo: [vinoso, prugna, mirtillo, viola, pepe nero, acidità spiccata, tannino medio, corpo medio, vellutato]
+piatto:
+  nome: "Risotto alla milanese (codifica DECO)"
+  cottura: "Mantecatura classica (burro, midollo, parmigiano, zafferano, brodo di carne)"
+  struttura: [elevata aromaticità, untuosità, grassezza, perisistenza aromatica intensa, corpo medio]
+abbinamento:
+  teoria: "Bilanciamento per contrapposizione: l'acidità e la struttura tannica del vino neutralizzano la componente grassa e la patina untuosa del piatto."
+  perche_funziona: "L'acidità tagliente della Barbera 'sgrassa' il cavo orale, mentre la discreta trama tannica pulisce le sensazioni di burro e midollo, garantendo il reset gustativo necessario tra un boccone e l'altro."
+
+---
+episodio: "0 - Puntata Zero"
+vino:
+  nome: "Etna Rosso DOC - Nerello Mascalese"
+  vitigno: "100% Nerello Mascalese"
+  tecnica: "Vinificazione in purezza, affinamento in bottiglia; il profilo è influenzato dal terroir vulcanico d'altura con escursione termica significativa."
+  profilo: [Rosso granato scarico, desaturato, piccoli frutti rossi maturi, vaniglia, spezie, pepe nero, note di erbe officinali, tannino setoso, buona perisistenza]
+piatto:
+  nome: "Anatra all'arancia"
+  cottura: "Al forno con riduzione di fondo bruno e agrumi"
+  struttura: [Buona succulenza, tendenza dolce della carne, aromi speziati, perisistenza aromatica intensa, componente lipidica importante dalla riduzione]
+abbinamento:
+  teoria: "Armonia per contrapposizione e concordanza: il tannino fine e l'acidità vibrante del Nerello Mascalese bilanciano la succulenza proteica e la parte grassa della salsa all'arancia."
+  perche_funziona: "L'astringenza dei tannini polifenolici inibisce l'enzima salivare, asciugando la sensazione di untuosità, mentre la finezza strutturale del vino rispecchia l'eleganza aromatica dell'anatra."
+
+---
+episodio: "1 - Anatra all'arancia"
+vino:
+  nome: "Pinot Nero, Alto Adige DOC"
+  vitigno: "Pinot Noir (Blauburgunder)"
+  tecnica: "Macerazione carbonica parziale, fermentazione in tini di rovere, affinamento 12 mesi sur lies"
+  profilo: [ciliegia matura, sottobosco, tannini gallici levigati, spiccata acidità, chiodi di garofano, sentore ematico]
+piatto:
+  nome: "Anatra all'arancia (Canard à l'orange)"
+  cottura: "Arrostitura lenta con glassatura finale (riduzione di succo d'arancia e fondo bruno)"
+  struttura: [grassezza animale, perisistenza aromatica, acidità citrica, tendenza dolce, reazione di Maillard, succulenza]
+abbinamento:
+  teoria: "Concordanza per struttura e contrapposizione per acidità/grassezza"
+  perche_funziona: "L'acidità vibrante del Pinot Nero recide la componente lipidica dell'anatra, mentre le note terziarie e speziate del vino si armonizzano con la complessità aromatica della riduzione agrumata e la croccantezza della pelle caramellata."

@@ -5,20 +5,30 @@ import PackageDescription
 
 let package = Package(
     name: "UMGeminiLib",
+    platforms: [
+        .macOS(.v12),
+        .iOS(.v15),
+        .tvOS(.v15),
+        .visionOS(.v1)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "UMGeminiLib",
             targets: ["UMGeminiLib"]
         ),
+        .executable(
+            name: "UMGeminiCLI",
+            targets: ["UMGeminiCLI"]
+        ),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "UMGeminiLib"
         ),
-
+        .executableTarget(
+            name: "UMGeminiCLI",
+            dependencies: ["UMGeminiLib"]
+        ),
     ],
-    swiftLanguageModes: [.v6]
+    swiftLanguageModes: [.v5]
 )

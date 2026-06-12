@@ -1,0 +1,13 @@
+episodio: "Test Tech Podcast"
+tema: "Intelligenza Artificiale"
+esperti: "Alex Raccuglia"
+contenuto:
+  titolo: "Il futuro del coding"
+  punti_chiave: ["Agenti AI", "Sviluppo assistito", "Automazione"]
+---
+episodio: "Test Tech Podcast - Episodio 2"
+tema: "Web Development"
+esperti: "Alex Raccuglia"
+contenuto:
+  titolo: "PHP nel 2024"
+  punti_chiave: ["Semplificazione", "Prestazioni", "Modernizzazione"]

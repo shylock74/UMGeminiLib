@@ -1,0 +1,668 @@
+episodio:
+  titolo: "Good Vibrations - Ep. 1"
+  temi_principali:
+    - Sviluppo software e Intelligenza Artificiale (Vibe Coding)
+    - Impatto del Vibe Coding sulle community Open Source
+    - Automazione e prototipazione rapida (Design, Cloud Code)
+    - Sostenibilità energetica ed ambientale dei Data Center
+    - Debito tecnico e perdita di competenze umane (skill degradation)
+
+strumenti_e_tecnologie_citati:
+  prototipazione_e_ui:
+    - Design (Google)
+    - Cloud Code
+    - Figma
+    - Stitch
+  sviluppo_e_linguaggi:
+    - Hugo (Static Site Generator)
+    - PHP
+    - MySQL
+    - React
+    - Tailwind CSS
+    - Zend Framework
+    - Swift (citato per sviluppo iOS)
+  generazione_immagini:
+    - Chat GPT (Image Generation 2.0)
+    - Nano Banana (alias Google Image)
+  infrastruttura:
+    - Apache
+    - WordPress
+    - Docker
+    - Azureacast
+
+dati_tecnici_workflow:
+  metodologia_vibecoding:
+    - Integrazione LLM con repository Git locale
+    - Analisi codice sorgente esistente per modellazione template
+    - Trasformazione rapida di mockup in componenti integrabili
+    - Riduzione tempi di sviluppo (dal mese a pochi giorni)
+  criticità_open_source:
+    - Saturazione repository tramite Merge Request (MR) generate da IA
+    - Difficoltà di validazione semantica su larga scala
+    - Rischio introduzione codice malevolo/backdoor
+    - Inquinamento da "Feature Request" non pertinenti al progetto
+  impatto_energetico:
+    - Consumo idrico per raffreddamento server farm
+    - Criticità energetica dei modelli generalisti
+    - Limiti fisici dell'hardware (dissipazione termica vs capacità computazionale)
+
+partecipanti:
+  - Simone Pizzi
+  - Valerio Galano
+  - Walter Sbano
+
+riferimenti_progetti_personali:
+  - Runtime Telegram Bot Titan Edition (automazione feed RSS/podcast/YouTube)
+  - Sito personale Simone Pizzi (Stack ibrido React/Tailwind/PHP)
+  - Plugin WordPress per Tufting (strumento SVG per configurazione lana e preventivazione)
+  - Teleprompter per iOS (in fase di sviluppo)
+
+
+---
+
+
+episodio:
+  titolo: "Good Vibrations - Episodio 1"
+  partecipanti:
+    - Alex Racuglia
+    - Valerio Galano
+    - Luca Francesca
+  argomenti_principali:
+    - Sviluppo software potenziato dall'IA (AI-assisted coding)
+    - Workflow di produzione contenuti con modelli generativi
+    - Analisi dei limiti dei servizi e delle policy di moderazione
+    - Crisi di sostenibilità e modelli di business delle big tech (OpenAI, Anthropic, Google)
+    - Gestione dei costi dei token e finestre di contesto (LLM)
+    - Programmazione multi-agente
+  tecnologie_servizi_menzionati:
+    - Modelli Video: "Siddence 2.0", Sora (OpenAI)
+    - LLM: GPT-4o, Claude (Sonnet 3.5, Opus), Gemini (Google)
+    - Tool & CLI: Claude Code, Gemini CLI, GitHub (con server MCP), Visual Studio Code, JetBrains IDE
+    - Servizi: FreePick, XFIL, Discord, Google Drive (Takeout), Microsoft 365 Copilot, ServiceNow
+  dati_tecnici_osservati:
+    - "Siddence 2.0": generazione video (1-15 secondi), vincoli di policy restrittivi.
+    - "Multi-agent coding": analisi di agenti specializzati (web designer, SQL expert) operanti in sincrono per ottimizzazione output.
+    - "Strategie di risparmio token": uso di placeholder, suddivisione atomica del task, riduzione verbosità modello, indicizzazione documentazione per LLM.
+    - "Analisi costi": degradazione dei piani di abbonamento (es. Google Drive/Gemini) e imposizione di limiti di utilizzo stringenti (token rate limiting).
+    - "Integrazioni IDE": uso di plugin per intercettazione diff (es. JetBrains plugin per CLI Claude) per visualizzazione sicura delle modifiche al codice.
+  critiche_tecniche:
+    - "Overhead NPM": criticità nella gestione delle dipendenze lato client.
+    - "UI/UX LLM": insoddisfazione per l'interfaccia dell'app nativa Claude (poco pratica per il coding).
+    - "Opacità": mancanza di trasparenza nelle variazioni dei Termini di Servizio e nei limiti di consumo reale tra diverse piattaforme.
+    - "Limitazioni Gemini": peggioramento delle prestazioni ("depotenziamento") e complessità nel monitoraggio dell'utilizzo dei token.
+
+
+---
+
+
+titolo_episodio: "Good Vibrations: L'IA per lo sviluppo software e l'automazione legale"
+ospite:
+  nome: "Filippo Strozzi"
+  professione: "Avvocato"
+  approccio_tecnologico: "Local-first / Autarchico"
+  toolset_macos:
+    hardware:
+      - "Mac Studio M1 Max (32GB RAM)"
+      - "Mac Studio M3 Ultra (256GB RAM - test eseguiti da collaboratori)"
+    software_inferenza:
+      - "Ollama (CLI)"
+      - "LM Studio (Electron-based)"
+      - "MLX (Apple Silicon optimized framework)"
+      - "Open Web UI"
+      - "Server MLX"
+    modelli_utilizzati:
+      - "Mistral / Ministral 3.1 4B"
+      - "Gemma 3 27B"
+      - "Qwen 3.5 35B"
+      - "Nemotron 3 Nano"
+    ottimizzazione_tecnica:
+      - "Quantizzazione GGUF per Apple Silicon"
+      - "Ottimizzazione allocazione RAM (GPU/CPU split via terminale)"
+      - "Caching KV (Key-Value) per riduzione calcolo prompt ricorrenti"
+      - "Utilizzo di modelli Mixture of Experts (MoE)"
+
+sviluppo_software:
+  metodologia: "Vibe Coding / Coding Assistito"
+  stack_sviluppo:
+    - "Electron (Framework UI cross-platform)"
+    - "JavaScript (Vanilla, preferito a TypeScript per semplicità)"
+    - "LaTeX (per documentazione e generazione atti)"
+  tool_assistenza_sviluppo:
+    - "Claude (Sonnet 3.5)"
+    - "Open Router (Interface per modelli multipli)"
+    - "Open Code (CLI assistant)"
+    - "Perplexity (per pianificazione architetturale)"
+  progetti_open_source:
+    - nome: "Anonimator"
+      funzionalità: "Anonimizzazione documenti (PDF/DOCX) tramite Regex, NER (Name Entity Recognition) e LLM locali."
+    - nome: "PCT Link Generator"
+      funzionalità: "Automazione creazione link relativi in PDF per depositi telematici (Processo Civile Telematico)."
+
+considerazioni_tecniche:
+  prestazioni:
+    - "Velocità inferenza: 15-20 token/s su modelli MoE."
+    - "Collo di bottiglia: Vettorializzazione prompt lunghi (>50k token)."
+    - "Limiti: Risorse RAM per contesto esteso (massimo 64-80k token su 32GB)."
+  etica_e_sicurezza:
+    - "Necessità di elaborazione locale per riservatezza dati legali (GDPR compliance)."
+    - "Diffidenza verso modelli SaaS (Claude, ChatGPT) per dati sensibili."
+    - "Criticità del 'Vibe Coding': Debito tecnico intrinseco se non monitorato."
+  ambito_legale:
+    - "Settore legale italiano frammentato: pochi software specializzati, alta dipendenza da customizzazione."
+    - "Valutazione skill legali di Claude: Ritenute di utilità limitata per mancanza di determinismo e rischi privacy."
+
+
+---
+
+
+podcast:
+  titolo: "Good Vibrations"
+  episodio: "Episodio 01"
+  piattaforma: "Runtime Radio"
+  partecipanti:
+    - nome: "Simone Pizzi"
+      ruolo: "Co-host"
+    - nome: "Alex Raccuglia"
+      ruolo: "Co-host, Sviluppatore, Fondatore"
+    - nome: "Valerio Galano"
+      ruolo: "Co-host, Podcaster"
+    - nome: "Luca Francesca"
+      ruolo: "Co-host"
+
+  argomenti_tecnici_trattati:
+    software_sviluppati:
+      - nome: "WP Media Manager"
+        autore: "Alex Raccuglia"
+        tecnologia: "Applicazione Desktop (Electron/React), Vibe-coding via Gemini CLI"
+        funzionalità:
+          - "Interfaccia diretta con cartella media WordPress"
+          - "Caricamento batch e ottimizzazione SEO"
+          - "Compressione immagini e riduzione dimensioni (25%)"
+          - "Analisi immagini non referenziate"
+          - "Generazione metadata per LLM"
+        distribuzione: "Gumroad (ultimedi.media)"
+        coupon: "Wpm_Runtime_25_perch"
+
+      - nome: "Runtime Telegram Bot (Titan Edition)"
+        autore: "Simone Pizzi"
+        tecnologia: "React, Electron"
+        funzionalità:
+          - "Gestione multi-canale e multi-feed (RSS, Podcast, YouTube)"
+          - "Condivisione automatizzata contenuti (bypass restrizioni API Google)"
+          - "Criptografia dati di salvataggio"
+          - "Portabilità configurazioni tra utenti"
+
+    workflow_e_strumenti_ai:
+      - nome: "Sito Pensieri in Codice"
+        sviluppatore: "Valerio Galano"
+        tecnologia: "Hugo (Generatore siti statici), HTML/CSS"
+        processo: "UI design via mock-up, implementazione codice via Claude AI"
+        caratteristiche: "Player audio personalizzato (capitoli, trascrizioni, velocità variabile)"
+
+      - nome: "Whisper Notes (iOS)"
+        uso: "Voice-to-text tramite Whisper v3"
+        automazione: "Integrazione Action Button iPhone, formattazione output tramite LLM"
+
+      - nome: "Recast"
+        funzione: "Launcher OS (Alternativa ad Alfred/Spotlight)"
+        integrazioni: "Fuzzy logic, LLM aggregati, Homebrew integration"
+
+      - nome: "Typeless"
+        funzione: "Speech-to-text potenziato con punteggiatura e riassunto"
+
+    tecnologie_emergenti:
+      generazione_video:
+        - "Seedance 2.0 (High-end video synthesis, motion capture senza marker)"
+        - "Kling (Testati per ricalco scene e trasformazione personaggi)"
+      visual_effects:
+        - "Green screen via AI (Open source, necessità >21GB VRAM)"
+      hardware:
+        - "Mac (Apple Silicon M-series, Metal API)"
+        - "Meta Ray-Ban Smart Glasses (Privacy issues, meta-dati, analisi dati)"
+
+  note_tecniche:
+    - "Vibe-coding: Metodologia di sviluppo basata su prompt engineering iterativo via CLI"
+    - "Problematica cross-platform: Gestione path Windows vs macOS in applicazioni React/Node"
+    - "SaaS vs Self-hosted: Discussione sui costi di abbonamento vs software verticali one-time purchase"
+
+
+---
+
+
+titolo_episodio: "Good Vibrations - Episodio: Analisi dei workflow di sviluppo potenziati dall'IA"
+podcast: "Good Vibrations"
+network: "Runtime Radio"
+partecipanti:
+  - "Alex Arculia"
+  - "Luca Francesca"
+temi_trattati:
+  tecnologie_sviluppo:
+    - tecnologia: "GitHub Copilot"
+      utilizzo: "Generazione di codice per ServiceNow, automazione di task ripetitivi"
+      valutazione: "Strumento di produttività efficace anche per profili non strettamente dev"
+    - tecnologia: "LLM (Gemini)"
+      utilizzo: "Vibe coding, prototipazione rapida, generazione di architetture, assistente vocale"
+      metodologia: "Proof of Concept (POC) iterativa, astrazione della business logic tramite prompt strutturati"
+    - framework_sviluppo:
+      - "SwiftUI"
+      - "Metal" (per accelerazione GPU in rendering video)
+      - "Objective-C" (per interazione con API legacy Apple)
+    - strumenti_gestione:
+      - "InDesign/Illustrator" (Workflow di estrazione asset per animazione)
+      - "After Effects" (Rendering ed elaborazione video)
+etica_e_societa:
+  - "Gnoseologia sociale e patto di fiducia istituzionale: rischi legati alla manipolazione di contenuti multimediali da parte di enti ufficiali"
+  - "Implicazioni dei modelli LLM come agenti autonomi in ambienti di rete (rischi di avvelenamento dati e manipolazione trust-level)"
+  - "Dilemmi etici sullo sviluppo di IA (licenziamenti nel settore sicurezza, distopia tecnologica)"
+workflow_tecnico_estratto:
+  fasi_sviluppo_prodotto:
+    1: "Proof of Concept (POC): verifica fattibilità tramite LLM, approccio discorsivo"
+    2: "Prototipazione: implementazione rapida (vibe coding), focus su MVP"
+    3: "Refactoring: separazione architetturale (Data Structures, Business Logic, UI layer)"
+    4: "Industrializzazione: ottimizzazione tramite librerie native, hardening del codice"
+  best_practices_adottate:
+    - "Dichiarazione di stile/manifesto tecnico nei system prompt"
+    - "Separazione netta dei silo architetturali per mantenere il contesto degli LLM"
+    - "Utilizzo di modelli 'fast' per brainstorming e 'pro' per generazione codebase"
+    - "Focus sul Time-to-Market e utilità pratica rispetto all'ottimizzazione estrema"
+considerazioni_ui_ux:
+  - "Importanza dell'interfaccia grafica come driver di successo commerciale"
+  - "Critica all'eccessivo ricorso a interfacce touch/software in contesti fisici (automotive)"
+  - "Rilevanza della memoria tattile rispetto alla flessibilità dei sistemi digitali"
+
+
+---
+
+
+titolo_episodio: "Good Vibrations"
+tema_principale: "Evoluzione dello sviluppo software tramite intelligenza artificiale (AI) e il fenomeno del vibecoding"
+partecipanti:
+  - Valerio Galano
+  - Simone Pizzi
+
+contesto_tecnico:
+  approccio_sviluppo:
+    vibecoding: 
+      definizione: "Sviluppo assistito da LLM in cui la progettazione concettuale è mediata dall'AI, talvolta a discapito della conoscenza approfondita dei linguaggi."
+      pro: "Accensione dell'entusiasmo creativo, prototipazione rapida, risoluzione assistita di bug."
+      contro: "Rischio di impigrimento, perdita di controllo tecnico, standardizzazione delle soluzioni (es. React/Python), allucinazioni."
+      fenomeno_wild_coding: "Frenesia esecutiva che porta a un numero elevato di progetti aperti e non rifiniti, causata dalla percezione di onnipotenza operativa."
+    sviluppo_classico:
+      metodologia: "Utilizzo di tool specifici (es. Hugo, generatori di siti statici) scelti per competenza pregressa e non suggeriti dagli LLM."
+      controllo: "Necessità di revisione umana, comprensione dell'impatto architetturale a lungo termine e gestione della complessità."
+  
+  considerazioni_tecniche:
+    standardizzazione_ai: "Gli LLM tendono a proporre soluzioni 'safe' o standardizzate (es. React), uniformando le scelte tecnologiche degli utenti."
+    gestione_cache: "L'inserimento di header per inibire la cache (es. hard refresh) può risolvere problemi di visualizzazione lato client ma generare impatti prestazionali critici su server ad alto traffico."
+    best_practice_php: "La pratica di omettere il tag di chiusura '?>' nei file PHP è finalizzata a prevenire l'invio accidentale di caratteri/spazi vuoti nel rendering; tuttavia, gli LLM tendono a inserirlo per standard formale."
+    agenti_e_debugger: "L'uso di IDE agentici (es. Claude 3.5/Gemini) che operano in ambiente reale o simulato permette la risoluzione di bug senza necessità di esecuzione manuale in locale, segnando un salto qualitativo rispetto ai semplici chatbot."
+
+  osservazioni_strategiche:
+    sostenibilità_modelli: "Emergenza di modelli cinesi come alternativa potenzialmente più efficiente (rapporto prestazioni/energia) rispetto ai big player USA."
+    ciclo_vita_software: "Il rilascio di software richiede manutenzione a lungo termine; l'affidamento totale all'AI pone rischi di sostenibilità economica e tecnica nel caso in cui i modelli cambino o non siano più accessibili."
+    antropomorfizzazione: "Riduzione della verbosità degli LLM (es. 'ottima osservazione') rispetto ai modelli iniziali, segno di una transizione verso risposte più asciutte ed efficienti in termini di token."
+
+  consigli_operativi:
+    approccio_consapevole: "Non rifiutare l'AI per principio, ma mantenere il controllo decisionale ed esercitare spirito critico per evitare l'erosione delle competenze professionali."
+    pulizia_codice: "Necessità di ri-analizzare e ristrutturare periodicamente il codice generato in fase di 'wild coding' per eliminare patch, duplicazioni e debito tecnico accumulato."
+
+
+---
+
+
+episodio:
+  titolo: Good Vibrations
+  podcast: Runtime Radio
+  speaker:
+    - Alex Racculli
+    - Luca Francesca
+    - Simone Pizzi
+
+stack_tecnologico_progetti_discussi:
+  concetto_chiave: Vibe Coding
+  approccio_sviluppo:
+    - Sviluppo assistito da LLM (Large Language Models)
+    - Iterazione rapida (prototipazione rapida)
+    - Iper-settorizzazione del codice
+    - Enfasi sull'idea e la proprietà intellettuale vs pura scrittura di codice
+  toolchain_standard:
+    - Frontend: React
+    - Linguaggio: TypeScript
+    - State_Management: Zustand
+    - Runtime_Desktop: Electron
+    - Deployment: Eseguibile (EXE) standalone con installer integrato
+  modelli_ai_utilizzati:
+    - Gemini 3.0 (ottimizzazione coding, sintesi estrema)
+    - Claude (prosa, revisione narrativa, mantenimento concept)
+    - ChatGPT (valutazione comparativa)
+
+progetti_esemplificativi:
+  software_regia_radiofonica:
+    - scopo: Automazione regia live, gestione asset (sigle, jingle, loop, ducking)
+    - architettura: Gerarchie logiche a colonne (Assets, Brani Musicali, Interviste, Effetti, Pre-diretta)
+    - stato: Beta pubblica imminente
+  linguaggio_programmazione:
+    - nome: Favella 1
+    - scopo: Avventure testuali/storie interattive in italiano
+    - logica: Basata su Inform7 ma nativa per struttura sintattica italiana
+  progetti_menzionati:
+    - Nox in the Night (trasmissione radiofonica notturna generata da AI)
+    - Sbargold (linguaggio di programmazione basato su singola parola)
+    - Editor podcast dedicato (in fase di prototipazione)
+
+analisi_critica_tecnica:
+  criticità_LLM:
+    - Tendenza alla sintesi eccessiva (taglio contenuti)
+    - Difficoltà di coerenza in narrazioni lunghe (TTS)
+    - Problemi di "allucinazione" su nomi di funzioni/voci (naming confusion)
+    - Debito tecnico da gestione rapida (necessità di rifattorizzazione)
+  infrastruttura_AI:
+    - Rilevanza del System Prompt per definire vincoli (es. "lavora su desktop, non su browser")
+    - Importanza del Self-Hosting del compilatore per il "gold standard" del linguaggio
+  contesto_mercato:
+    - Apple: Spostamento verso servizi in abbonamento (Bitmark, Transcriber)
+    - Nvidia: Politiche pro-AI per stabilità quote di mercato
+    - Microsoft: Overdose terminologica "Copilot"
+    - Hardware: Rallentamento vendite Mac e stagnazione brevetti Apple
+
+
+---
+
+
+episodio: "Quinta puntata: Good Vibrations"
+host:
+  - Alex Racuglio
+  - Luca Francesca
+  - Valerio Galano
+tematiche_principali:
+  - "Wild Coding: Integrazione massiva di AI nel workflow di sviluppo"
+  - "AI Agents vs Chatbots: Evoluzione dell'interazione uomo-macchina"
+  - "Strategie di prompt engineering: Iterazione e miglioramento del codice generato"
+  - "Infrastruttura e modelli: Passaggio dai LLM generalisti a modelli locali/verticali"
+  - "Impatto dell'AI nel mercato della consulenza e professionalità tecnica"
+tecnologie_e_modelli_citati:
+  - LLM: GPT-4, GPT-5, Claude (Opus/Sonnet), Gemini 3 Pro, Grok, Mistral, Llama (Meta)
+  - Framework/Tool: Office Copilot, JetBrains AI Assistant (Giuni), GitHub Copilot, VS Code Chat Agent, Ollama
+  - Linguaggi: PHP, Go, Python, Haskell, Lua, Cobol, Fortran, Swift, Elixir, Julia
+  - Piattaforme/Servizi: Figma (dataset training), Suno, FreePik, Obsidian, Docker/Kubernetes (sottintesi in contesti infrastrutturali)
+insights_tecnici:
+  - "Wild Coding definito come: Approccio pragmatista per automatizzare task tramite script generati da AI, spesso superando il costo-opportunità della scrittura manuale."
+  - "Vantaggio competitivo dei modelli cinesi: Basso costo, alta efficienza, possibilità di esecuzione in locale (on-device)."
+  - "Workflow ideale per UI: Struttura dati definita dall'umano, business logic gestita dall'LLM, iterazione via file export/import (es. XML)."
+  - "Limite dei modelli generalisti: Allucinazioni su domini esoterici; necessità di RAG (Retrieval-Augmented Generation) o training su dataset chiusi (es. documentazione interna bancaria)."
+  - "Sostenibilità: Crisi di disponibilità di VRAM a livello globale; impatto energetico dei data center come nuovo collo di bottiglia fisico."
+  - "Evoluzione artistica: Il concetto di 'errore di generazione' come nuova forma di espressione creativa (riferimento a 'Merda d'artista' di Manzoni)."
+metodologia_lavorativa:
+  - "Spostamento da 'App per tutto' a 'Verticalizzazione estrema': Generazione di codice/contenuti personalizzati 'usa e getta' per task specifici."
+  - "Agentic workflow: Uso di modelli specializzati per il refactoring rispetto a modelli generici per la creazione ex-novo."
+  - "Uso di AI per analisi di dati storici personali/aziendali per automiglioramento (Self-Mirroring)."
+dilemmi_etici:
+  - "Violazione di copyright nel training set (dataset scraping)."
+  - "Sostituzione della manodopera esterna (outsourcing) con automazione agentica."
+  - "Perdita di competenze tecniche fondamentali a causa della dipendenza da strumenti generativi."
+  - "Centralizzazione della conoscenza tramite LLM (rischio di loop di dati parzialmente corretti)."
+
+
+---
+
+
+titolo_episodio: "Good Vibrations - Ep. 1"
+podcast: "Runtime Radio"
+partecipanti:
+  - Alex Raccuglia
+  - Valerio Calano
+  - Luca Francesca
+
+tematiche_tecniche:
+  intelligenza_artificiale:
+    modelli_linguistici_llm:
+      - Gemini_3.0: "Analizzato in fase di testing, focus su integrazione ecosistema Google AI Studio."
+      - Gemini_2.5_Flash: "Utilizzato per prototipazione in Google AI Studio; supporta split a 3.0."
+    modelli_generativi_immagini:
+      - Imagen_4: "Motore di elaborazione per Nano Banana 2."
+      - Nano_Banana_2: "Basato su Gemini 2.5 Flash Image; ottimizzato per editing e combinazione prompt/immagini."
+      - Stable_Diffusion: "Versione quantizzata per esecuzione locale su architettura Apple Silicon."
+    modelli_generativi_video:
+      - Veo_3_1: "Utilizzato per produzione cinematografica; costo elevato (500-1200 crediti/shot su piattaforme terze)."
+      - Kling: "Utilizzato per sequenze ad alto contenuto action e particellare."
+      - Minimax: "Modello cinese ottimizzato per scene complesse; gestione 8 secondi in due step (0-4s, 4-8s)."
+      - Firefly: "Utilizzato per in-painting e generazione asset."
+    strumenti_supporto:
+      - Topaz_Video_AI: "Upscaling finale in 4K del girato generato."
+      - Voice_Over_TTS: "TTS di Google (performance variabili in base a carico server, ottimizzato in orari notturni USA)."
+
+workflow_produzione_video:
+  metodologia: "Approccio ibrido regista/sviluppatore; utilizzo di segnaposti parametrici (Keynote/PowerPoint) con campiture solide per definire geometria e composizione."
+  tecniche_di_regia:
+    - Blocking: "Utilizzo di primi piani per mitigare errori di continuità spaziale tra modelli."
+    - Montaggio: "Gestione del movimento tramite flip orizzontale e raccordi su asse di movimento."
+    - Color_Correction: "Intervento in post-produzione per uniformare output eterogenei."
+    - Upscaling: "Workflow basato su risoluzioni sorgente variabili (720p/1080p) portate a 4K."
+  ottimizzazione:
+    - System_Prompt: "Uso estensivo di system prompt per mantenere coerenza stilistica e dei caratteri (sostituisce istruzioni ripetitive)."
+    - Gestione_Token: "Pulizia costante della history per gestire la finestra di contesto limitata."
+
+aspetti_economici_e_etici:
+  analisi_mercato:
+    - Bolla_AI: "Confronto con crisi subprime 2008; distinzione tra bolla speculativa e bolla industriale (investimenti in data center)."
+    - Ottimizzazione_spese: "Ammodernamento ammortamenti (da 3 a 12 anni) da parte delle big tech."
+  etica:
+    - Digital_Cloning: "Dibattito su riproduzione digitale di defunti e impatto psicologico/etico."
+    - Impatto_lavorativo: "Automazione vs specializzazione; obsolescenza programmata delle competenze manuali tradizionali."
+
+riferimenti_progetto_personale:
+  titolo_corto: "Il viaggio di Francesco, il cane Alfa e il micio Pomone"
+  specifiche_tecniche:
+    - Output: 4K, ratio 2.35:1 (formato cinematografico).
+    - Asset: 64 tavole narrative, ~500 inquadrature stimate.
+    - Software_gestione: Tool proprietari (Ulti.media), Final Cut Pro.
+
+
+---
+
+
+episodio: "Una desolante sicurezza"
+podcast: "Good Vibrations"
+host: Alex Racuglia
+ospiti:
+  - Luca Francesca
+  - Valerio Galano
+  - Simone Pizzi
+
+temi_principali:
+  - Sviluppo software assistito da AI (Vibecoding)
+  - Progettazione e refactoring di architetture software tramite LLM
+  - Sperimentazione con modelli di generazione video e robotica umanoide
+  - Metodologie di project management applicate a progetti personali
+
+tecnologie_e_tool_citati:
+  - LLM: Gemini 1.5, Gemini 2.5, Gemini 3.0 (in attesa), Claude 3.5 Sonnet
+  - Framework e Librerie: React, Zustand, Godot
+  - Tool AI: Google AI Studio (App Builder), OpenAI Sora, Veo 3.1, Stable Diffusion (con Lora), Ideogram/Imagen
+  - Hardware: Robot umanoidi (generico, costo 15k-30k euro), Vic 20, Spectrum, Commodore 64
+
+progetto_the_safe_place:
+  autore: Simone Pizzi
+  descrizione: RPG basato su testo ispirato ai titoli anni '80 (Apple II, Commodore 64)
+  stack_tecnologico: React (iniziale), Godot, architettura basata su file statici (JSON/Assets)
+  stato_sviluppo: Versione 1.8.0 (post-refactoring totale)
+  metodologia: Iterativa (sviluppo rapido in 3 giorni post-prototipazione di 5 mesi)
+  criticità: Gestione dei contesti (context window) degli LLM, bug di rendering su web, gestione della coerenza grafica
+  finanziamento: Crowdfunding via GoFundMe
+
+note_tecniche_sviluppo:
+  - Approccio: "Literate Programming" tramite linguaggio naturale verso LLM
+  - Gestione Progetto: Separazione logica di business (Core) e layer di interfaccia (UX/Visual)
+  - Problematica: Limiti di rendering di mappe di grandi dimensioni (250x250 celle) in ambiente browser
+  - Soluzione adottata: Migrazione da mappa ASCII procedurale a sistema di tile grafiche
+
+osservazioni_settore:
+  - Tendenza: Iper-automazione vs. acquisizione di competenze metodologiche (metodo scientifico)
+  - Regolamentazione: Critiche a OpenAI per la deregolamentazione aggressiva
+  - Intelligenza Artificiale: Strumento di potenziamento della logica di programmazione, non sostituto completo del developer
+  - Workflow: Necessità di strutturare i progetti in componenti modulari (Model-View-Controller) per favorire l'interazione con gli LLM
+
+
+---
+
+
+episodio: "Good Vibrations - Ep. 3 (Sviluppo assistito e automazione workflow)"
+partecipanti:
+  - Alex Racuglia (Host)
+  - Luca Francesca (Co-host)
+  - Valerio Galano (Co-host)
+
+tecnologie_sviluppo:
+  metodologia: "Vibecoding (sviluppo assistito da LLM senza editing manuale del codice)"
+  linguaggio_scripting: "Python"
+  integrazione_AI:
+    - Claude 3.5 Sonnet (Core coding)
+    - OpenAI Whisper (Trascrizione, time-marker, granularità a livello di singola parola)
+    - Google Gemini 1.5 Pro (Logica di selezione, analisi contesto)
+  engine_grafica_video: "FFmpeg (compositazione, waveform, embedding sottotitoli)"
+  formati_sottotitoli: "VTT (Video Text Tracks) per rendering custom (styling, posizionamento)"
+
+workflow_automazione_podcast:
+  fasi_processo:
+    1: "Scraping feed RSS/XML"
+    2: "Estrazione metadati, trascrizione e soundbite (tramite tag Podcasting 2.0)"
+    3: "Generazione clip (orizzontale, verticale, quadrata) tramite FFmpeg"
+    4: "Output file Markdown per caption social"
+    5: "Parsing finale tramite script Python"
+
+dati_tecnici_ottimizzazione:
+  gestione_token:
+    limite_prompt_whisper: 224 token (per suggerimento punteggiatura)
+    strategia: "Analisi semantica tramite Levenshtein distance o token-matching per confronto stringhe"
+  sfide_tecniche:
+    - "Gestione finestre di contesto ampie (dispersione dati)"
+    - "Complessità sintassi FFmpeg per layout grafico vettoriale"
+    - "Errata semantica dei JSON prodotti da LLM in contesti complessi"
+    - "Ottimizzazione performance script di matching stringhe"
+
+note_tecniche:
+  osservazioni_host:
+    - "L'approccio 'agile' (step-by-step) è preferibile alla generazione monolitica del progetto"
+    - "La qualità dell'output LLM dipende dal Rules Engineering (documentazione regole) più che dal Prompt Engineering"
+    - "FFmpeg rimane lo standard de-facto, nonostante la curva di apprendimento elevata e la scarsa documentazione high-level"
+    - "La precisione semantica post-LLM richiede algoritmi di validazione deterministici (es. algoritmo di Levenshtein)"
+
+stato_progetto:
+  versione_corrente: "Prototipo (Open Source via GitHub)"
+  prossimi_step:
+    - "Generazione dinamica soundbite tramite AI (in assenza di tag feed)"
+    - "Integrazione API social media per pubblicazione automatica"
+    - "Refactoring interfaccia utente"
+
+
+---
+
+
+podcast:
+  titolo: "Good Vibrations"
+  piattaforma: "Runtime Radio"
+  tematica: "Sviluppo software e impatto dell'Intelligenza Artificiale"
+  conduttore: "Alex Arcuglia"
+  co_conduttori:
+    - "Simone Pizzi (Regia)"
+    - "Valerio Galano"
+    - "Luca Francesca"
+
+tecnologie_e_modelli_analizzati:
+  generazione_video:
+    - modello: "Sora 2"
+      caratteristiche: "Miglioramento coerenza fisica, qualità audio e regia cinematografica rispetto a Veo 3"
+    - modello: "Veo 3"
+      stato: "Superato tecnicamente da Sora 2"
+    - modello: "Kling"
+      nota: "Modello utilizzato in test comparativi professionali"
+  generazione_codice_e_llm:
+    - modello: "Claude 3.5 Sonnet"
+      giudizio: "Attualmente il più risolutivo ed efficace per programmazione professionale"
+      caratteristiche: "Velocità di esecuzione, capacità di revisione globale, verbosità elevata, integrazione con IDE"
+      problemi_noti: "Allucinazioni in contesti prolungati, tendenza all'overfitting sui benchmark"
+    - modello: "GPT-4"
+      stato: "Segnalato come depotenziato in prossimità del rilascio di versioni superiori"
+    - modello: "Gemini 3.0"
+      stato: "Attesa per il rilascio, focus su integrazione hardware/software avanzata"
+  strumenti_ecosistema:
+    - "JetBrains PHPStorm + Integrazione AI ufficiale"
+    - "Xcode + integrazione ChatGPT"
+    - "MCP (Model Context Protocol): Protocollo per connettività agentica tra LLM e software terzi"
+    - "N8N: Automazione workflow agentico"
+    - "Apple Intelligence (on-device): Utilizzata per parsing input vocale in Obsidian tramite Shortcuts"
+
+workflow_sviluppo_adottati:
+  approccio_tecnico:
+    - "Scomposizione del problema in sottoproblemi atomici"
+    - "Utilizzo di Git per il consolidamento incrementale (checkpointing)"
+    - "Scrittura di unit test guidata da LLM"
+    - "Revisione maniacale del codice generato vs stile personale"
+    - "Uso di istruzioni di sistema per definire naming convention e pattern"
+  limitazioni:
+    - "Perdita di contesto a lungo termine (token limit/degradazione)"
+    - "Tendenza dei modelli a non riconoscere le modifiche apportate negli step precedenti"
+    - "Necessità di riavviare le chat per task complessi per preservare la coerenza"
+
+analisi_critica:
+  impatto_professionale:
+    - "Trasformazione del ruolo dello sviluppatore in 'domatore di LLM'"
+    - "Rischio di atrofia per le nuove leve (Junior) che delegano la scrittura del codice senza comprenderne la logica"
+    - "Necessità di iper-specializzazione su domini critici dove l'AI non garantisce determinismo"
+  tendenze_mercato:
+    - "Saturazione di output generato automaticamente"
+    - "Aumento esponenziale della quantità di codice prodotto, ma con valore unitario diluito"
+    - "Transizione dalla fase democratica (LLM accessibili) a modelli oligopolistici (costi di licenza enterprise)"
+
+dati_di_produzione:
+  contenuti_extra: "Blooper registrati in coda all'episodio"
+  disponibilita: "Disponibile su Apple Podcast"
+
+
+---
+
+
+episodio: "Good Vibrations - Puntata 0"
+tema_centrale: "Vibecoding e AI-aided development"
+partecipanti:
+  - nome: "Alex Raccuglia"
+    ruolo: "Host, Regista, Developer (TypeScript/After Effects, Object Pascal)"
+  - nome: "Luca Francesca"
+    ruolo: "Software Developer (ServiceNow, Cloud, DevOps)"
+  - nome: "Valerio Galano"
+    ruolo: "Consulente Freelance, Full-stack (PHP, Laravel, Magento)"
+  - nome: "Walter Sbano"
+    ruolo: "System Administrator, Agente di Comunicazione Digitale (WordPress)"
+  - nome: "Simone Pizzi"
+    ruolo: "Developer (Basic, Python, integrazione LLM)"
+
+dati_tecnici_ai:
+  modelli_menzionati:
+    - "GPT-3.5/4/5 (OpenAI)"
+    - "Gemini 2.5 Pro/Flash (Google)"
+    - "Claude Sonnet 3.5 (Anthropic)"
+  strumenti_sviluppo:
+    - "GitHub Copilot (Public Beta 2021)"
+    - "Kilo Code (VS Code Extension)"
+    - "Cursor"
+    - "PHPStorm (JetBrains)"
+  concetti_chiave:
+    - "Vibecoding: programmazione assistita da LLM senza competenze tecniche approfondite"
+    - "Code Fixer: ruolo ipotetico per la revisione del codice generato da AI"
+    - "Non-determinismo: sfida principale nell'integrazione LLM in flussi deterministici"
+    - "Finestra di contesto: gestione dei token e saturazione nelle lunghe sessioni"
+    - "Allucinazioni: comportamente non deterministico critico in produzione"
+    - "Sostenibilità: impatto energetico e risorse computazionali dei data center"
+
+osservazioni_critiche:
+  - "Ottimizzazione: il codice moderno soffre di scarsa ottimizzazione a causa della disponibilità di risorse hardware"
+  - "Affidabilità: i modelli generativi attuali mostrano cali di performance dopo cicli intensivi"
+  - "Dipendenza tecnologica: rischio di de-skilling dei programmatori senior"
+  - "Bolla speculativa: dubbi sulla sostenibilità economica dei modelli LLM rispetto alla capitalizzazione di mercato"
+  - "Modelli cinesi: competitività nelle prestazioni con minore impiego di risorse (distillazione)"
+
+stack_progetti_citati:
+  - progetto_gioco:
+      linguaggi: ["React", "TypeScript", "Godot 4.4.1"]
+      stato: "In fase di rilascio web"
+      librerie: ["Zustand"]
