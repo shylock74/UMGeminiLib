@@ -77,7 +77,7 @@ public struct UMGeminiLite: Codable {
 	}
 
 	public static let ultiMedia = UMGeminiLite(model: .gemini25FlashLite,
-											   apiKey: "AIzaSyCV7P0Z90oug7oyLl7BY9FYufrT3KiSdK4")
+											   apiKey: "")
 
 	static var lastRequest: Date = .distantPast
 
