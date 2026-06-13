@@ -163,7 +163,8 @@ let image = try await gemini.generateImageWithNanoBanana(
     model: gemini.imageModel,
     textPrompt: "A dog astronaut on the moon, photorealistic",
     with: [],                    // no source images
-    aspectRatio: .ar_16_9
+    aspectRatio: .ar_16_9,
+    size: .ar_16_9 == .ar_16_9 ? .k2 : .k1 // output resolution (optional, default: .k1)
 )
 ```
 
@@ -188,7 +189,8 @@ let remix = try await gemini.generateImageWithNanoBanana(
     model: .nanoBananaPro,
     textPrompt: "Reinterpret this image as an impressionist painting",
     with: [source],
-    aspectRatio: .ar_1_1
+    aspectRatio: .ar_1_1,
+    size: .k1
 )
 ```
 
@@ -300,6 +302,7 @@ Save your Gemini API key once — it is persisted via `UserDefaults` so every su
 | `--model <codename>` | ✘ | `gemini-2.5-flash-lite` | Text model codename |
 | `--image-model <codename>` | ✘ | `gemini-2.5-flash-image` | Image model codename |
 | `--aspect-ratio <ratio>` | ✘ | `1:1` | `1:1`, `9:16`, `16:9`, `3:4`, `4:3`, `2:3`, `3:2`, `21:9` |
+| `--size <resolution>` | ✘ | `1K` | Output resolution: `1K`, `2K`, `4K` (or `1 K`, `2 K`, `4 K`) |
 | `--images <url1,url2,…>` | ✘ | — | Comma-separated list of local paths or HTTP URLs |
 | `--audio <url1,url2,…>` | ✘ | — | Comma-separated list of local paths or HTTP URLs |
 | `--output <path.png>` | ✔︎ (when `--mode image`) | — | Destination for the generated PNG |
@@ -333,17 +336,20 @@ public struct UMGeminiLite: Codable, Equatable {
     public func generateImageWithNanoBanana(model: ImageModel,
                                             textPrompt: String,
                                             with images: [CIImage],
-                                            aspectRatio: AspectRatio) async throws -> CIImage
+                                            aspectRatio: AspectRatio,
+                                            size: Size) async throws -> CIImage
 
     public func generateImageWithGemini(model: ImageModel,
                                         textPrompt: String,
                                         sourceImagesData: [(data: Data, mimeType: String)],
-                                        aspectRatio: AspectRatio) async throws -> Data
+                                        aspectRatio: AspectRatio,
+                                        size: Size) async throws -> Data
 
     public func generatePNGDataWithNanoBanana(textPrompt: String,
                                               model: ImageModel,
                                               ciImages: [CIImage],
-                                              aspectRatio: AspectRatio) async throws -> Data
+                                              aspectRatio: AspectRatio,
+                                              size: Size) async throws -> Data
 
     // Convenience
     public func describe(image: CIImage) async throws -> String?

@@ -36,7 +36,7 @@ Generates a response based on text, multiple images, or audio data.
 
 #### Image Generation
 ```swift
-func generateImageWithNanoBanana(model: ImageModel, textPrompt: String, with images: [CIImage], aspectRatio: AspectRatio) async throws -> CIImage
+func generateImageWithNanoBanana(model: ImageModel, textPrompt: String, with images: [CIImage], aspectRatio: AspectRatio, size: Size) async throws -> CIImage
 ```
 Supports multiple image generation models (Imagen 4 series, Nano Banana) with configurable aspect ratios.
 

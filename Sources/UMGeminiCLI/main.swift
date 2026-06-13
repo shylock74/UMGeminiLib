@@ -34,6 +34,7 @@ struct CLIArgs {
 	var model: String = UMGeminiLite.Model.gemini25FlashLite.codeName // model
 	var imageModel: String = UMGeminiLite.ImageModel.nanoBanana.modelName // image model
 	var aspectRatio: String = "1:1" // aspect ratio
+	var size: String = "1K" // size
 	var images: [String] = [] // images
 	var audio: [String] = [] // audio
 	var output: String = "" // output
@@ -61,6 +62,8 @@ func parseArgs() -> CLIArgs {
 				if let val = iterator.next() { args.imageModel = val }
 			case "--aspect-ratio":
 				if let val = iterator.next() { args.aspectRatio = val }
+			case "--size", "--image-size":
+				if let val = iterator.next() { args.size = val }
 			case "--images":
 				if let val = iterator.next() {
 					args.images = val.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
@@ -138,6 +141,8 @@ func runCLI() async {
 	gemini.imageModel = UMGeminiLite.ImageModel(modelName: args.imageModel) ?? .nanoBanana
 
 	let parsedAspectRatio = UMGeminiLite.AspectRatio(ratioString: args.aspectRatio) ?? .ar_1_1 //  u m gemini lite. aspect ratio(ratio string
+	let normalizedSize = args.size.uppercased().replacingOccurrences(of: "K", with: " K").trimmingCharacters(in: .whitespacesAndNewlines)
+	let parsedSize = UMGeminiLite.Size(rawValue: normalizedSize) ?? .k1
 
 	// Caricamento Immagini
 	var inputImages: [CIImage] = [] // input images
@@ -174,7 +179,8 @@ func runCLI() async {
 				model: gemini.imageModel,
 				textPrompt: args.prompt,
 				with: inputImages,
-				aspectRatio: parsedAspectRatio
+				aspectRatio: parsedAspectRatio,
+				size: parsedSize
 			)
 
 			let context = CIContext() //  c i context()

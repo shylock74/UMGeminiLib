@@ -143,13 +143,15 @@ extension UMGeminiLite {
 	public func generatePNGDataWithNanoBanana(textPrompt: String,
 											  model: ImageModel,
 											  ciImages: [CIImage],
-											  aspectRatio: AspectRatio) async throws -> Data {
+											  aspectRatio: AspectRatio,
+											  size: Size = .k1) async throws -> Data {
 		let imagesData = try imagesAndMimeType(for: ciImages) // images and mime type(for
 		return try await generateImageWithGemini(
 			model: model,
 			textPrompt: textPrompt,
 			sourceImagesData: imagesData,
-			aspectRatio: aspectRatio
+			aspectRatio: aspectRatio,
+			size: size
 		)
 	}
 
@@ -277,6 +279,7 @@ extension UMGeminiLite {
 // Structure:  gemini image config
 	public struct GeminiImageConfig: Encodable {
 		public let aspectRatio: String // aspect ratio
+		public let imageSize: String? // image size
 	}
 
 
@@ -284,7 +287,8 @@ extension UMGeminiLite {
 	public func generateImageWithGemini(model: ImageModel,
 										textPrompt: String,
 										sourceImagesData: [(data: Data, mimeType: String)],
-										aspectRatio: AspectRatio) async throws -> Data {
+										aspectRatio: AspectRatio,
+										size: Size = .k1) async throws -> Data {
 
 		var parts: [GeminiPart] = [] // parts
 		parts.append(GeminiPart(text: textPrompt))
@@ -297,7 +301,7 @@ extension UMGeminiLite {
 
 		let generationConfig = GeminiGenerationConfig( //  gemini generation config(
 			responseModalities: ["IMAGE", "TEXT"],
-			imageConfig: GeminiImageConfig(aspectRatio: aspectRatio.displayName)
+			imageConfig: GeminiImageConfig(aspectRatio: aspectRatio.displayName, imageSize: size.promptString)
 		)
 
 		let requestBody = GeminiRequest( //  gemini request(
@@ -312,16 +316,70 @@ extension UMGeminiLite {
 		var request = URLRequest(url: url) //  u r l request(url
 		request.httpMethod = "POST"
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.httpBody = try JSONEncoder().encode(requestBody)
+		
+		let encoder = JSONEncoder()
+		let requestData = try encoder.encode(requestBody)
+		request.httpBody = requestData
+
+		// Log request information
+		print("--------------------------------------------------")
+		print("[UMGeminiLite] API Request URL: \(url.absoluteString)")
+		if let requestString = String(data: requestData, encoding: .utf8) {
+			print("[UMGeminiLite] Request Body (Summary):")
+			print("  Prompt: \"\(textPrompt)\"")
+			print("  Number of parts: \(parts.count)")
+			for (index, part) in parts.enumerated() {
+				if let text = part.text {
+					print("    Part [\(index)]: Text = \"\(text)\"")
+				} else if let inline = part.inlineData {
+					print("    Part [\(index)]: Image = MIME: \(inline.mimeType), Base64 Length: \(inline.data.count) characters")
+				}
+			}
+			print("  Aspect Ratio Config: \(aspectRatio.displayName)")
+			print("  Size Config: \(size.displayName)")
+		}
+		print("--------------------------------------------------")
 
 		let (data, response) = try await URLSession.shared.data(for: request) //  u r l session.shared.data(for
 
-		guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-			if let errorString = String(data: data, encoding: .utf8) {
-				print("Server Error Body: \(errorString)")
-			}
+		guard let httpResponse = response as? HTTPURLResponse else {
 			throw URLError(.badServerResponse)
 		}
+
+		print("--------------------------------------------------")
+		print("[UMGeminiLite] API Response Status Code: \(httpResponse.statusCode)")
+
+		if httpResponse.statusCode != 200 {
+			if let errorString = String(data: data, encoding: .utf8) {
+				print("[UMGeminiLite] Server Error Body: \(errorString)")
+			}
+			print("--------------------------------------------------")
+			throw URLError(.badServerResponse)
+		}
+
+		// Log response information
+		if let responseString = String(data: data, encoding: .utf8) {
+			print("[UMGeminiLite] Response Body Length: \(responseString.count) characters")
+			if let decoded = try? JSONDecoder().decode([GeminiResponse].self, from: data),
+			   let firstResponse = decoded.first,
+			   let candidates = firstResponse.candidates,
+			   let firstCandidate = candidates.first {
+				print("  Finish Reason: \(firstCandidate.finishReason ?? "nil")")
+				if let content = firstCandidate.content, let respParts = content.parts {
+					print("  Response parts count: \(respParts.count)")
+					for (index, p) in respParts.enumerated() {
+						if let t = p.text {
+							print("    Response Part [\(index)]: Text = \"\(t)\"")
+						} else if let inline = p.inlineData {
+							print("    Response Part [\(index)]: Image = MIME: \(inline.mimeType), Base64 Length: \(inline.data.count) characters")
+						}
+					}
+				}
+			} else {
+				print("[UMGeminiLite] Raw Response (Truncated to 500 chars): \(String(responseString.prefix(500)))")
+			}
+		}
+		print("--------------------------------------------------")
 
 		let decodedArray = try JSONDecoder().decode([GeminiResponse].self, from: data) // from
 
@@ -347,12 +405,14 @@ extension UMGeminiLite {
 	public func generateImageWithNanoBanana(model: ImageModel,
 											textPrompt: String,
 											with images: [CIImage],
-											aspectRatio: AspectRatio) async throws -> CIImage {
+											aspectRatio: AspectRatio,
+											size: Size = .k1) async throws -> CIImage {
 
 		let data = try await generatePNGDataWithNanoBanana(textPrompt: textPrompt, // generate p n g data with nano banana(text prompt
 														   model: model,
 														   ciImages: images,
-														   aspectRatio: aspectRatio)
+														   aspectRatio: aspectRatio,
+														   size: size)
 		guard let ciImage = CIImage(data: data) else { throw ImageError.imageGenerationFailed }
 		return ciImage
 	}
