@@ -164,7 +164,7 @@ let image = try await gemini.generateImageWithNanoBanana(
     textPrompt: "A dog astronaut on the moon, photorealistic",
     with: [],                    // no source images
     aspectRatio: .ar_16_9,
-    size: .ar_16_9 == .ar_16_9 ? .k2 : .k1 // output resolution (optional, default: .k1)
+    size: .k2                    // output resolution (optional, default: .k1)
 )
 ```
 
