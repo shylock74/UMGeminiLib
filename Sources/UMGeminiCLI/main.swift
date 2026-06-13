@@ -32,8 +32,8 @@ struct CLIArgs {
 	var setKey: String? = nil // set key
 	var prompt: String = "" // prompt
 	var model: String = UMGeminiLite.Model.gemini25FlashLite.codeName // model
-	var imageModel: String = UMGeminiLite.ImageModel.nanoBanana.modelName // image model
-	var aspectRatio: String = "1:1" // aspect ratio
+	var imageModel: String = UMGeminiLite.ImageModel.nanoBanana2.modelName // image model
+	var aspectRatio: String = "16:9" // aspect ratio
 	var size: String = "1K" // size
 	var images: [String] = [] // images
 	var audio: [String] = [] // audio
@@ -138,9 +138,9 @@ func runCLI() async {
 
 	let selectedModel = UMGeminiLite.Model(codeName: args.model) ?? .gemini25FlashLite //  u m gemini lite. model(code name
 	var gemini = UMGeminiLite(model: selectedModel, apiKey: args.apiKey) //  u m gemini lite(model
-	gemini.imageModel = UMGeminiLite.ImageModel(modelName: args.imageModel) ?? .nanoBanana
+	gemini.imageModel = UMGeminiLite.ImageModel(modelName: args.imageModel) ?? .nanoBanana2
 
-	let parsedAspectRatio = UMGeminiLite.AspectRatio(ratioString: args.aspectRatio) ?? .ar_1_1 //  u m gemini lite. aspect ratio(ratio string
+	let parsedAspectRatio = UMGeminiLite.AspectRatio(ratioString: args.aspectRatio) ?? .ar_16_9 //  u m gemini lite. aspect ratio(ratio string
 	let normalizedSize = args.size.uppercased().replacingOccurrences(of: "K", with: " K").trimmingCharacters(in: .whitespacesAndNewlines)
 	let parsedSize = UMGeminiLite.Size(rawValue: normalizedSize) ?? .k1
 

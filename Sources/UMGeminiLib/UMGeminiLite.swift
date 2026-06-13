@@ -51,7 +51,7 @@ public struct UMGeminiLite: Codable {
 	}
 
 	public var model: Model = .gemini25FlashLite // model
-	public var imageModel: ImageModel = .nanoBanana // image model
+	public var imageModel: ImageModel = .nanoBanana2 // image model
 	public var apiKey: String = "" // api key
 
 
