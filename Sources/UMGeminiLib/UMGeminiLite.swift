@@ -119,7 +119,26 @@ public struct UMGeminiLite: Codable {
 		let (data, response) = try await URLSession.shared.data(for: request) //  u r l session.shared.data(for
 
 		guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-			throw URLError(.badServerResponse)
+			let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+			var apiErrorMessage: String? = nil
+			if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+			   let errorDict = json["error"] as? [String: Any],
+			   let message = errorDict["message"] as? String {
+				apiErrorMessage = message
+			}
+			
+			print("--------------------------------------------------")
+			print("[UMGeminiLite] API Response Status Code: \(statusCode)")
+			if let apiErrorMessage = apiErrorMessage {
+				print("[UMGeminiLite] API Error Message: \(apiErrorMessage)")
+			}
+			if let errorString = String(data: data, encoding: .utf8) {
+				print("[UMGeminiLite] Server Error Body: \(errorString)")
+			}
+			print("--------------------------------------------------")
+			
+			let displayError = apiErrorMessage ?? "Bad server response (Status code: \(statusCode))"
+			throw NSError(domain: "GeminiError", code: statusCode, userInfo: [NSLocalizedDescriptionKey: displayError])
 		}
 
 		guard let responseJSON = try JSONSerialization.jsonObject(with: data) as? [String: Any],
@@ -128,6 +147,12 @@ public struct UMGeminiLite: Codable {
 			  let content = firstCandidate["content"] as? [String: Any], // [ string
 			  let parts = content["parts"] as? [[String: Any]], // [[ string
 			  let firstPartText = parts.first?["text"] as? String else { // {
+			if let responseString = String(data: data, encoding: .utf8) {
+				print("--------------------------------------------------")
+				print("[UMGeminiLite] Invalid response structure. Raw response body:")
+				print(responseString)
+				print("--------------------------------------------------")
+			}
 			throw NSError(domain: "GeminiError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
 		}
 

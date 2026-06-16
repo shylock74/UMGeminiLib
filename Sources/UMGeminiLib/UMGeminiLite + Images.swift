@@ -324,7 +324,7 @@ extension UMGeminiLite {
 		// Log request information
 		print("--------------------------------------------------")
 		print("[UMGeminiLite] API Request URL: \(url.absoluteString)")
-		if let requestString = String(data: requestData, encoding: .utf8) {
+		if let _ = String(data: requestData, encoding: .utf8) {
 			print("[UMGeminiLite] Request Body (Summary):")
 			print("  Prompt: \"\(textPrompt)\"")
 			print("  Number of parts: \(parts.count)")
@@ -350,11 +350,23 @@ extension UMGeminiLite {
 		print("[UMGeminiLite] API Response Status Code: \(httpResponse.statusCode)")
 
 		if httpResponse.statusCode != 200 {
+			var apiErrorMessage: String? = nil
+			if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+			   let errorDict = json["error"] as? [String: Any],
+			   let message = errorDict["message"] as? String {
+				apiErrorMessage = message
+			}
+			
+			if let apiErrorMessage = apiErrorMessage {
+				print("[UMGeminiLite] API Error Message: \(apiErrorMessage)")
+			}
 			if let errorString = String(data: data, encoding: .utf8) {
 				print("[UMGeminiLite] Server Error Body: \(errorString)")
 			}
 			print("--------------------------------------------------")
-			throw URLError(.badServerResponse)
+			
+			let displayError = apiErrorMessage ?? "Bad server response (Status code: \(httpResponse.statusCode))"
+			throw NSError(domain: "GeminiError", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: displayError])
 		}
 
 		// Log response information
@@ -392,6 +404,10 @@ extension UMGeminiLite {
 			  let inlineData = firstPart.inlineData, // first part.inline data,
 			  let imageData = Data(base64Encoded: inlineData.data) else { //  data(base64 encoded
 
+			if let responseString = String(data: data, encoding: .utf8) {
+				print("[UMGeminiLite] Invalid image response structure. Raw response body:")
+				print(responseString)
+			}
 			throw NSError(domain: "GeminiError",
 						  code: -1,
 						  userInfo: [NSLocalizedDescriptionKey: "Invalid response structure or missing image"])
