@@ -31,7 +31,7 @@ struct CLIArgs {
 	var apiKey: String = "" // api key
 	var setKey: String? = nil // set key
 	var prompt: String = "" // prompt
-	var model: String = UMGeminiLite.Model.gemini25FlashLite.codeName // model
+	var model: String = UMGeminiLite.Model.gemini35Flash.codeName // model
 	var imageModel: String = UMGeminiLite.ImageModel.nanoBanana2.modelName // image model
 	var aspectRatio: String = "16:9" // aspect ratio
 	var size: String = "1K" // size
@@ -136,7 +136,7 @@ func runCLI() async {
 		exit(1)
 	}
 
-	let selectedModel = UMGeminiLite.Model(codeName: args.model) ?? .gemini25FlashLite //  u m gemini lite. model(code name
+	let selectedModel = UMGeminiLite.Model(codeName: args.model) ?? .gemini35Flash //  u m gemini lite. model(code name
 	var gemini = UMGeminiLite(model: selectedModel, apiKey: args.apiKey) //  u m gemini lite(model
 	gemini.imageModel = UMGeminiLite.ImageModel(modelName: args.imageModel) ?? .nanoBanana2
 

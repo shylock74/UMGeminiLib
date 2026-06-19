@@ -74,7 +74,7 @@ class OpenAI {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 180);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 300);
 
             // Use curl_multi to handle callbacks during wait (matching Gemini.php)
             $mh = curl_multi_init();
@@ -97,7 +97,7 @@ class OpenAI {
                 }
 
                 // Manual safety timeout
-                if (time() - $startTime > 185) {
+                if (time() - $startTime > 305) {
                     break;
                 }
             } while ($active && $status == CURLM_OK);

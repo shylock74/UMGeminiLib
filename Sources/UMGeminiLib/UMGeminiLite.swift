@@ -15,12 +15,9 @@ public struct UMGeminiLite: Codable {
 
 // Enum:  model
 	public enum Model: String, Codable, CaseIterable {
-		case gemini25Flash =            "Gemini 2.5 Flash"
-		case gemini25FlashLite =        "Gemini 2.5 Flash Lite"
-		case gemini25Pro =              "Gemini 2.5 Pro"
-		case gemini30ProPreview =       "Gemini 3 Pro Preview"
 		case gemini31ProPreviw =        "Gemini 3.1 Pro Preview"
-		case gemini31FlashLitePreview = "Gemini 3.1 Flash Lite Preview"
+		case gemini31FlashLite = 		"Gemini 3.1 Flash Lite "
+		case gemini35Flash =			"Gemini 3.5 Flash"
 
 		public var displayName: String { // display name
 			rawValue
@@ -28,12 +25,16 @@ public struct UMGeminiLite: Codable {
 
 		public var codeName: String { // code name
 			switch self {
-				case .gemini25Flash:             return "gemini-2.5-flash"
-				case .gemini25FlashLite:         return "gemini-2.5-flash-lite"
-				case .gemini25Pro:               return "gemini-2.5-pro"
-				case .gemini30ProPreview:        return "gemini-3-pro-preview"
+//				case .gemini25Flash:             return "gemini-2.5-flash"
+//				case .gemini25FlashLite:         return "gemini-2.5-flash-lite"
+//				case .gemini25Pro:               return "gemini-2.5-pro"
+//				case .gemini30ProPreview:        return "gemini-3-pro-preview"
 				case .gemini31ProPreviw:         return "gemini-3.1-pro-preview"
-				case .gemini31FlashLitePreview:  return "gemini-3.1-flash-lite-preview"
+//				case .gemini31FlashLitePreview:  return "gemini-3.1-flash-lite-preview"
+				case .gemini31FlashLite:
+					return "gemini-3.1-flash-lite"
+				case .gemini35Flash:
+					return "gemini-3.5-flash"
 			}
 		}
 
@@ -50,7 +51,7 @@ public struct UMGeminiLite: Codable {
 	public static func startup() {
 	}
 
-	public var model: Model = .gemini25FlashLite // model
+	public var model: Model = .gemini35Flash // model
 	public var imageModel: ImageModel = .nanoBanana2 // image model
 	public var apiKey: String = "" // api key
 
@@ -63,7 +64,7 @@ public struct UMGeminiLite: Codable {
 
 
 // Initializer
-	public init(model: Model = .gemini31FlashLitePreview, apiKey: String = "") {
+	public init(model: Model = .gemini35Flash, apiKey: String = "") {
 		self.model = model
 		self.apiKey = apiKey
 	}
@@ -72,11 +73,11 @@ public struct UMGeminiLite: Codable {
 // Initializer
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self) // decoder.container(keyed by
-		self.model = (try? container.decodeIfPresent(Model.self, forKey: .model)) ?? .gemini25FlashLite
+		self.model = (try? container.decodeIfPresent(Model.self, forKey: .model)) ?? .gemini35Flash
 		self.apiKey = (try? container.decodeIfPresent(String.self, forKey: .apiKey)) ?? ""
 	}
 
-	public static let ultiMedia = UMGeminiLite(model: .gemini25FlashLite,
+	public static let ultiMedia = UMGeminiLite(model: .gemini35Flash,
 											   apiKey: "")
 
 	static var lastRequest: Date = .distantPast
@@ -111,6 +112,7 @@ public struct UMGeminiLite: Codable {
 
 		let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/\(model.codeName):generateContent")! //  u r l(string
 		var request = URLRequest(url: url) //  u r l request(url
+		request.timeoutInterval = 300.0
 		request.httpMethod = "POST"
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.setValue(apiKey, forHTTPHeaderField: "x-goog-api-key")

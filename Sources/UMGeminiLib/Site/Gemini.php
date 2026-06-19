@@ -64,7 +64,7 @@ class Gemini {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 180); // max 180s per la risposta Gemini
+            curl_setopt($ch, CURLOPT_TIMEOUT, 300); // max 300s per la risposta Gemini
 
             // Utilizziamo curl_multi per poter gestire il callback durante l'attesa
             $mh = curl_multi_init();
@@ -87,7 +87,7 @@ class Gemini {
                 }
 
                 // Controllo timeout manuale per sicurezza
-                if (time() - $startTime > 185) {
+                if (time() - $startTime > 305) {
                     break;
                 }
             } while ($active && $status == CURLM_OK);
