@@ -7,6 +7,22 @@ import Foundation
 import CoreImage
 
 
+// Structure:  u m chat element
+public struct UMChatElement {
+	public var role: String // "user", "model", etc.
+	public var textPrompt: String
+	public var images: [CIImage]
+	public var audioData: [(data: Data, mimeType: String)]
+
+	public init(role: String = "user", textPrompt: String, images: [CIImage] = [], audioData: [(data: Data, mimeType: String)] = []) {
+		self.role = role
+		self.textPrompt = textPrompt
+		self.images = images
+		self.audioData = audioData
+	}
+}
+
+
 // Structure:  u m gemini lite
 public struct UMGeminiLite: Codable {
 
@@ -159,6 +175,154 @@ public struct UMGeminiLite: Codable {
 		}
 
 		return firstPartText
+	}
+
+
+// Executes logic relative to: generate chat
+	public func generateChat(elements: [UMChatElement]) async throws -> String {
+		var contentsArray: [[String: Any]] = []
+
+		for element in elements {
+			let parts = try self.parts(forTextPrompt: element.textPrompt, images: element.images, audioData: element.audioData)
+			contentsArray.append([
+				"role": element.role,
+				"parts": parts
+			])
+		}
+
+		let requestPayload: [String: Any] = [ // request payload
+			"contents": contentsArray,
+			"generationConfig": [
+				"responseModalities": [
+					["TEXT"]
+				]
+			]
+		]
+
+		let jsonData = try JSONSerialization.data(withJSONObject: requestPayload) //  j s o n serialization.data(with j s o n object
+
+		let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/\(model.codeName):generateContent")! //  u r l(string
+		var request = URLRequest(url: url) //  u r l request(url
+		request.timeoutInterval = 600.0
+		request.httpMethod = "POST"
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.setValue(apiKey, forHTTPHeaderField: "x-goog-api-key")
+		request.httpBody = jsonData
+
+		let (data, response) = try await URLSession.shared.data(for: request) //  u r l session.shared.data(for
+
+		guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+			let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+			var apiErrorMessage: String? = nil
+			if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+			   let errorDict = json["error"] as? [String: Any],
+			   let message = errorDict["message"] as? String {
+				apiErrorMessage = message
+			}
+			
+			print("--------------------------------------------------")
+			print("[UMGeminiLite] API Response Status Code: \(statusCode)")
+			if let apiErrorMessage = apiErrorMessage {
+				print("[UMGeminiLite] API Error Message: \(apiErrorMessage)")
+			}
+			if let errorString = String(data: data, encoding: .utf8) {
+				print("[UMGeminiLite] Server Error Body: \(errorString)")
+			}
+			print("--------------------------------------------------")
+			
+			let displayError = apiErrorMessage ?? "Bad server response (Status code: \(statusCode))"
+			throw NSError(domain: "GeminiError", code: statusCode, userInfo: [NSLocalizedDescriptionKey: displayError])
+		}
+
+		guard let responseJSON = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+			  let candidates = responseJSON["candidates"] as? [[String: Any]], // [[ string
+			  let firstCandidate = candidates.first, // candidates.first,
+			  let content = firstCandidate["content"] as? [String: Any], // [ string
+			  let parts = content["parts"] as? [[String: Any]], // [[ string
+			  let firstPartText = parts.first?["text"] as? String else { // {
+			if let responseString = String(data: data, encoding: .utf8) {
+				print("--------------------------------------------------")
+				print("[UMGeminiLite] Invalid response structure. Raw response body:")
+				print(responseString)
+				print("--------------------------------------------------")
+			}
+			throw NSError(domain: "GeminiError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
+		}
+
+		return firstPartText
+	}
+
+
+// Executes logic relative to: generate interaction
+	public func generateInteraction(input textPrompt: String, images: [CIImage] = [], audioData: [(data: Data, mimeType: String)] = [], previousInteractionId: String? = nil) async throws -> (text: String, interactionId: String) {
+		
+		var requestPayload: [String: Any] = [ // request payload
+			"model": model.codeName
+		]
+		
+		if images.isEmpty && audioData.isEmpty {
+			requestPayload["input"] = textPrompt
+		} else {
+			let parts = try self.parts(forTextPrompt: textPrompt, images: images, audioData: audioData)
+			requestPayload["input"] = parts
+		}
+		
+		if let prevId = previousInteractionId {
+			requestPayload["previous_interaction_id"] = prevId
+		}
+
+		let jsonData = try JSONSerialization.data(withJSONObject: requestPayload) //  j s o n serialization.data(with j s o n object
+
+		let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/interactions")! //  u r l(string
+		var request = URLRequest(url: url) //  u r l request(url
+		request.timeoutInterval = 600.0
+		request.httpMethod = "POST"
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+		request.setValue(apiKey, forHTTPHeaderField: "x-goog-api-key")
+		request.httpBody = jsonData
+
+		let (data, response) = try await URLSession.shared.data(for: request) //  u r l session.shared.data(for
+
+		guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+			let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
+			var apiErrorMessage: String? = nil
+			if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+			   let errorDict = json["error"] as? [String: Any],
+			   let message = errorDict["message"] as? String {
+				apiErrorMessage = message
+			}
+			
+			print("--------------------------------------------------")
+			print("[UMGeminiLite] API Response Status Code: \(statusCode)")
+			if let apiErrorMessage = apiErrorMessage {
+				print("[UMGeminiLite] API Error Message: \(apiErrorMessage)")
+			}
+			if let errorString = String(data: data, encoding: .utf8) {
+				print("[UMGeminiLite] Server Error Body: \(errorString)")
+			}
+			print("--------------------------------------------------")
+			
+			let displayError = apiErrorMessage ?? "Bad server response (Status code: \(statusCode))"
+			throw NSError(domain: "GeminiError", code: statusCode, userInfo: [NSLocalizedDescriptionKey: displayError])
+		}
+
+		guard let responseJSON = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+			  let interactionId = responseJSON["id"] as? String,
+			  let steps = responseJSON["steps"] as? [[String: Any]],
+			  let firstStep = steps.first,
+			  let content = firstStep["content"] as? [[String: Any]],
+			  let firstContent = content.first,
+			  let text = firstContent["text"] as? String else {
+			if let responseString = String(data: data, encoding: .utf8) {
+				print("--------------------------------------------------")
+				print("[UMGeminiLite] Invalid response structure. Raw response body:")
+				print(responseString)
+				print("--------------------------------------------------")
+			}
+			throw NSError(domain: "GeminiError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
+		}
+
+		return (text, interactionId)
 	}
 }
 
