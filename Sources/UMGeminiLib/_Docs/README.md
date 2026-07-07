@@ -24,11 +24,13 @@ The main entry point for the library. It handles authentication, request throttl
 
 ### Main API Methods
 
-#### Text & Vision Generation
+#### Text, Chat & Stateful Generation
 ```swift
 func generateText(textPrompt: String, images: [CIImage] = [], audioData: [...]) async throws -> String
+func generateChat(elements: [UMChatElement]) async throws -> String
+func generateInteraction(input textPrompt: String, images: [CIImage] = [], audioData: [...], previousInteractionId: String? = nil) async throws -> (text: String, interactionId: String)
 ```
-Generates a response based on text, multiple images, or audio data.
+Generates responses based on single prompts, multi-turn chat elements, or stateful interactions via the `/v1beta/interactions` endpoint.
 
 #### Image Analysis
 *   **`describe(image:)`**: Returns keywords describing the image.

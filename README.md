@@ -20,6 +20,8 @@ A lightweight Swift package that wraps Google's **Gemini** and **Imagen** APIs b
     - [Text Generation](#text-generation)
     - [Text from Images](#text-from-images)
     - [Text from Audio](#text-from-audio)
+    - [Chat Generation](#chat-generation)
+    - [Stateful Interactions](#stateful-interactions)
     - [Image Generation](#image-generation)
     - [Image-to-Image](#image-to-image)
     - [Image Description & Title](#image-description--title)
@@ -150,6 +152,39 @@ let summary = try await gemini.generateText(
 ```
 
 Supported MIME types: `audio/mp3`, `audio/wav`, `audio/m4a`, `audio/ogg`, `audio/mpeg`, `audio/flac`, `audio/aac`.
+
+### Chat Generation
+
+For multi-turn conversations, use `UMChatElement` to define roles (`"user"`, `"model"`, `"system"`) and optionally attach images/audio.
+
+```swift
+let elements = [
+    UMChatElement(role: "user", textPrompt: "Hi, I'm Bob."),
+    UMChatElement(role: "model", textPrompt: "Hello Bob!"),
+    UMChatElement(role: "user", textPrompt: "What is my name?")
+]
+
+let reply = try await gemini.generateChat(elements: elements)
+print(reply) // "Your name is Bob."
+```
+
+### Stateful Interactions
+
+The `generateInteraction` method interacts with the `v1beta/interactions` endpoint. It returns an `interactionId` that you can pass back in subsequent calls to maintain context automatically on the server side.
+
+```swift
+// First interaction
+let (reply1, id1) = try await gemini.generateInteraction(
+    input: "I have 2 dogs in my house."
+)
+
+// Second interaction (passing previous interaction ID)
+let (reply2, id2) = try await gemini.generateInteraction(
+    input: "How many paws are in my house?",
+    previousInteractionId: id1
+)
+print(reply2) // "There are 8 paws..."
+```
 
 ### Image Generation
 
@@ -331,6 +366,14 @@ public struct UMGeminiLite: Codable, Equatable {
     public func generateText(textPrompt: String,
                              images: [CIImage] = [],
                              audioData: [(data: Data, mimeType: String)] = []) async throws -> String
+
+    // Chat & Stateful
+    public func generateChat(elements: [UMChatElement]) async throws -> String
+    
+    public func generateInteraction(input textPrompt: String,
+                                    images: [CIImage] = [],
+                                    audioData: [(data: Data, mimeType: String)] = [],
+                                    previousInteractionId: String? = nil) async throws -> (text: String, interactionId: String)
 
     // Images
     public func generateImageWithNanoBanana(model: ImageModel,
