@@ -112,7 +112,7 @@ public struct UMGeminiLite: Codable {
 
 		let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/\(model.codeName):generateContent")! //  u r l(string
 		var request = URLRequest(url: url) //  u r l request(url
-		request.timeoutInterval = 300.0
+		request.timeoutInterval = 600.0
 		request.httpMethod = "POST"
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 		request.setValue(apiKey, forHTTPHeaderField: "x-goog-api-key")

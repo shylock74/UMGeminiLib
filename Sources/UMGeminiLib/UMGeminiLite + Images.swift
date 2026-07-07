@@ -314,7 +314,7 @@ extension UMGeminiLite {
 		}
 
 		var request = URLRequest(url: url) //  u r l request(url
-		request.timeoutInterval = 300.0
+		request.timeoutInterval = 600.0
 		request.httpMethod = "POST"
 		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 		
