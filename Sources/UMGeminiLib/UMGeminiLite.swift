@@ -309,8 +309,8 @@ public struct UMGeminiLite: Codable {
 		guard let responseJSON = try JSONSerialization.jsonObject(with: data) as? [String: Any],
 			  let interactionId = responseJSON["id"] as? String,
 			  let steps = responseJSON["steps"] as? [[String: Any]],
-			  let firstStep = steps.first,
-			  let content = firstStep["content"] as? [[String: Any]],
+			  let outputStep = steps.first(where: { $0["type"] as? String == "model_output" }),
+			  let content = outputStep["content"] as? [[String: Any]],
 			  let firstContent = content.first,
 			  let text = firstContent["text"] as? String else {
 			if let responseString = String(data: data, encoding: .utf8) {
