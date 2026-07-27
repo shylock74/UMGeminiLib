@@ -34,6 +34,7 @@ public struct UMGeminiLite: Codable {
 		case gemini31ProPreviw =        "Gemini 3.1 Pro Preview"
 		case gemini31FlashLite = 		"Gemini 3.1 Flash Lite "
 		case gemini35Flash =			"Gemini 3.5 Flash"
+		case gemini36Flash =			"Gemini 3.6 Flash"
 
 		public var displayName: String { // display name
 			rawValue
@@ -51,6 +52,8 @@ public struct UMGeminiLite: Codable {
 					return "gemini-3.1-flash-lite"
 				case .gemini35Flash:
 					return "gemini-3.5-flash"
+				case .gemini36Flash:
+					return "gemini-3.6-flash"
 			}
 		}
 
@@ -67,7 +70,7 @@ public struct UMGeminiLite: Codable {
 	public static func startup() {
 	}
 
-	public var model: Model = .gemini35Flash // model
+	public var model: Model = .gemini36Flash // model
 	public var imageModel: ImageModel = .nanoBanana2 // image model
 	public var apiKey: String = "" // api key
 
@@ -80,7 +83,7 @@ public struct UMGeminiLite: Codable {
 
 
 // Initializer
-	public init(model: Model = .gemini35Flash, apiKey: String = "") {
+	public init(model: Model = .gemini36Flash, apiKey: String = "") {
 		self.model = model
 		self.apiKey = apiKey
 	}
@@ -89,11 +92,11 @@ public struct UMGeminiLite: Codable {
 // Initializer
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self) // decoder.container(keyed by
-		self.model = (try? container.decodeIfPresent(Model.self, forKey: .model)) ?? .gemini35Flash
+		self.model = (try? container.decodeIfPresent(Model.self, forKey: .model)) ?? .gemini36Flash
 		self.apiKey = (try? container.decodeIfPresent(String.self, forKey: .apiKey)) ?? ""
 	}
 
-	public static let ultiMedia = UMGeminiLite(model: .gemini35Flash,
+	public static let ultiMedia = UMGeminiLite(model: .gemini36Flash,
 											   apiKey: "")
 
 	static var lastRequest: Date = .distantPast
