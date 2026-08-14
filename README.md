@@ -419,6 +419,7 @@ public struct UMGeminiLite: Codable, Equatable {
 | `.gemini31FlashLitePreview` | `gemini-3.1-flash-lite-preview` |
 | `.gemini35Flash` | `gemini-3.5-flash` |
 | `.gemini36Flash` | `gemini-3.6-flash` |
+| `.gemini37Flash` | `gemini-3.7-flash` |
 
 Construct from a raw codename:
 

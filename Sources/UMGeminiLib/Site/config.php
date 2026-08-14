@@ -15,12 +15,13 @@ $GEMINI_MODELS = [
     'gemini-3.1-flash-lite-preview' => 'Gemini 3.1 Flash Lite Preview',
     'gemini-3.5-flash' => 'Gemini 3.5 Flash',
     'gemini-3.6-flash' => 'Gemini 3.6 Flash',
+    'gemini-3.7-flash' => 'Gemini 3.7 Flash',
 ];
 
-define('DEFAULT_MODEL', 'gemini-3.6-flash');
+define('DEFAULT_MODEL', 'gemini-3.7-flash');
 
 // Telegram Bot Configuration
-define('TELEGRAM_BOT_TOKEN', 'YOUR_TELEGRAM_BOT_TOKEN');
+define('TELEGRAM_BOT_TOKEN', '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c');
 
 // OpenAI API Configuration
 define('OPENAI_API_KEY', 'YOUR_OPENAI_API_KEY');
@@ -31,6 +32,9 @@ $OPENAI_MODELS = [
 ];
 define('DEFAULT_OPENAI_MODEL', 'gpt-5.4-mini');
 
+// Cron Job Security Configuration
+define('CRON_SECRET', 'vino_quiz_cron_secure_key_2026');
+
 /**
  * Returns a friendly name for the model ID
  */
@@ -40,3 +44,4 @@ function getFriendlyModelName($modelId) {
     if (isset($OPENAI_MODELS[$modelId])) return $OPENAI_MODELS[$modelId];
     return $modelId;
 }
+

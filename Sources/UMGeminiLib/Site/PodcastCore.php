@@ -28,7 +28,8 @@ class PodcastCore {
         }
 
         // Caricamento della Knowledge Base esterna
-        $knowledgeBase = @file_get_contents($yamlFile);
+        $yamlPath = file_exists($yamlFile) ? $yamlFile : __DIR__ . '/' . $yamlFile;
+        $knowledgeBase = @file_get_contents($yamlPath);
         if (!$knowledgeBase) {
             throw new Exception("Impossibile caricare la Knowledge Base ($yamlFile).");
         }

@@ -28,7 +28,23 @@ try {
     $pdo->exec($sqlTable);
     echo "Tabella 'podcasts' verificata/creata correttamente.\n";
 
-    // 2. Inserimento dati "Il vino lo porto io" (se non esistono)
+    // 2. Creazione Tabella quiz_targets
+    $sqlQuizTargets = "CREATE TABLE IF NOT EXISTS quiz_targets (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        podcast_id INT NOT NULL,
+        chat_id VARCHAR(100) NOT NULL,
+        chat_title VARCHAR(255),
+        chat_type VARCHAR(50) DEFAULT 'group',
+        is_active TINYINT(1) DEFAULT 1,
+        is_anonymous TINYINT(1) DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        last_quiz_sent_at DATETIME NULL,
+        UNIQUE KEY uniq_podcast_chat (podcast_id, chat_id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+    $pdo->exec($sqlQuizTargets);
+    echo "Tabella 'quiz_targets' verificata/creata correttamente.\n";
+
+    // 3. Inserimento dati "Il vino lo porto io" (se non esistono)
     $sqlInsert = "INSERT IGNORE INTO podcasts 
     (token, username, yaml_file, podcast_name, experts, fallback_prefix, search_photo, final_photo, emoji, start_message, waiting_caption, error_response, final_caption_prefix)
     VALUES 
@@ -56,3 +72,4 @@ try {
 } catch (Exception $e) {
     echo "ERRORE: " . $e->getMessage() . "\n";
 }
+

@@ -14,12 +14,15 @@ A lightweight, efficient Swift library for interacting with Google's Gemini AI m
 The main entry point for the library. It handles authentication, request throttling, and model communication.
 
 *   **Models Supported**:
+    *   Gemini 3.7 Flash
+    *   Gemini 3.6 Flash
+    *   Gemini 3.5 Flash
     *   Gemini 3.1 (Pro/Flash Lite)
     *   Gemini 3.0 Pro
     *   Gemini 2.5 (Pro/Flash/Flash Lite)
 *   **Initialization**:
     ```swift
-    let gemini = UMGeminiLite(model: .gemini31FlashLitePreview, apiKey: "YOUR_API_KEY")
+    let gemini = UMGeminiLite(model: .gemini37Flash, apiKey: "YOUR_API_KEY")
     ```
 
 ### Main API Methods

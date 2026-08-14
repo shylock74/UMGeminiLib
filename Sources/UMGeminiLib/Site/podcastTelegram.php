@@ -12,25 +12,40 @@ require_once 'PodcastCore.php';
 require_once 'config.php';
 
 // 1. Identificazione del bot tramite token nella URL (es: podcastTelegram.php?token=ABC)
-$token = $_GET['token'] ?? null;
-
-if (!$token) {
-    file_put_contents('telegram_error.log', "[" . date('Y-m-d H:i:s') . "] Token mancante nella URL." . PHP_EOL, FILE_APPEND);
-    exit;
-}
+$token = $_GET['token'] ?? (defined('TELEGRAM_BOT_TOKEN') && TELEGRAM_BOT_TOKEN !== 'YOUR_TELEGRAM_BOT_TOKEN' ? TELEGRAM_BOT_TOKEN : '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c');
 
 // 2. Lookup della configurazione nel Database
-try {
-    $stmt = $pdo->prepare("SELECT * FROM podcasts WHERE token = :token");
-    $stmt->execute([':token' => $token]);
-    $config = $stmt->fetch();
+$defaultConfig = [
+    'id' => 1,
+    'token' => $token,
+    'username' => 'IVLPITest1_bot',
+    'yaml_file' => 'vinoKB.yaml',
+    'podcast_name' => 'Il vino lo porto io',
+    'experts' => 'del Sommelier Marco Barbetti e dello Chef/sommelier Gabriele Palermo',
+    'fallback_prefix' => 'Nel podcast non ci sono informazioni relative a questo vino o a questo piatto, questo è il risultato della mia ricerca: ',
+    'search_photo' => 'VinoBot_Search.jpg',
+    'final_photo' => 'VinoBot.jpg',
+    'emoji' => '🍷',
+    'start_message' => "Ciao %s! Sono il Sommelier AI del podcast 'Il vino lo porto io'. Chiedimi pure un consiglio su cosa abbinare al tuo prossimo piatto! 🍷",
+    'waiting_caption' => "Attendi un attimo %s, sto cercando le informazioni... 🍷",
+    'error_response' => "Ops! Ho avuto un piccolo problema tecnico nel versare il vino. Riprova tra poco! 🍷",
+    'final_caption_prefix' => "🍷 Ecco il mio consiglio per %s:"
+];
 
-    if (!$config) {
-        throw new Exception("Configurazione non trovata per il token fornito.");
+try {
+    if (isset($pdo)) {
+        $stmt = $pdo->prepare("SELECT * FROM podcasts WHERE token = :token");
+        $stmt->execute([':token' => $token]);
+        $config = $stmt->fetch();
+        if (!$config) {
+            $config = $defaultConfig;
+        }
+    } else {
+        $config = $defaultConfig;
     }
 } catch (Exception $e) {
-    file_put_contents('telegram_error.log', "[" . date('Y-m-d H:i:s') . "] Errore DB: " . $e->getMessage() . PHP_EOL, FILE_APPEND);
-    exit;
+    file_put_contents('telegram_error.log', "[" . date('Y-m-d H:i:s') . "] Errore DB: " . $e->getMessage() . " - Uso configurazione predefinita." . PHP_EOL, FILE_APPEND);
+    $config = $defaultConfig;
 }
 
 // 3. Ricezione dell'input da Telegram
@@ -45,8 +60,20 @@ if (!$update || !isset($update["update_id"])) {
     exit;
 }
 
+// --- REGISTRAZIONE AUTOMATICA CHAT / GRUPPO PER I QUIZ ---
+$chatObj = $update["message"]["chat"] ?? $update["my_chat_member"]["chat"] ?? $update["channel_post"]["chat"] ?? null;
+if ($chatObj && isset($pdo)) {
+    $cId = $chatObj["id"] ?? null;
+    $cType = $chatObj["type"] ?? "private";
+    $cTitle = $chatObj["title"] ?? ($chatObj["first_name"] ?? ("Chat " . $cId));
+    if ($cId) {
+        registerTelegramChat($pdo, $config['id'], $cId, $cTitle, $cType);
+    }
+}
+
 $updateId = $update["update_id"];
 $cacheFile = 'processed_updates_' . $config['id'] . '.log';
+
 
 // --- DEDUPLICAZIONE ---
 if (file_exists($cacheFile)) {
@@ -105,7 +132,10 @@ if ($text === '/start') {
 sendTelegramRequest($token, 'sendChatAction', ['chat_id' => $chatId, 'action' => 'typing']);
 
 // 2. Invio immagine di attesa
-$searchPhoto = file_exists($config['search_photo']) ? new CURLFile($config['search_photo']) : 'https://ulti.media/UMGemini/' . $config['search_photo'];
+$searchPhotoPath = !empty($config['search_photo']) && file_exists($config['search_photo']) 
+    ? $config['search_photo'] 
+    : (!empty($config['search_photo']) && file_exists(__DIR__ . '/' . $config['search_photo']) ? __DIR__ . '/' . $config['search_photo'] : null);
+$searchPhoto = $searchPhotoPath ? new CURLFile($searchPhotoPath) : ('https://ulti.media/UMGemini/' . ($config['search_photo'] ?? 'VinoBot_Search.jpg'));
 $waitingCaption = sprintf($config['waiting_caption'], $firstName);
 
 $waitingMessage = sendTelegramRequest($token, 'sendPhoto', [
@@ -117,6 +147,20 @@ $waitingMessage = sendTelegramRequest($token, 'sendPhoto', [
 
 $waitingData = json_decode($waitingMessage, true);
 $waitingMessageId = $waitingData['result']['message_id'] ?? null;
+
+// Chiusura immediata della connessione HTTP con Telegram per evitare il timeout del webhook (10-20s)
+if (function_exists('fastcgi_finish_request')) {
+    fastcgi_finish_request();
+} else {
+    if (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+    header('Connection: close');
+    header('Content-Length: 0');
+    http_response_code(200);
+    @ob_flush();
+    @flush();
+}
 
 // 3. Chiamata alla logica centralizzata PodcastCore
 try {
@@ -287,7 +331,10 @@ try {
 }
 
 // 4. Invio della FOTO finale
-$finalPhoto = file_exists($config['final_photo']) ? new CURLFile($config['final_photo']) : 'https://ulti.media/UMGemini/' . $config['final_photo'];
+$finalPhotoPath = !empty($config['final_photo']) && file_exists($config['final_photo']) 
+    ? $config['final_photo'] 
+    : (!empty($config['final_photo']) && file_exists(__DIR__ . '/' . $config['final_photo']) ? __DIR__ . '/' . $config['final_photo'] : null);
+$finalPhoto = $finalPhotoPath ? new CURLFile($finalPhotoPath) : ('https://ulti.media/UMGemini/' . ($config['final_photo'] ?? 'VinoBot.jpg'));
 $finalCaption = sprintf($config['final_caption_prefix'], $firstName);
 
 sendTelegramRequest($token, 'sendPhoto', [
@@ -296,7 +343,7 @@ sendTelegramRequest($token, 'sendPhoto', [
     'caption' => $finalCaption
 ]);
 
-usleep(500000);
+usleep(300000);
 
 // 5. Invio della RISPOSTA completa
 // Converti Markdown di Gemini in Markdown v1 compatibile con Telegram
@@ -305,25 +352,13 @@ $response = preg_replace('/__(.+?)__/s', '_$1_', $response);              // __i
 $response = preg_replace('/^#{1,6}\s+/m', '', $response);                 // ## titoli → rimossi
 $response = preg_replace('/```[a-z]*\n?(.+?)```/s', '`$1`', $response);  // ```code``` → `code`
 
-// Usa la domanda senza Markdown per evitare rotture del parser
-$finalText = "Hai chiesto: " . $text . "\n\n";
+// Sanitizzazione del testo utente per non rompere il Markdown
+$escapedText = str_replace(['_', '*', '`', '['], ['\\_', '\\*', '\\`', '\\['], $text);
+$finalText = "*Hai chiesto:* " . $escapedText . "\n\n";
 $finalText .= $response;
 
-    $sendResult = sendTelegramRequest($token, 'sendMessage', [
-        'chat_id' => $chatId,
-        'text' => $finalText,
-        'parse_mode' => 'Markdown'
-    ]);
-    
-    // Se l'invio con Markdown fallisce (es. per caratteri speciali non chiusi), riprova in formato piano
-    $sendData = json_decode($sendResult, true);
-    if (!$sendData || !$sendData['ok']) {
-        $sendResult = sendTelegramRequest($token, 'sendMessage', [
-            'chat_id' => $chatId,
-            'text' => $finalText
-        ]);
-    }
-    file_put_contents($logFile, "[" . date('Y-m-d H:i:s') . "] SEND_MSG result: " . $sendResult . PHP_EOL, FILE_APPEND);
+$sendResult = sendTelegramLongMessage($token, $chatId, $finalText, 'Markdown');
+file_put_contents($logFile, "[" . date('Y-m-d H:i:s') . "] SEND_MSG result: " . $sendResult . PHP_EOL, FILE_APPEND);
 
 // 6. Rimuovi i messaggi di attesa
 if ($pingMessageId) {
@@ -337,6 +372,72 @@ if ($waitingMessageId) {
         'chat_id' => $chatId,
         'message_id' => $waitingMessageId
     ]);
+}
+
+/**
+ * Invia un messaggio gestendo lo split automatico se supera il limite di 4096 caratteri di Telegram
+ */
+function sendTelegramLongMessage($botToken, $chatId, $text, $parseMode = 'Markdown')
+{
+    $maxLen = 4000;
+    if (mb_strlen($text, 'UTF-8') <= $maxLen) {
+        $sendResult = sendTelegramRequest($botToken, 'sendMessage', [
+            'chat_id' => $chatId,
+            'text' => $text,
+            'parse_mode' => $parseMode
+        ]);
+        $sendData = json_decode($sendResult, true);
+        if (!$sendData || empty($sendData['ok'])) {
+            $sendResult = sendTelegramRequest($botToken, 'sendMessage', [
+                'chat_id' => $chatId,
+                'text' => $text
+            ]);
+        }
+        return $sendResult;
+    }
+
+    $lines = explode("\n", $text);
+    $chunks = [];
+    $currentChunk = "";
+
+    foreach ($lines as $line) {
+        if (mb_strlen($currentChunk . "\n" . $line, 'UTF-8') > $maxLen) {
+            if (!empty($currentChunk)) {
+                $chunks[] = $currentChunk;
+                $currentChunk = $line;
+            } else {
+                $subChunks = str_split($line, $maxLen);
+                foreach ($subChunks as $sc) {
+                    $chunks[] = $sc;
+                }
+                $currentChunk = "";
+            }
+        } else {
+            $currentChunk = empty($currentChunk) ? $line : ($currentChunk . "\n" . $line);
+        }
+    }
+    if (!empty(trim($currentChunk))) {
+        $chunks[] = $currentChunk;
+    }
+
+    $lastResult = null;
+    foreach ($chunks as $chunk) {
+        $sendResult = sendTelegramRequest($botToken, 'sendMessage', [
+            'chat_id' => $chatId,
+            'text' => $chunk,
+            'parse_mode' => $parseMode
+        ]);
+        $sendData = json_decode($sendResult, true);
+        if (!$sendData || empty($sendData['ok'])) {
+            $sendResult = sendTelegramRequest($botToken, 'sendMessage', [
+                'chat_id' => $chatId,
+                'text' => $chunk
+            ]);
+        }
+        $lastResult = $sendResult;
+        usleep(300000);
+    }
+    return $lastResult;
 }
 
 /**

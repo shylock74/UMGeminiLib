@@ -87,12 +87,18 @@ class OpenAI {
             do {
                 $status = curl_multi_exec($mh, $active);
                 if ($active) {
-                    curl_multi_select($mh, 0.1);
+                    if (curl_multi_select($mh, 0.1) === -1) {
+                        usleep(50000);
+                    }
                 }
                 
                 // Call onWait every 5 seconds
                 if ($onWait && (time() - $lastWaitCall) >= 5) {
-                    call_user_func($onWait, $this->model, $attempt + 1);
+                    try {
+                        call_user_func($onWait, $this->model, $attempt + 1);
+                    } catch (Exception $cbEx) {
+                        // Evita interruzione per errore nel callback
+                    }
                     $lastWaitCall = time();
                 }
 

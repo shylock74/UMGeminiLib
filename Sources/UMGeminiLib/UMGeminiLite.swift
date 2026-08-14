@@ -35,6 +35,7 @@ public struct UMGeminiLite: Codable {
 		case gemini31FlashLite = 		"Gemini 3.1 Flash Lite "
 		case gemini35Flash =			"Gemini 3.5 Flash"
 		case gemini36Flash =			"Gemini 3.6 Flash"
+		case gemini37Flash =			"Gemini 3.7 Flash"
 
 		public var displayName: String { // display name
 			rawValue
@@ -54,6 +55,8 @@ public struct UMGeminiLite: Codable {
 					return "gemini-3.5-flash"
 				case .gemini36Flash:
 					return "gemini-3.6-flash"
+				case .gemini37Flash:
+					return "gemini-3.7-flash"
 			}
 		}
 
@@ -70,7 +73,7 @@ public struct UMGeminiLite: Codable {
 	public static func startup() {
 	}
 
-	public var model: Model = .gemini36Flash // model
+	public var model: Model = .gemini37Flash // model
 	public var imageModel: ImageModel = .nanoBanana2 // image model
 	public var apiKey: String = "" // api key
 
@@ -83,7 +86,7 @@ public struct UMGeminiLite: Codable {
 
 
 // Initializer
-	public init(model: Model = .gemini36Flash, apiKey: String = "") {
+	public init(model: Model = .gemini37Flash, apiKey: String = "") {
 		self.model = model
 		self.apiKey = apiKey
 	}
@@ -92,11 +95,11 @@ public struct UMGeminiLite: Codable {
 // Initializer
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self) // decoder.container(keyed by
-		self.model = (try? container.decodeIfPresent(Model.self, forKey: .model)) ?? .gemini36Flash
+		self.model = (try? container.decodeIfPresent(Model.self, forKey: .model)) ?? .gemini37Flash
 		self.apiKey = (try? container.decodeIfPresent(String.self, forKey: .apiKey)) ?? ""
 	}
 
-	public static let ultiMedia = UMGeminiLite(model: .gemini36Flash,
+	public static let ultiMedia = UMGeminiLite(model: .gemini37Flash,
 											   apiKey: "")
 
 	static var lastRequest: Date = .distantPast
@@ -167,7 +170,7 @@ public struct UMGeminiLite: Codable {
 			  let firstCandidate = candidates.first, // candidates.first,
 			  let content = firstCandidate["content"] as? [String: Any], // [ string
 			  let parts = content["parts"] as? [[String: Any]], // [[ string
-			  let firstPartText = parts.first?["text"] as? String else { // {
+			  !parts.isEmpty else { // {
 			if let responseString = String(data: data, encoding: .utf8) {
 				print("--------------------------------------------------")
 				print("[UMGeminiLite] Invalid response structure. Raw response body:")
@@ -177,7 +180,15 @@ public struct UMGeminiLite: Codable {
 			throw NSError(domain: "GeminiError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
 		}
 
-		return firstPartText
+		let textParts = parts.compactMap { part -> String? in
+			if let isThought = part["thought"] as? Bool, isThought {
+				return nil
+			}
+			return part["text"] as? String
+		}
+		let resultText = textParts.isEmpty ? (parts.first?["text"] as? String ?? "") : textParts.joined()
+
+		return resultText
 	}
 
 
@@ -242,7 +253,7 @@ public struct UMGeminiLite: Codable {
 			  let firstCandidate = candidates.first, // candidates.first,
 			  let content = firstCandidate["content"] as? [String: Any], // [ string
 			  let parts = content["parts"] as? [[String: Any]], // [[ string
-			  let firstPartText = parts.first?["text"] as? String else { // {
+			  !parts.isEmpty else { // {
 			if let responseString = String(data: data, encoding: .utf8) {
 				print("--------------------------------------------------")
 				print("[UMGeminiLite] Invalid response structure. Raw response body:")
@@ -252,7 +263,15 @@ public struct UMGeminiLite: Codable {
 			throw NSError(domain: "GeminiError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
 		}
 
-		return firstPartText
+		let textParts = parts.compactMap { part -> String? in
+			if let isThought = part["thought"] as? Bool, isThought {
+				return nil
+			}
+			return part["text"] as? String
+		}
+		let resultText = textParts.isEmpty ? (parts.first?["text"] as? String ?? "") : textParts.joined()
+
+		return resultText
 	}
 
 

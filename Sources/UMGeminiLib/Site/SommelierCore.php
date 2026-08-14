@@ -19,7 +19,8 @@ class SommelierCore {
         }
 
         // Caricamento della Knowledge Base esterna
-        $knowledgeBase = @file_get_contents('vinoKB.yaml');
+        $yamlPath = file_exists('vinoKB.yaml') ? 'vinoKB.yaml' : __DIR__ . '/vinoKB.yaml';
+        $knowledgeBase = @file_get_contents($yamlPath);
         if (!$knowledgeBase) {
             throw new Exception("Impossibile caricare la Knowledge Base (vinoKB.yaml).");
         }

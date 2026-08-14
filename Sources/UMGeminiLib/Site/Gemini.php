@@ -77,12 +77,18 @@ class Gemini {
             do {
                 $status = curl_multi_exec($mh, $active);
                 if ($active) {
-                    curl_multi_select($mh, 0.1);
+                    if (curl_multi_select($mh, 0.1) === -1) {
+                        usleep(50000);
+                    }
                 }
                 
                 // Se è passato il tempo per il callback (5 secondi)
                 if ($onWait && (time() - $lastWaitCall) >= 5) {
-                    call_user_func($onWait, $this->model, $attempt + 1);
+                    try {
+                        call_user_func($onWait, $this->model, $attempt + 1);
+                    } catch (Exception $cbEx) {
+                        // Evita che un errore nel callback interrompa la generazione
+                    }
                     $lastWaitCall = time();
                 }
 
@@ -118,13 +124,31 @@ class Gemini {
             // Controllo se la risposta è stata bloccata per sicurezza o altro motivo
             $finishReason = $result['candidates'][0]['finishReason'] ?? 'UNKNOWN';
             
-            if (!isset($result['candidates'][0]['content']['parts'][0]['text'])) {
-                $errorMsg = "Gemini API non ha restituito testo. Motivo: " . $finishReason . ". Risposta completa: " . $response;
+            $parts = $result['candidates'][0]['content']['parts'] ?? [];
+            if (empty($parts)) {
+                $errorMsg = "Gemini API non ha restituito parti di testo. Motivo: " . $finishReason . ". Risposta completa: " . $response;
                 file_put_contents('gemini_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
                 throw new Exception($errorMsg);
             }
 
-            $text = $result['candidates'][0]['content']['parts'][0]['text'];
+            $textParts = [];
+            foreach ($parts as $part) {
+                // Escludi blocchi di pensiero 'thought: true' (Gemini 2.5/3.x thinking models)
+                if (isset($part['thought']) && $part['thought'] === true) {
+                    continue;
+                }
+                if (isset($part['text'])) {
+                    $textParts[] = $part['text'];
+                }
+            }
+
+            $text = implode("", $textParts);
+
+            // Fallback se tutte le parti erano marcate thought o textParts è vuoto
+            if (empty(trim($text)) && isset($parts[0]['text'])) {
+                $text = $parts[0]['text'];
+            }
+
             if (empty(trim($text))) {
                 $errorMsg = "Gemini API ha restituito testo vuoto. Motivo: " . $finishReason . ". Risposta completa: " . $response;
                 file_put_contents('gemini_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
