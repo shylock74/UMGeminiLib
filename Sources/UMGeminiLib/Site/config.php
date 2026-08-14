@@ -3,7 +3,16 @@
  * Configuration for Gemini API
  */
 
-define('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY');
+// Caricamento configurazione locale / segreti se presenti
+if (file_exists(__DIR__ . '/config.local.php')) {
+
+    @require_once __DIR__ . '/config.local.php';
+}
+
+if (!defined('GEMINI_API_KEY')) {
+    define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: 'YOUR_GEMINI_API_KEY');
+}
+
 
 // Models mapping from UMGeminiLib
 $GEMINI_MODELS = [
