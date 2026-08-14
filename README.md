@@ -1,528 +1,480 @@
 # UMGeminiLib
 
-A lightweight Swift package that wraps Google's **Gemini** and **Imagen** APIs behind a clean `async`/`await` API. Ships with a bundled command-line tool (`UMGeminiCLI`) for automation and shell scripting.
+A high-performance Swift library, CLI tool, and AI automation suite powered by Google's **Gemini** and **Imagen** APIs.
 
-- **Text generation** (with optional image and audio input)
-- **Image generation** (Nano Banana & Imagen 4 model families)
-- **Multi-modal prompts** (text + images + audio in a single call)
-- **Image-aware helpers** (`describe(image:)`, `title(for:)`)
-- Cross-platform: **macOS · iOS · tvOS · visionOS**
+`UMGeminiLib` provides a native `async`/`await` Swift client for multimodal generation (text, image, audio), a companion command-line interface (`UMGeminiCLI`), and a full-stack PHP & Telegram AI bot platform with automated knowledge base Q&A, interactive quizzes, RSS news curation, and link click tracking.
 
 ---
 
 ## Table of Contents
 
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Library Usage](#library-usage)
-    - [Initialisation](#initialisation)
-    - [Text Generation](#text-generation)
-    - [Text from Images](#text-from-images)
-    - [Text from Audio](#text-from-audio)
-    - [Chat Generation](#chat-generation)
-    - [Stateful Interactions](#stateful-interactions)
-    - [Image Generation](#image-generation)
-    - [Image-to-Image](#image-to-image)
-    - [Image Description & Title](#image-description--title)
-    - [Rate-Limit Helper](#rate-limit-helper)
-- [CLI Usage (`UMGeminiCLI`)](#cli-usage-umgeminicli)
-    - [Build](#build)
-    - [Saving the API Key](#saving-the-api-key)
-    - [CLI Examples](#cli-examples)
-    - [CLI Arguments Reference](#cli-arguments-reference)
-- [API Reference](#api-reference)
-- [Error Handling](#error-handling)
-- [Project Structure](#project-structure)
-- [Credits & License](#credits--license)
+- [Overview](#overview)
+- [Architecture & Components](#architecture--components)
+- [Swift Library (`UMGeminiLib`)](#swift-library-umgeminilib)
+  - [Requirements & Platforms](#requirements--platforms)
+  - [Installation (SwiftPM & Xcode)](#installation-swiftpm--xcode)
+  - [Initialization](#initialization)
+  - [Public API Reference & Usage Examples](#public-api-reference--usage-examples)
+    - [Text & Multimodal Generation](#text--multimodal-generation)
+    - [Multi-Turn Chat History](#multi-turn-chat-history)
+    - [Token Counting](#token-counting)
+    - [Image Generation & Editing](#image-generation--editing)
+    - [Image Description & Title Generation](#image-description--title-generation)
+  - [Supported Models & Enums](#supported-models--enums)
+- [Command-Line Interface (`UMGeminiCLI`)](#command-line-interface-umgeminicli)
+  - [Build & Setup](#build--setup)
+  - [Command Arguments & Flags](#command-arguments--flags)
+  - [CLI Execution Examples](#cli-execution-examples)
+- [AI Bot & Automation Platform (`Site/`)](#ai-bot--automation-platform-site)
+  - [Knowledge Base & Sommelier Chatbot](#knowledge-base--sommelier-chatbot)
+  - [Automated AI Quiz Module](#automated-ai-quiz-module)
+  - [Daily News Editorial & OpenGraph Extraction](#daily-news-editorial--opengraph-extraction)
+  - [URL Shortener & Click Tracking (`r.php`)](#url-shortener--click-tracking-rphp)
+  - [Web Management Console (`manage_podcasts.php`)](#web-management-console-manage_podcastsphp)
+  - [Database Schema & Migrations](#database-schema--migrations)
+- [License & Authors](#license--authors)
 
 ---
 
-## Requirements
+## Overview
 
-| | |
+`UMGeminiLib` bridges modern Apple platform development (macOS, iOS, tvOS, visionOS) and backend web automation with Google Gemini:
+
+1. **Swift Library**: Native Swift 5/6 asynchronous client wrapping Gemini text/multimodal endpoints and Imagen/NanoBanana image synthesis.
+2. **CLI Executable**: Standalone terminal utility for text generation, batch media analysis, and image rendering.
+3. **Web & Bot Automation Suite**: Ready-to-deploy PHP backend and Telegram Bot platform designed for podcast knowledge bases, automated quiz distribution via native polls, daily enology RSS news generation with image attachment, and click-tracked URL redirection.
+
+---
+
+## Architecture & Components
+
+```
+UMGeminiLib/
+├── Package.swift                             # Swift Package manifest
+├── README.md                                 # Project documentation
+├── Sources/
+│   ├── UMGeminiLib/                          # Swift Framework Target
+│   │   ├── UMGeminiLite.swift                # Core Gemini client, text & chat APIs
+│   │   ├── UMGeminiLite + Images.swift       # Nano Banana & Imagen extensions
+│   │   └── Site/                             # Web & Telegram Bot Platform
+│   │       ├── config.php / config.local.php # Configuration & API keys
+│   │       ├── db.php / setup_db.php         # MySQL connection & migrations
+│   │       ├── Gemini.php / OpenAI.php       # PHP AI client implementations
+│   │       ├── PodcastCore.php               # Podcast KB loader & prompt engine
+│   │       ├── SommelierCore.php             # Sommelier persona & Q&A logic
+│   │       ├── QuizCore.php                  # AI quiz generator from YAML KB
+│   │       ├── NewsCore.php                  # Google News RSS scraper & editor
+│   │       ├── quizCron.php                  # Scheduled quiz poll broadcaster
+│   │       ├── newsCron.php                  # Scheduled daily news broadcaster
+│   │       ├── r.php                         # URL shortener & click redirector
+│   │       ├── manage_podcasts.php           # Web admin console & live triggers
+│   │       ├── vinoTelegram.php              # Telegram webhook handler
+│   │       ├── vino.php / vinoBackend.php    # Web chat client interface
+│   │       └── vinoKB.yaml                   # Wine knowledge base dataset
+│   └── UMGeminiCLI/                          # Swift CLI Executable Target
+│       └── main.swift                        # Command-line argument runner
+```
+
+---
+
+## Swift Library (`UMGeminiLib`)
+
+### Requirements & Platforms
+
+| Platform | Minimum Deployment Target |
 |---|---|
-| Swift | 6.3 or later (Swift 5 language mode) |
-| macOS | 12.0+ |
-| iOS | 15.0+ |
-| tvOS | 15.0+ |
-| visionOS | 1.0+ |
-| Gemini API key | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
+| **macOS** | 12.0+ |
+| **iOS** | 15.0+ |
+| **tvOS** | 15.0+ |
+| **visionOS** | 1.0+ |
+| **Swift Toolchain** | Swift 6.3+ (Swift 5 Language Mode) |
 
-> **Note:** `watchOS` is not supported because `CoreImage` — used for image encoding — is unavailable on that platform.
+*(Note: `watchOS` is excluded because `CoreImage` is not supported on watchOS).*
 
----
+### Installation (SwiftPM & Xcode)
 
-## Installation
-
-### Swift Package Manager (`Package.swift`)
+Add `UMGeminiLib` to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/<your-org>/UMGeminiLib.git", from: "1.0.0")
+    .package(url: "https://github.com/shylock74/UMGeminiLib.git", branch: "main")
 ]
 ```
 
-Then add the product to the target that needs it:
-
-```swift
-.target(
-    name: "YourTarget",
-    dependencies: [
-        .product(name: "UMGeminiLib", package: "UMGeminiLib")
-    ]
-)
-```
-
-### Xcode
-
-1. **File → Add Package Dependencies…**
-2. Paste the repository URL.
-3. Select the **UMGeminiLib** product and add it to your target.
+Or in Xcode: **File → Add Package Dependencies...** and enter the repository URL.
 
 ---
 
-## Quick Start
+### Initialization
 
 ```swift
 import UMGeminiLib
 
-let gemini = UMGeminiLite(model: .gemini25Flash, apiKey: "YOUR_API_KEY")
-let reply  = try await gemini.generateText(textPrompt: "Say hi in one sentence.")
-print(reply)
+// Initialize with a specific model and API Key
+let gemini = UMGeminiLite(model: .gemini37Flash, apiKey: "YOUR_GEMINI_API_KEY")
 ```
 
 ---
 
-## Library Usage
+### Public API Reference & Usage Examples
 
-### Initialisation
+#### Text & Multimodal Generation
 
-`UMGeminiLite` is a `Codable`, `Equatable` value type. It carries the chosen text model, image model, and API key.
+Generates text from prompts, optionally attaching input images (`CIImage`) and audio files.
 
 ```swift
-let gemini = UMGeminiLite(
-    model: .gemini25Pro,        // text model (optional, default: .gemini31FlashLitePreview)
-    apiKey: "YOUR_API_KEY"      // your Gemini API key
-)
+func generateText(
+    textPrompt: String,
+    images: [CIImage] = [],
+    audioData: [(data: Data, mimeType: String)] = []
+) async throws -> String
 ```
 
-You can also switch the image model after init:
+**Example:**
 
 ```swift
-var gemini = UMGeminiLite(apiKey: "YOUR_API_KEY")
-gemini.imageModel = .nanoBananaPro
-```
+// Pure text prompt
+let response = try await gemini.generateText(textPrompt: "Explain malolactic fermentation in wine.")
+print(response)
 
-### Text Generation
-
-```swift
-let answer = try await gemini.generateText(
-    textPrompt: "Explain quantum gravity in one paragraph."
-)
-```
-
-### Text from Images
-
-Send one or more `CIImage` instances alongside the prompt — the selected text model will reason over them.
-
-```swift
-import CoreImage
-
-guard let image = CIImage(contentsOf: URL(fileURLWithPath: "/tmp/photo.jpg")) else { return }
-
-let description = try await gemini.generateText(
-    textPrompt: "Describe what is happening in this picture.",
-    images: [image]
-)
-```
-
-### Text from Audio
-
-Pass raw audio bytes together with the correct MIME type:
-
-```swift
-let data = try Data(contentsOf: URL(fileURLWithPath: "/tmp/interview.mp3"))
-let audio: [(data: Data, mimeType: String)] = [(data, "audio/mp3")]
-
-let summary = try await gemini.generateText(
-    textPrompt: "Summarise the key points discussed.",
-    audioData: audio
-)
-```
-
-Supported MIME types: `audio/mp3`, `audio/wav`, `audio/m4a`, `audio/ogg`, `audio/mpeg`, `audio/flac`, `audio/aac`.
-
-### Chat Generation
-
-For multi-turn conversations, use `UMChatElement` to define roles (`"user"`, `"model"`, `"system"`) and optionally attach images/audio.
-
-```swift
-let elements = [
-    UMChatElement(role: "user", textPrompt: "Hi, I'm Bob."),
-    UMChatElement(role: "model", textPrompt: "Hello Bob!"),
-    UMChatElement(role: "user", textPrompt: "What is my name?")
-]
-
-let reply = try await gemini.generateChat(elements: elements)
-print(reply) // "Your name is Bob."
-```
-
-### Stateful Interactions
-
-The `generateInteraction` method interacts with the `v1beta/interactions` endpoint. It returns an `interactionId` that you can pass back in subsequent calls to maintain context automatically on the server side.
-
-```swift
-// First interaction
-let (reply1, id1) = try await gemini.generateInteraction(
-    input: "I have 2 dogs in my house."
-)
-
-// Second interaction (passing previous interaction ID)
-let (reply2, id2) = try await gemini.generateInteraction(
-    input: "How many paws are in my house?",
-    previousInteractionId: id1
-)
-print(reply2) // "There are 8 paws..."
-```
-
-### Image Generation
-
-Generate a new image from a text prompt:
-
-```swift
-var gemini = UMGeminiLite(apiKey: "YOUR_API_KEY")
-gemini.imageModel = .nanoBanana
-
-let image = try await gemini.generateImageWithNanoBanana(
-    model: gemini.imageModel,
-    textPrompt: "A dog astronaut on the moon, photorealistic",
-    with: [],                    // no source images
-    aspectRatio: .ar_16_9,
-    size: .k2                    // output resolution (optional, default: .k1)
-)
-```
-
-Writing the resulting `CIImage` to disk as PNG:
-
-```swift
-let ctx = CIContext()
-let colorSpace = image.colorSpace ?? CGColorSpaceCreateDeviceRGB()
-if let png = ctx.pngRepresentation(of: image, format: .RGBA8, colorSpace: colorSpace, options: [:]) {
-    try png.write(to: URL(fileURLWithPath: "/tmp/moon_dog.png"))
+// Multimodal with image
+if let image = CIImage(contentsOf: URL(fileURLWithPath: "wine_label.jpg")) {
+    let analysis = try await gemini.generateText(
+        textPrompt: "Identify this wine and recommend food pairings.",
+        images: [image]
+    )
+    print(analysis)
 }
 ```
 
-### Image-to-Image
+#### Multi-Turn Chat History
 
-Nano Banana models (`nanoBanana`, `nanoBanana2`, `nanoBananaPro`) accept source images as visual references. Only these models are **referenceable** — Imagen 4 models are not.
+Processes conversational turns with role-based message history.
 
 ```swift
-let source = CIImage(contentsOf: URL(fileURLWithPath: "/tmp/style.jpg"))!
+func generateChat(
+    history: [UMChatElement],
+    temperature: Float? = nil
+) async throws -> String
+```
 
-let remix = try await gemini.generateImageWithNanoBanana(
-    model: .nanoBananaPro,
-    textPrompt: "Reinterpret this image as an impressionist painting",
-    with: [source],
-    aspectRatio: .ar_1_1,
+**Example:**
+
+```swift
+let history: [UMChatElement] = [
+    UMChatElement(role: "user", textPrompt: "I like structured red wines."),
+    UMChatElement(role: "model", textPrompt: "Great! Nebbiolo, Cabernet Sauvignon, and Aglianico are great options."),
+    UMChatElement(role: "user", textPrompt: "Which of these pairs best with braised beef?")
+]
+
+let answer = try await gemini.generateChat(history: history)
+print(answer)
+```
+
+#### Token Counting
+
+Calculates the exact token usage before sending a request.
+
+```swift
+func countTokens(
+    textPrompt: String,
+    images: [CIImage] = [],
+    audioData: [(data: Data, mimeType: String)] = []
+) async throws -> Int
+```
+
+---
+
+#### Image Generation & Editing
+
+Generate new images or edit existing ones using Gemini Nano Banana or Google Imagen models.
+
+```swift
+// Nano Banana (Gemini Image Modality)
+func generateImageWithNanoBanana(
+    model: ImageModel = .nanoBanana2,
+    textPrompt: String,
+    with ciImages: [CIImage] = [],
+    aspectRatio: AspectRatio = .ar_16_9,
+    size: Size = .k1
+) async throws -> CIImage
+
+// Imagen 4 Direct API
+func generateImageWithImagen(
+    textPrompt: String,
+    aspectRatio: AspectRatio = .ar_1_1,
+    numberOfImages: Int = 1
+) async throws -> [CIImage]
+```
+
+**Example:**
+
+```swift
+let generatedImage = try await gemini.generateImageWithNanoBanana(
+    model: .nanoBanana2,
+    textPrompt: "A vineyard in Tuscany during golden hour, cinematic lighting",
+    aspectRatio: .ar_16_9,
     size: .k1
 )
 ```
 
-To get the list of referenceable models at runtime:
+#### Image Description & Title Generation
 
 ```swift
-let refModels = UMGeminiLite.ImageModel.referenceableModelList
-```
+// Generates a descriptive analysis of a visual asset
+func describe(image: CIImage, prompt: String? = nil) async throws -> String
 
-### Image Description & Title
-
-Two convenience helpers wrap common prompts:
-
-```swift
-let keywords = try await gemini.describe(image: image)   // 10–30 comma-separated keywords
-let title    = try await gemini.title(for: image)        // very short title
-```
-
-### Rate-Limit Helper
-
-If you hit Gemini rate limits in tight loops, the built-in throttle enforces a minimum 2-second gap between calls:
-
-```swift
-for prompt in prompts {
-    await UMGeminiLite.delayRequest()
-    let text = try await gemini.generateText(textPrompt: prompt)
-    print(text)
-}
+// Generates a concise title for an image
+func title(for image: CIImage, prompt: String? = nil) async throws -> String
 ```
 
 ---
 
-## CLI Usage (`UMGeminiCLI`)
+### Supported Models & Enums
 
-The executable target `UMGeminiCLI` exposes the library to the terminal. It writes the **result to stdout** and all logs/warnings/errors to **stderr**, so it composes cleanly in shell pipelines and scripts.
+#### Text Models (`UMGeminiLite.Model`)
 
-### Build
+| Enum Case | Display Name | API Identifier |
+|---|---|---|
+| `.gemini37Flash` *(default)* | Gemini 3.7 Flash | `gemini-3.7-flash` |
+| `.gemini36Flash` | Gemini 3.6 Flash | `gemini-3.6-flash` |
+| `.gemini35Flash` | Gemini 3.5 Flash | `gemini-3.5-flash` |
+| `.gemini31FlashLite` | Gemini 3.1 Flash Lite | `gemini-3.1-flash-lite` |
+| `.gemini31ProPreviw` | Gemini 3.1 Pro Preview | `gemini-3.1-pro-preview` |
+
+#### Image Models (`UMGeminiLite.ImageModel`)
+
+| Enum Case | Display Name | API Identifier | Referenceable (Img2Img) |
+|---|---|---|---|
+| `.nanoBanana2` *(default)* | Nano Banana 2 | `gemini-3.1-flash-image-preview` | Yes |
+| `.nanoBananaPro` | Nano Banana Pro | `gemini-3-pro-image-preview` | Yes |
+| `.nanoBanana` | Nano Banana | `gemini-2.5-flash-image` | Yes |
+| `.imagen40` | Imagen 4 | `imagen-4.0-generate-001` | No |
+| `.imagen40Ultra` | Imagen 4 Ultra | `imagen-4.0-ultra-generate-001` | No |
+| `.imagen40Fast` | Imagen 4 Fast | `imagen-4.0-fast-generate-001` | No |
+
+#### Aspect Ratios (`UMGeminiLite.AspectRatio`)
+- `ar_1_1` (1:1), `ar_16_9` (16:9), `ar_9_16` (9:16), `ar_4_3` (4:3), `ar_3_4` (3:4), `ar_3_2` (3:2), `ar_2_3` (2:3), `ar_21_9` (21:9).
+
+#### Output Sizes (`UMGeminiLite.Size`)
+- `k1` (1K), `k2` (2K), `k4` (4K).
+
+---
+
+## Command-Line Interface (`UMGeminiCLI`)
+
+`UMGeminiCLI` is a pre-configured terminal executable that enables text synthesis, multimodal inspection, and image rendering from the command line.
+
+### Build & Setup
+
+Build the CLI executable using Swift Package Manager:
 
 ```bash
 swift build -c release
 ```
 
-The binary will be at:
-
-```
-.build/release/UMGeminiCLI
-```
-
-Copy it somewhere on your `$PATH` (e.g. `/usr/local/bin/UMGeminiCLI`) or run it in place.
-
-### Saving the API Key
-
-Save your Gemini API key once — it is persisted via `UserDefaults` so every subsequent call works without `--api-key`:
+Save your API key once into persistent local storage:
 
 ```bash
-./UMGeminiCLI --set-key "YOUR_API_KEY"
+swift run UMGeminiCLI --set-key "YOUR_GEMINI_API_KEY"
 ```
 
-### CLI Examples
+---
 
-**1. Simple text generation**
+### Command Arguments & Flags
+
+| Flag | Type | Description | Default |
+|---|---|---|---|
+| `--mode` | `string` | Execution mode: `text` or `image` (Required). | — |
+| `--prompt` | `string` | The text prompt for generation (Required). | — |
+| `--api-key` | `string` | Gemini API key (optional if saved with `--set-key`). | Stored Key |
+| `--set-key` | `string` | Saves the API key to `UserDefaults` and exits. | — |
+| `--model` | `string` | Gemini text model code name. | `gemini-3.7-flash` |
+| `--image-model` | `string` | Model name for image mode. | `gemini-3.1-flash-image-preview` |
+| `--images` | `string` | Comma-separated image paths or URLs for multimodal input. | — |
+| `--audio` | `string` | Comma-separated audio paths or URLs (`mp3`, `wav`, `m4a`, `ogg`, `flac`). | — |
+| `--aspect-ratio` | `string` | Image aspect ratio (`16:9`, `1:1`, `9:16`, `4:3`, `3:2`). | `16:9` |
+| `--size`, `--image-size` | `string` | Output image resolution: `1K`, `2K`, `4K`. | `1K` |
+| `--output` | `string` | Output file path for generated PNG (Required in `image` mode). | — |
+
+---
+
+### CLI Execution Examples
+
+#### 1. Text Generation
 
 ```bash
-./UMGeminiCLI \
-  --mode text \
-  --model "gemini-3.1-flash-lite-preview" \
-  --prompt "Explain concisely how quantum gravity works."
+swift run UMGeminiCLI --mode text --prompt "List 3 rules for pairing sparkling wine with desserts."
 ```
 
-**2. Text generation based on input images**
+#### 2. Multimodal Image Analysis
 
 ```bash
-./UMGeminiCLI \
-  --mode text \
-  --model "gemini-2.5-pro" \
-  --images "/Users/alex/photo.jpg,https://example.com/img2.png" \
-  --prompt "Describe what is in these images."
+swift run UMGeminiCLI --mode text \
+  --prompt "What grape variety and vintage is visible on this bottle?" \
+  --images "label.jpg,cork.png"
 ```
 
-**3. Text generation based on audio input**
+#### 3. Image Generation with Nano Banana
 
 ```bash
-./UMGeminiCLI \
-  --mode text \
-  --model "gemini-2.5-pro" \
-  --audio "/Users/alex/interview.mp3" \
-  --prompt "Summarize the key points discussed in this audio recording."
-```
-
-**4. Generating a new image (16:9) and saving it**
-
-```bash
-./UMGeminiCLI \
-  --mode image \
-  --prompt "A dog astronaut on the moon, photorealistic style" \
-  --image-model "gemini-3.1-flash-image-preview" \
+swift run UMGeminiCLI --mode image \
+  --prompt "A glass of Barolo on an ancient oak barrel, warm candle light" \
   --aspect-ratio "16:9" \
-  --output "/Users/alex/Desktop/moon_dog.png"
-```
-
-### CLI Arguments Reference
-
-| Flag | Required | Default | Description |
-|------|----------|---------|-------------|
-| `--mode <text\|image>` | ✔︎ | — | Generation mode |
-| `--prompt <text>` | ✔︎ | — | Instruction for the model. Quote strings with spaces. |
-| `--api-key <key>` | ✘* | — | Gemini API key |
-| `--set-key <key>` | ✘ | — | Persist the key and exit |
-| `--model <codename>` | ✘ | `gemini-2.5-flash-lite` | Text model codename |
-| `--image-model <codename>` | ✘ | `gemini-3.1-flash-image-preview` | Image model codename |
-| `--aspect-ratio <ratio>` | ✘ | `16:9` | `1:1`, `9:16`, `16:9`, `3:4`, `4:3`, `2:3`, `3:2`, `21:9` |
-| `--size <resolution>` | ✘ | `1K` | Output resolution: `1K`, `2K`, `4K` (or `1 K`, `2 K`, `4 K`) |
-| `--images <url1,url2,…>` | ✘ | — | Comma-separated list of local paths or HTTP URLs |
-| `--audio <url1,url2,…>` | ✘ | — | Comma-separated list of local paths or HTTP URLs |
-| `--output <path.png>` | ✔︎ (when `--mode image`) | — | Destination for the generated PNG |
-
-\* Required unless a key has been saved via `--set-key`.
-
----
-
-## API Reference
-
-### `UMGeminiLite`
-
-```swift
-public struct UMGeminiLite: Codable, Equatable {
-
-    public static let apiKeyStorageKey: String
-    public static let ultiMedia: UMGeminiLite
-
-    public var model: Model
-    public var imageModel: ImageModel
-    public var apiKey: String
-
-    public init(model: Model = .gemini31FlashLitePreview, apiKey: String = "")
-
-    // Text
-    public func generateText(textPrompt: String,
-                             images: [CIImage] = [],
-                             audioData: [(data: Data, mimeType: String)] = []) async throws -> String
-
-    // Chat & Stateful
-    public func generateChat(elements: [UMChatElement]) async throws -> String
-    
-    public func generateInteraction(input textPrompt: String,
-                                    images: [CIImage] = [],
-                                    audioData: [(data: Data, mimeType: String)] = [],
-                                    previousInteractionId: String? = nil) async throws -> (text: String, interactionId: String)
-
-    // Images
-    public func generateImageWithNanoBanana(model: ImageModel,
-                                            textPrompt: String,
-                                            with images: [CIImage],
-                                            aspectRatio: AspectRatio,
-                                            size: Size) async throws -> CIImage
-
-    public func generateImageWithGemini(model: ImageModel,
-                                        textPrompt: String,
-                                        sourceImagesData: [(data: Data, mimeType: String)],
-                                        aspectRatio: AspectRatio,
-                                        size: Size) async throws -> Data
-
-    public func generatePNGDataWithNanoBanana(textPrompt: String,
-                                              model: ImageModel,
-                                              ciImages: [CIImage],
-                                              aspectRatio: AspectRatio,
-                                              size: Size) async throws -> Data
-
-    // Convenience
-    public func describe(image: CIImage) async throws -> String?
-    public func title(for image: CIImage) async throws -> String?
-
-    // Helpers
-    public func imagesAndMimeType(for ciImageList: [CIImage],
-                                  format: ImageFormat = .png) throws -> [(data: Data, mimeType: String)]
-
-    public static func delayRequest() async
-    public static func startup()
-}
-```
-
-### `UMGeminiLite.Model`
-
-| Case | `codeName` |
-|------|------------|
-| `.gemini25Flash` | `gemini-2.5-flash` |
-| `.gemini25FlashLite` | `gemini-2.5-flash-lite` |
-| `.gemini25Pro` | `gemini-2.5-pro` |
-| `.gemini30ProPreview` | `gemini-3-pro-preview` |
-| `.gemini31ProPreviw` | `gemini-3.1-pro-preview` |
-| `.gemini31FlashLitePreview` | `gemini-3.1-flash-lite-preview` |
-| `.gemini35Flash` | `gemini-3.5-flash` |
-| `.gemini36Flash` | `gemini-3.6-flash` |
-| `.gemini37Flash` | `gemini-3.7-flash` |
-
-Construct from a raw codename:
-
-```swift
-let m = UMGeminiLite.Model(codeName: "gemini-2.5-pro")   // -> .gemini25Pro
-```
-
-### `UMGeminiLite.ImageModel`
-
-| Case | `modelName` | Referenceable |
-|------|-------------|---------------|
-| `.imagen40` | `imagen-4.0-generate-001` | ✘ |
-| `.imagen40Ultra` | `imagen-4.0-ultra-generate-001` | ✘ |
-| `.imagen40Fast` | `imagen-4.0-fast-generate-001` | ✘ |
-| `.nanoBanana` | `gemini-2.5-flash-image` | ✔︎ |
-| `.nanoBanana2` | `gemini-3.1-flash-image-preview` | ✔︎ |
-| `.nanoBananaPro` | `gemini-3-pro-image-preview` | ✔︎ |
-
-*Referenceable* means the model accepts source images as input (image-to-image).
-
-### `UMGeminiLite.AspectRatio`
-
-| Case | `displayName` / `promptString` |
-|------|-------------------------------|
-| `.ar_1_1` | `1:1` |
-| `.ar_9_16` | `9:16` |
-| `.ar_16_9` | `16:9` |
-| `.ar_3_4` | `3:4` |
-| `.ar_4_3` | `4:3` |
-| `.ar_2_3` | `2:3` |
-| `.ar_3_2` | `3:2` |
-| `.ar_21_9` | `21:9` |
-
-Parse from a string: `UMGeminiLite.AspectRatio(ratioString: "16:9")`.
-
-### `UMGeminiLite.Size`
-
-| Case | `displayName` / `promptString` |
-|------|-------------------------------|
-| `.k1` | `1 K` / `1K` |
-| `.k2` | `2 K` / `2K` |
-| `.k4` | `4 K` / `4K` |
-
-### `UMGeminiLite.ImageFormat`
-
-Output format used when encoding a `CIImage`:
-
-- `.png`
-- `.jpeg(compression: CGFloat = 0.8)`
-
-### Request / Response Types
-
-All types below are `public` and live inside `UMGeminiLite`. They mirror the Gemini REST schema and are exposed so callers can build or inspect raw payloads if they need to.
-
-`GeminiRequest`, `GeminiGenerationConfig`, `GeminiImageConfig`, `GeminiContent`, `GeminiPart`, `GeminiInlineData`, `GeminiResponse`, `GeminiCandidate`, `GeminiUsageMetadata`.
-
----
-
-## Error Handling
-
-All calls are `throws` and use Swift's standard error machinery. You may encounter:
-
-| Error | Meaning |
-|-------|---------|
-| `UMGeminiLite.ImageError.imageGenerationFailed` | Image returned by Gemini could not be decoded into a `CIImage`. |
-| `URLError.badURL` | Could not build a valid request URL (check model name / API key). |
-| `URLError.badServerResponse` | Non-`200` HTTP response from Gemini (the raw body is printed to stdout). |
-| `NSError(domain: "GeminiError")` | Response JSON is valid but does not contain the expected `candidates` / `parts` structure. |
-| `NSError(domain: "ImageConversionError")` | A source `CIImage` could not be re-encoded to PNG/JPEG. |
-
-Recommended pattern:
-
-```swift
-do {
-    let text = try await gemini.generateText(textPrompt: "Hello")
-    print(text)
-} catch {
-    print("Gemini call failed: \(error.localizedDescription)")
-}
+  --size "2K" \
+  --output "barolo.png"
 ```
 
 ---
 
-## Project Structure
+## AI Bot & Automation Platform (`Site/`)
+
+The `Site/` directory contains an end-to-end backend platform designed for podcast community engagement, automated Telegram broadcasts, and knowledge base retrieval.
 
 ```
-UMGeminiLib/
-├── Package.swift
-├── README.md
-└── Sources/
-    ├── UMGeminiLib/                      # Library target
-    │   ├── UMGeminiLite.swift            # Core struct + text generation
-    │   └── UMGeminiLite + Images.swift   # Image generation + DTOs
-    └── UMGeminiCLI/                      # Executable target
-        └── main.swift                    # CLI entry point
+Site/
+├── config.php                 # Global config, model selection & secret keys
+├── config.local.php           # Protected local API keys (Git-ignored)
+├── db.php                     # PDO MySQL connection, table checks & helpers
+├── setup_db.php               # Standalone DB initialization script
+├── Gemini.php / OpenAI.php    # Multi-backend LLM clients with thinking model support
+├── PodcastCore.php            # Contextual YAML parser and prompt assembler
+├── SommelierCore.php          # Sommelier personality and Q&A engine
+├── QuizCore.php               # AI quiz generator parsing YAML knowledge bases
+├── NewsCore.php               # Google News RSS scraper & editorial writer
+├── quizCron.php               # Scheduled cron job for native Telegram Polls
+├── newsCron.php               # Scheduled cron job for daily wine news & photos
+├── r.php                      # URL shortener & click tracking redirector
+├── manage_podcasts.php        # Admin dashboard with live trigger modals & stats
+└── vinoTelegram.php           # Production Telegram webhook router
 ```
 
 ---
 
-## Credits & License
+### Knowledge Base & Sommelier Chatbot
 
-Created by **Alex Raccuglia** for **UltiMedia**.
+- **Grounded Responses**: Ingests structured episode catalogs and wine data (`vinoKB.yaml`) directly into the prompt context to answer user questions using accurate citations.
+- **Multimodal Web & Telegram Interface**: Accepts text queries, audio/voice messages (with automatic speech recognition), and wine label photos.
+- **Telegram Bot Support**: Supports private chats, group mentions, inline searches, and automatic target group discovery.
 
-> The hard-coded API key inside `UMGeminiLite.ultiMedia` is intended for internal UltiMedia use — set `apiKey` explicitly when consuming the package from elsewhere.
+---
 
-License: _TBD_ — add a `LICENSE` file at the repository root.
+### Automated AI Quiz Module
+
+- **On-the-Fly Generation (`QuizCore.php`)**: Dynamically extracts topics from the podcast YAML knowledge base and instructs Gemini 3.7 Flash to formulate a 4-option quiz with 1 correct answer and a pedagogical explanation.
+- **Telegram Constraints Compliance**: Strictly enforces Telegram `sendPoll` limits (question $\le 300$ chars, options $\le 100$ chars, explanation $\le 200$ chars).
+- **Scheduled Poll Broadcast (`quizCron.php`)**:
+  - CLI: `php quizCron.php 1`
+  - Web Webhook: `https://your-domain.com/quizCron.php?secret=YOUR_CRON_SECRET&podcast_id=1`
+- **Configurable Anonymity**: Groups can be individually configured for public or anonymous voting via the admin web console.
+
+---
+
+### Daily News Editorial & OpenGraph Extraction
+
+- **Automated RSS Ingestion (`NewsCore.php`)**: Queries Google News RSS with curated enology filters (`vino OR enologia OR viticoltura OR sommelier OR cantine`).
+- **De-duplication**: Filters out news already dispatched by tracking history in the `sent_news` database table.
+- **OpenGraph & Media Scraping**: Extracts `og:image`, `twitter:image`, or RSS enclosures from the source article, falling back to podcast visuals.
+- **First-Person Editorial**: Writes a structured sommelier commentary tailored for Telegram.
+- **Scheduled Dispatch (`newsCron.php`)**:
+  - CLI: `php newsCron.php 1`
+  - Web Webhook: `https://your-domain.com/newsCron.php?secret=YOUR_CRON_SECRET&podcast_id=1`
+  - Dispatches as `sendPhoto` with caption if text $\le 1024$ characters, or photo + full markdown message if longer.
+
+---
+
+### URL Shortener & Click Tracking (`r.php`)
+
+All source links generated in news articles are automatically converted into tracked short URLs (`r.php?c=XXXXXX`).
+
+- **Redirection**: Instant HTTP 302 redirect to the original article.
+- **Metrics**: Automatically logs click counts and last access timestamps into the `short_links` table.
+
+---
+
+### Web Management Console (`manage_podcasts.php`)
+
+The modern web management console provides real-time control over the platform:
+
+1. **Podcast Settings**: Edit tokens, usernames, prompt behaviors, and fallback captions.
+2. **Telegram Destinations Table**:
+   - Toggle switches for **Quiz Active**, **Anonymous Quiz**, and **Daily News Active**.
+   - Manual target addition (Group / Supergroup / Channel / Private).
+3. **Link Tracker & Click Statistics**:
+   - Real-time table displaying short link codes, original URLs, total click badges, and last clicked dates.
+4. **Interactive Action Modals**:
+   - **🎲 Invia Quiz Ora**: Triggers real-time AI quiz generation with live question/option preview and delivery report.
+   - **📰 Invia News Ora**: Triggers real-time RSS scraping, editorial compilation, and delivery report.
+
+---
+
+### Database Schema & Migrations
+
+Automatic schema initialization and safe version migrations are handled transparently by `ensureQuizTables($pdo)`:
+
+```sql
+-- Podcasts Configuration Table
+CREATE TABLE podcasts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(255) NOT NULL,
+    username VARCHAR(100),
+    yaml_file VARCHAR(255) NOT NULL,
+    podcast_name VARCHAR(255) NOT NULL,
+    experts VARCHAR(255),
+    fallback_prefix TEXT,
+    search_photo VARCHAR(255),
+    final_photo VARCHAR(255),
+    emoji VARCHAR(10),
+    start_message TEXT,
+    waiting_caption TEXT,
+    error_response TEXT,
+    final_caption_prefix TEXT
+);
+
+-- Target Groups & Channels
+CREATE TABLE quiz_targets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    podcast_id INT NOT NULL,
+    chat_id VARCHAR(100) NOT NULL,
+    chat_title VARCHAR(255),
+    chat_type VARCHAR(50) DEFAULT 'group',
+    is_active TINYINT(1) DEFAULT 1,
+    is_anonymous TINYINT(1) DEFAULT 0,
+    is_news_active TINYINT(1) DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_quiz_sent_at DATETIME NULL,
+    last_news_sent_at DATETIME NULL,
+    UNIQUE KEY uniq_podcast_chat (podcast_id, chat_id)
+);
+
+-- Dispatched News History (De-duplication)
+CREATE TABLE sent_news (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    podcast_id INT NOT NULL,
+    article_title VARCHAR(500) NOT NULL,
+    article_url VARCHAR(500) NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_podcast_url (podcast_id, article_url(191))
+);
+
+-- Short Links & Click Tracking
+CREATE TABLE short_links (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(16) UNIQUE NOT NULL,
+    podcast_id INT NOT NULL,
+    title VARCHAR(255),
+    target_url TEXT NOT NULL,
+    clicks INT DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_clicked_at DATETIME NULL,
+    INDEX idx_podcast_code (podcast_id, code)
+);
+```
+
+---
+
+## License & Authors
+
+- **Author**: Ulti.Media / Alex Raccuglia
+- **Language & Frameworks**: Swift (Package Manager), PHP, MySQL, Telegram Bot API, Google Gemini API.
+- **License**: MIT License.
