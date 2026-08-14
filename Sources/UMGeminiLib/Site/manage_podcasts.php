@@ -1,12 +1,13 @@
 <?php
 /**
  * manage_podcasts.php
- * Console di gestione CRUD per i podcast e gestione gruppi per il Quiz Automatico Telegram
+ * Console di gestione CRUD per i podcast, Quiz Automatici e Rassegna News Telegram
  */
 
 require_once 'db.php';
 require_once 'config.php';
 require_once 'QuizCore.php';
+require_once 'NewsCore.php';
 
 ensureQuizTables($pdo);
 
@@ -14,9 +15,9 @@ $message = '';
 $action = $_GET['action'] ?? 'list';
 $editId = $_GET['id'] ?? null;
 
-// --- GESTIONE AZIONI AJAX / POST PER IL MODULO QUIZ ---
+// --- GESTIONE AZIONI AJAX / POST PER IL MODULO QUIZ & NEWS ---
 
-// 1. Toggle Attivo / Disattivo per Gruppo Quiz (AJAX o GET)
+// 1. Toggle Quiz Attivo / Disattivo
 if ($action === 'toggle_quiz_active' && isset($_GET['target_id'])) {
     $targetId = (int)$_GET['target_id'];
     $stmt = $pdo->prepare("UPDATE quiz_targets SET is_active = NOT is_active WHERE id = :id");
@@ -26,11 +27,11 @@ if ($action === 'toggle_quiz_active' && isset($_GET['target_id'])) {
         echo json_encode(['status' => 'success']);
         exit;
     }
-    header("Location: manage_podcasts.php?msg=" . urlencode("Stato del gruppo aggiornato!"));
+    header("Location: manage_podcasts.php?msg=" . urlencode("Stato Quiz aggiornato!"));
     exit;
 }
 
-// 2. Toggle Anonimo / Pubblico per Gruppo Quiz (AJAX o GET)
+// 2. Toggle Quiz Anonimo / Pubblico
 if ($action === 'toggle_quiz_anonymous' && isset($_GET['target_id'])) {
     $targetId = (int)$_GET['target_id'];
     $stmt = $pdo->prepare("UPDATE quiz_targets SET is_anonymous = NOT is_anonymous WHERE id = :id");
@@ -40,11 +41,25 @@ if ($action === 'toggle_quiz_anonymous' && isset($_GET['target_id'])) {
         echo json_encode(['status' => 'success']);
         exit;
     }
-    header("Location: manage_podcasts.php?msg=" . urlencode("Modalità anonimato aggiornata!"));
+    header("Location: manage_podcasts.php?msg=" . urlencode("Modalità anonimato Quiz aggiornata!"));
     exit;
 }
 
-// 3. Aggiunta Manuale Gruppo Quiz
+// 3. Toggle News Attivo / Disattivo
+if ($action === 'toggle_news_active' && isset($_GET['target_id'])) {
+    $targetId = (int)$_GET['target_id'];
+    $stmt = $pdo->prepare("UPDATE quiz_targets SET is_news_active = NOT is_news_active WHERE id = :id");
+    $stmt->execute([':id' => $targetId]);
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        header('Content-Type: application/json');
+        echo json_encode(['status' => 'success']);
+        exit;
+    }
+    header("Location: manage_podcasts.php?msg=" . urlencode("Stato News aggiornato!"));
+    exit;
+}
+
+// 4. Aggiunta Manuale Gruppo
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_quiz_target'])) {
     $pId = (int)($_POST['podcast_id'] ?? 1);
     $cId = trim($_POST['chat_id'] ?? '');
@@ -52,25 +67,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_quiz_target'])) {
     $cType = $_POST['chat_type'] ?? 'group';
     $isActive = isset($_POST['is_active']) ? 1 : 0;
     $isAnonymous = isset($_POST['is_anonymous']) ? 1 : 0;
+    $isNewsActive = isset($_POST['is_news_active']) ? 1 : 0;
 
     if (!empty($cId)) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO quiz_targets (podcast_id, chat_id, chat_title, chat_type, is_active, is_anonymous) 
-                VALUES (:podcast_id, :chat_id, :chat_title, :chat_type, :is_active, :is_anonymous)
+            $stmt = $pdo->prepare("INSERT INTO quiz_targets (podcast_id, chat_id, chat_title, chat_type, is_active, is_anonymous, is_news_active) 
+                VALUES (:podcast_id, :chat_id, :chat_title, :chat_type, :is_active, :is_anonymous, :is_news_active)
                 ON DUPLICATE KEY UPDATE 
                 chat_title = VALUES(chat_title), 
                 chat_type = VALUES(chat_type), 
                 is_active = VALUES(is_active), 
-                is_anonymous = VALUES(is_anonymous)");
+                is_anonymous = VALUES(is_anonymous),
+                is_news_active = VALUES(is_news_active)");
             $stmt->execute([
                 ':podcast_id' => $pId,
                 ':chat_id' => $cId,
                 ':chat_title' => $cTitle,
                 ':chat_type' => $cType,
                 ':is_active' => $isActive,
-                ':is_anonymous' => $isAnonymous
+                ':is_anonymous' => $isAnonymous,
+                ':is_news_active' => $isNewsActive
             ]);
-            header("Location: manage_podcasts.php?msg=" . urlencode("Gruppo aggiunto con successo alla lista quiz!"));
+            header("Location: manage_podcasts.php?msg=" . urlencode("Gruppo aggiunto con successo alla lista!"));
             exit;
         } catch (Exception $e) {
             $message = "Errore inserimento gruppo: " . $e->getMessage();
@@ -78,20 +96,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_quiz_target'])) {
     }
 }
 
-// 4. Eliminazione Gruppo Quiz
+// 5. Eliminazione Gruppo
 if ($action === 'delete_quiz_target' && isset($_GET['target_id'])) {
     $targetId = (int)$_GET['target_id'];
     try {
         $stmt = $pdo->prepare("DELETE FROM quiz_targets WHERE id = :id");
         $stmt->execute([':id' => $targetId]);
-        header("Location: manage_podcasts.php?msg=" . urlencode("Gruppo rimosso dalla lista quiz."));
+        header("Location: manage_podcasts.php?msg=" . urlencode("Gruppo rimosso dalla lista."));
         exit;
     } catch (Exception $e) {
         $message = "Errore eliminazione gruppo: " . $e->getMessage();
     }
 }
 
-// 5. Test Invio Immediato Quiz (Pulsante "Invia Quiz Ora")
+// 6. Test Invio Immediato Quiz (Pulsante "Invia Quiz Ora")
 if ($action === 'send_quiz_now') {
     header('Content-Type: application/json');
     $podcastId = (int)($_GET['podcast_id'] ?? 1);
@@ -109,7 +127,7 @@ if ($action === 'send_quiz_now') {
         $targets = $stmtTargets->fetchAll();
 
         if (empty($targets)) {
-            throw new Exception("Nessun gruppo attivo selezionato per questo podcast. Abilita almeno un gruppo prima di inviare.");
+            throw new Exception("Nessun gruppo attivo selezionato per i Quiz di questo podcast.");
         }
 
         // Generazione del Quiz con l'IA
@@ -140,7 +158,6 @@ if ($action === 'send_quiz_now') {
                 $pollParams['explanation'] = $quiz['explanation'];
             }
 
-            // Chiamata Telegram sendPoll
             $url = "https://api.telegram.org/bot" . $podcast['token'] . "/sendPoll";
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_POST, true);
@@ -176,17 +193,112 @@ if ($action === 'send_quiz_now') {
 
     } catch (Exception $e) {
         http_response_code(400);
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        exit;
+    }
+}
+
+// 7. Test Invio Immediato News (Pulsante "Invia News Ora")
+if ($action === 'send_news_now') {
+    header('Content-Type: application/json');
+    $podcastId = (int)($_GET['podcast_id'] ?? 1);
+
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM podcasts WHERE id = :id");
+        $stmt->execute([':id' => $podcastId]);
+        $podcast = $stmt->fetch();
+        if (!$podcast) {
+            throw new Exception("Podcast non trovato.");
+        }
+
+        $stmtTargets = $pdo->prepare("SELECT * FROM quiz_targets WHERE podcast_id = :podcast_id AND is_news_active = 1");
+        $stmtTargets->execute([':podcast_id' => $podcastId]);
+        $targets = $stmtTargets->fetchAll();
+
+        if (empty($targets)) {
+            throw new Exception("Nessun gruppo abilitato alle News per questo podcast.");
+        }
+
+        // Generazione del Post News con l'IA
+        $newsResult = NewsCore::generaPostNews($pdo, $podcastId, [
+            'podcastName' => $podcast['podcast_name'],
+            'emoji' => $podcast['emoji'] ?? '🍷'
+        ], DEFAULT_MODEL);
+
+        $postText = $newsResult['editorial_post'];
+        $formattedText = preg_replace('/\*\*(.+?)\*\*/s', '*$1*', $postText);
+        $formattedText = preg_replace('/__(.+?)__/s', '_$1_', $formattedText);
+        $formattedText = preg_replace('/^#{1,6}\s+/m', '', $formattedText);
+
+        $sentCount = 0;
+        $failedCount = 0;
+        $details = [];
+
+        foreach ($targets as $target) {
+            $chatId = $target['chat_id'];
+            $chatTitle = $target['chat_title'] ?? $chatId;
+
+            $url = "https://api.telegram.org/bot" . $podcast['token'] . "/sendMessage";
+            $params = [
+                'chat_id' => $chatId,
+                'text' => $formattedText,
+                'parse_mode' => 'Markdown',
+                'disable_web_page_preview' => false
+            ];
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+            $sendResp = curl_exec($ch);
+            curl_close($ch);
+
+            $respData = json_decode($sendResp, true);
+
+            if ($respData && !empty($respData['ok'])) {
+                $sentCount++;
+                $stmtUpdate = $pdo->prepare("UPDATE quiz_targets SET last_news_sent_at = NOW() WHERE id = :id");
+                $stmtUpdate->execute([':id' => $target['id']]);
+                $details[] = ['chat_title' => $chatTitle, 'status' => 'ok'];
+            } else {
+                $failedCount++;
+                $errorDesc = $respData['description'] ?? 'Errore Telegram';
+                $details[] = ['chat_title' => $chatTitle, 'status' => 'error', 'error' => $errorDesc];
+            }
+        }
+
+        // Salva nell'archivio sent_news
+        if ($sentCount > 0 && !empty($newsResult['source_url'])) {
+            try {
+                $stmtArchive = $pdo->prepare("INSERT INTO sent_news (podcast_id, article_title, article_url) VALUES (:podcast_id, :title, :url)");
+                $stmtArchive->execute([
+                    ':podcast_id' => $podcastId,
+                    ':title' => $newsResult['article_title'] ?: 'Notizia del Giorno',
+                    ':url' => $newsResult['source_url']
+                ]);
+            } catch (Exception $eArch) {}
+        }
+
         echo json_encode([
-            'status' => 'error',
-            'message' => $e->getMessage()
+            'status' => 'success',
+            'sent_count' => $sentCount,
+            'failed_count' => $failedCount,
+            'news' => $newsResult,
+            'details' => $details
         ]);
+        exit;
+
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         exit;
     }
 }
 
 // --- LOGICA CRUD PODCAST ---
 
-// Salvataggio Podcast (Nuovo o Modifica)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
     $data = [
         ':token' => $_POST['token'],
@@ -231,7 +343,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
     }
 }
 
-// Eliminazione Podcast
 if ($action === 'delete' && $editId) {
     try {
         $stmt = $pdo->prepare("DELETE FROM podcasts WHERE id = :id");
@@ -243,7 +354,6 @@ if ($action === 'delete' && $editId) {
     }
 }
 
-// Caricamento dati per Modifica
 $editData = null;
 if ($action === 'edit' && $editId) {
     $stmt = $pdo->prepare("SELECT * FROM podcasts WHERE id = :id");
@@ -251,7 +361,6 @@ if ($action === 'edit' && $editId) {
     $editData = $stmt->fetch();
 }
 
-// Caricamento Lista Podcast e Gruppi Quiz
 $podcasts = $pdo->query("SELECT * FROM podcasts ORDER BY id ASC")->fetchAll();
 $quizTargets = $pdo->query("SELECT qt.*, p.podcast_name, p.emoji as podcast_emoji FROM quiz_targets qt LEFT JOIN podcasts p ON qt.podcast_id = p.id ORDER BY qt.podcast_id ASC, qt.id DESC")->fetchAll();
 
@@ -262,7 +371,7 @@ $displayMsg = $_GET['msg'] ?? $message;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Podcast & Quiz Control Center</title>
+    <title>Podcast, Quiz & News Control Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -274,11 +383,12 @@ $displayMsg = $_GET['msg'] ?? $message;
             --purple: #a855f7;
             --wine: #e11d48;
             --wine-glow: rgba(225, 29, 72, 0.3);
+            --amber: #f59e0b;
+            --amber-glow: rgba(245, 158, 11, 0.3);
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --danger: #ef4444;
             --success: #10b981;
-            --warning: #f59e0b;
         }
 
         * { box-sizing: border-box; }
@@ -292,7 +402,7 @@ $displayMsg = $_GET['msg'] ?? $message;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 0 auto;
         }
 
@@ -311,7 +421,7 @@ $displayMsg = $_GET['msg'] ?? $message;
 
         .section-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 600;
             margin-bottom: 1.25rem;
             display: flex;
@@ -345,7 +455,7 @@ $displayMsg = $_GET['msg'] ?? $message;
 
         .podcast-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 1.5rem;
         }
 
@@ -383,11 +493,11 @@ $displayMsg = $_GET['msg'] ?? $message;
         }
 
         .btn {
-            padding: 0.55rem 1.1rem;
+            padding: 0.5rem 1rem;
             border-radius: 0.6rem;
             border: none;
             font-family: inherit;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -395,7 +505,7 @@ $displayMsg = $_GET['msg'] ?? $message;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
         }
 
         .btn-primary {
@@ -409,6 +519,12 @@ $displayMsg = $_GET['msg'] ?? $message;
             color: #fff;
         }
         .btn-quiz:hover { box-shadow: 0 0 18px var(--wine-glow); transform: translateY(-1px); }
+
+        .btn-news {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+        }
+        .btn-news:hover { box-shadow: 0 0 18px var(--amber-glow); transform: translateY(-1px); }
 
         .btn-secondary { background: rgba(255, 255, 255, 0.08); color: var(--text); }
         .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
@@ -460,10 +576,7 @@ $displayMsg = $_GET['msg'] ?? $message;
             font-style: italic;
         }
 
-        /* Quiz Groups Table & Toggles */
-        .table-responsive {
-            overflow-x: auto;
-        }
+        .table-responsive { overflow-x: auto; }
 
         .groups-table {
             width: 100%;
@@ -473,8 +586,8 @@ $displayMsg = $_GET['msg'] ?? $message;
 
         .groups-table th {
             text-align: left;
-            padding: 0.75rem 1rem;
-            font-size: 0.8rem;
+            padding: 0.75rem 0.85rem;
+            font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--text-muted);
@@ -482,21 +595,19 @@ $displayMsg = $_GET['msg'] ?? $message;
         }
 
         .groups-table td {
-            padding: 1rem;
+            padding: 0.9rem 0.85rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             vertical-align: middle;
         }
 
-        .groups-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
+        .groups-table tr:hover { background: rgba(255, 255, 255, 0.02); }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.55rem;
             border-radius: 9999px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 600;
         }
         .badge-group { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
@@ -507,15 +618,11 @@ $displayMsg = $_GET['msg'] ?? $message;
         .switch {
             position: relative;
             display: inline-block;
-            width: 44px;
-            height: 24px;
+            width: 40px;
+            height: 22px;
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+        .switch input { opacity: 0; width: 0; height: 0; }
 
         .slider {
             position: absolute;
@@ -523,14 +630,14 @@ $displayMsg = $_GET['msg'] ?? $message;
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: rgba(255, 255, 255, 0.15);
             transition: .3s;
-            border-radius: 24px;
+            border-radius: 22px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
+            height: 16px;
+            width: 16px;
             left: 3px;
             bottom: 3px;
             background-color: white;
@@ -538,28 +645,22 @@ $displayMsg = $_GET['msg'] ?? $message;
             border-radius: 50%;
         }
 
-        input:checked + .slider {
-            background-color: var(--success);
-        }
+        input:checked + .slider { background-color: var(--success); }
+        input:checked + .slider.slider-purple { background-color: var(--purple); }
+        input:checked + .slider.slider-amber { background-color: var(--amber); }
 
-        input:checked + .slider.slider-purple {
-            background-color: var(--purple);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
+        input:checked + .slider:before { transform: translateX(18px); }
 
         .code-box {
             font-family: monospace;
             background: rgba(0, 0, 0, 0.4);
             padding: 0.25rem 0.5rem;
             border-radius: 0.35rem;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: #38bdf8;
         }
 
-        /* Modal styling for Quiz preview */
+        /* Modal styling */
         .modal {
             display: none;
             position: fixed;
@@ -575,8 +676,10 @@ $displayMsg = $_GET['msg'] ?? $message;
             background: var(--card);
             border: 1px solid var(--card-border);
             border-radius: 1.25rem;
-            max-width: 600px;
+            max-width: 650px;
             width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
             padding: 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
             animation: modalFadeIn 0.3s ease;
@@ -587,13 +690,14 @@ $displayMsg = $_GET['msg'] ?? $message;
             to { opacity: 1; transform: scale(1); }
         }
 
-        .quiz-preview-box {
+        .preview-box {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 0.75rem;
             padding: 1.25rem;
             margin: 1rem 0;
-            border-left: 4px solid var(--wine);
         }
+        .preview-box-quiz { border-left: 4px solid var(--wine); }
+        .preview-box-news { border-left: 4px solid var(--amber); }
 
         .quiz-option-item {
             padding: 0.5rem 0.75rem;
@@ -614,7 +718,7 @@ $displayMsg = $_GET['msg'] ?? $message;
 
 <div class="container">
     <div class="header-actions">
-        <h1>🍷 Podcast & Quiz Control Center</h1>
+        <h1>🍷 Podcast, Quiz & News Center</h1>
         <?php if ($action === 'list'): ?>
             <a href="?action=add" class="btn btn-primary">+ Aggiungi Podcast</a>
         <?php else: ?>
@@ -652,6 +756,9 @@ $displayMsg = $_GET['msg'] ?? $message;
                                 <button type="button" class="btn btn-quiz btn-sm" onclick="triggerSendQuiz(<?php echo $p['id']; ?>, '<?php echo addslashes($p['podcast_name']); ?>')">
                                     🎲 Invia Quiz Ora
                                 </button>
+                                <button type="button" class="btn btn-news btn-sm" onclick="triggerSendNews(<?php echo $p['id']; ?>, '<?php echo addslashes($p['podcast_name']); ?>')">
+                                    📰 Invia News Ora
+                                </button>
                                 <a href="?action=edit&id=<?php echo $p['id']; ?>" class="btn btn-secondary btn-sm">Modifica</a>
                                 <a href="set_webhook.php?token=<?php echo urlencode($p['token']); ?>" class="btn btn-webhook btn-sm" title="Configura Webhook su Telegram">Webhook</a>
                                 <a href="?action=delete&id=<?php echo $p['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Sei sicuro di voler eliminare questo podcast?')">Elimina</a>
@@ -662,12 +769,12 @@ $displayMsg = $_GET['msg'] ?? $message;
             <?php endif; ?>
         </div>
 
-        <!-- Sezione 2: Modulo Quiz Automatico & Gruppi Telegram -->
+        <!-- Sezione 2: Modulo Destinazioni Telegram (Quiz & News) -->
         <div class="card">
             <div class="section-title">
-                <span>🎯 Destinazioni Quiz Telegram (Gruppi & Canali)</span>
+                <span>🎯 Destinazioni Telegram (Gruppi & Canali)</span>
                 <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: normal;">
-                    I gruppi vengono censiti automaticamente quando il bot riceve messaggi o viene aggiunto
+                    Censimento automatico al primo messaggio ricevuto
                 </span>
             </div>
 
@@ -682,12 +789,14 @@ $displayMsg = $_GET['msg'] ?? $message;
                         <thead>
                             <tr>
                                 <th>Podcast</th>
-                                <th>Nome Gruppo / Canale</th>
+                                <th>Gruppo / Canale</th>
                                 <th>Tipo</th>
                                 <th>Chat ID</th>
                                 <th style="text-align:center;">Quiz Attivo</th>
                                 <th style="text-align:center;">Anonimo</th>
-                                <th>Ultimo Invio</th>
+                                <th style="text-align:center;">News Attivo</th>
+                                <th>Ultimo Quiz</th>
+                                <th>Ultima News</th>
                                 <th style="text-align:right;">Azioni</th>
                             </tr>
                         </thead>
@@ -715,21 +824,30 @@ $displayMsg = $_GET['msg'] ?? $message;
                                     </td>
                                     <td style="text-align:center;">
                                         <label class="switch" title="Abilita/Disabilita Quiz Automatico">
-                                            <input type="checkbox" <?php echo $qt['is_active'] ? 'checked' : ''; ?> onchange="toggleGroupStatus(<?php echo $qt['id']; ?>, 'active')">
+                                            <input type="checkbox" <?php echo $qt['is_active'] ? 'checked' : ''; ?> onchange="toggleGroupStatus(<?php echo $qt['id']; ?>, 'quiz_active')">
                                             <span class="slider"></span>
                                         </label>
                                     </td>
                                     <td style="text-align:center;">
                                         <label class="switch" title="Quiz Anonimo (spento = Pubblico)">
-                                            <input type="checkbox" <?php echo $qt['is_anonymous'] ? 'checked' : ''; ?> onchange="toggleGroupStatus(<?php echo $qt['id']; ?>, 'anonymous')">
+                                            <input type="checkbox" <?php echo $qt['is_anonymous'] ? 'checked' : ''; ?> onchange="toggleGroupStatus(<?php echo $qt['id']; ?>, 'quiz_anonymous')">
                                             <span class="slider slider-purple"></span>
                                         </label>
                                     </td>
-                                    <td style="font-size: 0.85rem; color: var(--text-muted);">
-                                        <?php echo $qt['last_quiz_sent_at'] ? date('d/m/Y H:i', strtotime($qt['last_quiz_sent_at'])) : 'Mai inviato'; ?>
+                                    <td style="text-align:center;">
+                                        <label class="switch" title="Abilita/Disabilita Rassegna News del Giorno">
+                                            <input type="checkbox" <?php echo !empty($qt['is_news_active']) ? 'checked' : ''; ?> onchange="toggleGroupStatus(<?php echo $qt['id']; ?>, 'news_active')">
+                                            <span class="slider slider-amber"></span>
+                                        </label>
+                                    </td>
+                                    <td style="font-size: 0.8rem; color: var(--text-muted);">
+                                        <?php echo $qt['last_quiz_sent_at'] ? date('d/m H:i', strtotime($qt['last_quiz_sent_at'])) : 'Mai'; ?>
+                                    </td>
+                                    <td style="font-size: 0.8rem; color: var(--text-muted);">
+                                        <?php echo !empty($qt['last_news_sent_at']) ? date('d/m H:i', strtotime($qt['last_news_sent_at'])) : 'Mai'; ?>
                                     </td>
                                     <td style="text-align:right;">
-                                        <a href="?action=delete_quiz_target&target_id=<?php echo $qt['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Rimuovere questo gruppo dalla lista quiz?')">
+                                        <a href="?action=delete_quiz_target&target_id=<?php echo $qt['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Rimuovere questo gruppo?')">
                                             Rimuovi
                                         </a>
                                     </td>
@@ -775,16 +893,30 @@ $displayMsg = $_GET['msg'] ?? $message;
                             <button type="submit" class="btn btn-primary" style="height: 42px;">Salva Gruppo</button>
                         </div>
                     </div>
+                    <div style="display:flex; gap:1.5rem; margin-top:0.75rem; font-size:0.875rem; color:var(--text-muted);">
+                        <label style="display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer;">
+                            <input type="checkbox" name="is_active" value="1" checked style="width:auto;"> Abilita Quiz
+                        </label>
+                        <label style="display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer;">
+                            <input type="checkbox" name="is_news_active" value="1" checked style="width:auto;"> Abilita News
+                        </label>
+                        <label style="display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer;">
+                            <input type="checkbox" name="is_anonymous" value="1" style="width:auto;"> Quiz Anonimo
+                        </label>
+                    </div>
                 </form>
             </div>
 
             <!-- Informazioni Cron Job -->
             <div style="margin-top: 2rem; padding: 1.25rem; background: rgba(0,0,0,0.25); border-radius: 0.75rem; border: 1px solid var(--card-border);">
-                <div style="font-weight: 600; margin-bottom: 0.5rem; color: #38bdf8;">⏰ Istruzioni per il Cron Job Automatico</div>
-                <div style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;">
-                    Per programmare l'invio periodico del Quiz tramite Cron, puoi configurare una delle seguenti modalità nel tuo server o servizio di cron:<br>
-                    • <strong>Esecuzione CLI (Crontab server):</strong> <span class="code-box">php <?php echo realpath(__DIR__ . '/quizCron.php'); ?> 1</span><br>
-                    • <strong>Esecuzione Web (Webhook Cron):</strong> <span class="code-box">https://<?php echo $_SERVER['HTTP_HOST'] ?? 'tuosito.com'; ?><?php echo rtrim(dirname($_SERVER['PHP_SELF']), '/\\'); ?>/quizCron.php?secret=<?php echo CRON_SECRET; ?>&podcast_id=1</span>
+                <div style="font-weight: 600; margin-bottom: 0.5rem; color: #38bdf8;">⏰ Istruzioni per i Cron Job Automatici</div>
+                <div style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.7;">
+                    <strong>1. Quiz Automatico (es. ogni 2 o 3 giorni):</strong><br>
+                    • CLI: <span class="code-box">php <?php echo realpath(__DIR__ . '/quizCron.php'); ?> 1</span><br>
+                    • Web: <span class="code-box">https://<?php echo $_SERVER['HTTP_HOST'] ?? 'tuosito.com'; ?><?php echo rtrim(dirname($_SERVER['PHP_SELF']), '/\\'); ?>/quizCron.php?secret=<?php echo CRON_SECRET; ?>&podcast_id=1</span><br><br>
+                    <strong>2. Rassegna News Giornaliera (es. ogni mattina alle 08:30):</strong><br>
+                    • CLI: <span class="code-box">php <?php echo realpath(__DIR__ . '/newsCron.php'); ?> 1</span><br>
+                    • Web: <span class="code-box">https://<?php echo $_SERVER['HTTP_HOST'] ?? 'tuosito.com'; ?><?php echo rtrim(dirname($_SERVER['PHP_SELF']), '/\\'); ?>/newsCron.php?secret=<?php echo CRON_SECRET; ?>&podcast_id=1</span>
                 </div>
             </div>
         </div>
@@ -877,24 +1009,27 @@ $displayMsg = $_GET['msg'] ?? $message;
     <?php endif; ?>
 </div>
 
-<!-- Modal di anteprima / invio Quiz in tempo reale -->
-<div id="quizModal" class="modal">
+<!-- Modal di anteprima in tempo reale (Quiz / News) -->
+<div id="actionModal" class="modal">
     <div class="modal-content">
-        <h2 id="modalTitle" style="margin-top:0; font-family:'Outfit', sans-serif; font-size:1.4rem;">Generazione Quiz in Corso...</h2>
+        <h2 id="modalTitle" style="margin-top:0; font-family:'Outfit', sans-serif; font-size:1.4rem;">Elaborazione in corso...</h2>
         <div id="modalBody">
-            <p id="modalStatusText" style="color: var(--text-muted);">Sto contattando l'IA per formulare il quiz basato sul file YAML e inviarlo via Telegram sendPoll...</p>
-            <div id="quizResultPreview" style="display:none;"></div>
+            <p id="modalStatusText" style="color: var(--text-muted);">Contatto l'IA ed elaboro la richiesta...</p>
+            <div id="actionResultPreview" style="display:none;"></div>
         </div>
         <div style="text-align: right; margin-top: 1.5rem;">
-            <button type="button" class="btn btn-secondary" onclick="closeQuizModal()">Chiudi</button>
+            <button type="button" class="btn btn-secondary" onclick="closeActionModal()">Chiudi</button>
         </div>
     </div>
 </div>
 
 <script>
-// Toggle Asincrono per Checkbox Attivo / Anonimo
+// Toggle Asincrono per Checkbox Attivo / Anonimo / News
 function toggleGroupStatus(targetId, field) {
-    const action = field === 'active' ? 'toggle_quiz_active' : 'toggle_quiz_anonymous';
+    let action = 'toggle_quiz_active';
+    if (field === 'quiz_anonymous') action = 'toggle_quiz_anonymous';
+    else if (field === 'news_active') action = 'toggle_news_active';
+
     fetch(`manage_podcasts.php?action=${action}&target_id=${targetId}`, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' }
     }).catch(err => {
@@ -904,27 +1039,18 @@ function toggleGroupStatus(targetId, field) {
 
 // Trigger Invio Immediato Quiz
 function triggerSendQuiz(podcastId, podcastName) {
-    const modal = document.getElementById('quizModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalStatusText = document.getElementById('modalStatusText');
-    const quizResultPreview = document.getElementById('quizResultPreview');
-
-    modalTitle.innerText = `🎲 Generazione Quiz: ${podcastName}`;
-    modalStatusText.style.display = 'block';
-    modalStatusText.innerText = 'Elaborazione in corso con Gemini AI (ingestione YAML e generazione Poll)...';
-    quizResultPreview.style.display = 'none';
-    quizResultPreview.innerHTML = '';
-    modal.style.display = 'flex';
+    openModal(`🎲 Generazione Quiz: ${podcastName}`, 'Generazione quiz con Gemini AI dal file YAML e invio Telegram sendPoll...');
 
     fetch(`manage_podcasts.php?action=send_quiz_now&podcast_id=${podcastId}`)
         .then(res => res.json())
         .then(data => {
-            modalStatusText.style.display = 'none';
-            quizResultPreview.style.display = 'block';
+            const preview = document.getElementById('actionResultPreview');
+            document.getElementById('modalStatusText').style.display = 'none';
+            preview.style.display = 'block';
 
             if (data.status === 'success') {
-                modalTitle.innerText = `✅ Quiz inviato con successo! (${data.sent_count} destinazioni)`;
-                let html = `<div class="quiz-preview-box">
+                document.getElementById('modalTitle').innerText = `✅ Quiz inviato con successo! (${data.sent_count} destinazioni)`;
+                let html = `<div class="preview-box preview-box-quiz">
                     <strong style="color:#f8fafc; font-size:1.05rem;">${escapeHtml(data.quiz.question)}</strong>
                     <div style="margin-top:0.75rem;">`;
                 
@@ -939,31 +1065,66 @@ function triggerSendQuiz(podcastId, podcastName) {
                     html += `<div style="margin-top:0.75rem; font-size:0.85rem; color:#94a3b8; font-style:italic;">💡 <strong>Spiegazione:</strong> ${escapeHtml(data.quiz.explanation)}</div>`;
                 }
                 html += `</div></div>`;
-
-                html += `<div style="font-size:0.85rem; color:#94a3b8;">
-                    <strong>Destinatari:</strong> ${data.details.map(d => d.chat_title + ' (' + d.status + ')').join(', ')}
-                </div>`;
-
-                quizResultPreview.innerHTML = html;
+                html += `<div style="font-size:0.85rem; color:#94a3b8;"><strong>Destinatari:</strong> ${data.details.map(d => d.chat_title + ' (' + d.status + ')').join(', ')}</div>`;
+                preview.innerHTML = html;
             } else {
-                modalTitle.innerText = `⚠️ Errore durante l'invio del Quiz`;
-                quizResultPreview.innerHTML = `<div class="alert" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#f87171;">
-                    ${escapeHtml(data.message || 'Errore sconosciuto')}
-                </div>`;
+                document.getElementById('modalTitle').innerText = `⚠️ Errore durante l'invio del Quiz`;
+                preview.innerHTML = `<div class="alert" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#f87171;">${escapeHtml(data.message || 'Errore sconosciuto')}</div>`;
             }
         })
-        .catch(err => {
-            modalStatusText.style.display = 'none';
-            quizResultPreview.style.display = 'block';
-            modalTitle.innerText = `⚠️ Errore di Rete`;
-            quizResultPreview.innerHTML = `<div class="alert" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#f87171;">
-                ${escapeHtml(err.message)}
-            </div>`;
-        });
+        .catch(err => showErrorModal(err));
 }
 
-function closeQuizModal() {
-    document.getElementById('quizModal').style.display = 'none';
+// Trigger Invio Immediato News
+function triggerSendNews(podcastId, podcastName) {
+    openModal(`📰 Generazione Rassegna News: ${podcastName}`, 'Scraping Google News RSS, selezione editoriale con IA e invio Telegram...');
+
+    fetch(`manage_podcasts.php?action=send_news_now&podcast_id=${podcastId}`)
+        .then(res => res.json())
+        .then(data => {
+            const preview = document.getElementById('actionResultPreview');
+            document.getElementById('modalStatusText').style.display = 'none';
+            preview.style.display = 'block';
+
+            if (data.status === 'success') {
+                document.getElementById('modalTitle').innerText = `✅ News inviata con successo! (${data.sent_count} destinazioni)`;
+                let html = `<div class="preview-box preview-box-news">
+                    <div style="font-size:0.8rem; text-transform:uppercase; color:#f59e0b; font-weight:700; margin-bottom:0.5rem;">Fonte: ${escapeHtml(data.news.source_name)}</div>
+                    <div style="font-size:0.95rem; line-height:1.6; white-space:pre-wrap;">${escapeHtml(data.news.editorial_post)}</div>
+                    <div style="margin-top:0.75rem;"><a href="${encodeURI(data.news.source_url)}" target="_blank" style="color:#38bdf8; font-size:0.85rem; word-break:break-all;">🔗 Apri articolo originale</a></div>
+                </div>`;
+                html += `<div style="font-size:0.85rem; color:#94a3b8;"><strong>Destinatari:</strong> ${data.details.map(d => d.chat_title + ' (' + d.status + ')').join(', ')}</div>`;
+                preview.innerHTML = html;
+            } else {
+                document.getElementById('modalTitle').innerText = `⚠️ Errore durante l'invio delle News`;
+                preview.innerHTML = `<div class="alert" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#f87171;">${escapeHtml(data.message || 'Errore sconosciuto')}</div>`;
+            }
+        })
+        .catch(err => showErrorModal(err));
+}
+
+function openModal(title, statusText) {
+    const modal = document.getElementById('actionModal');
+    document.getElementById('modalTitle').innerText = title;
+    const st = document.getElementById('modalStatusText');
+    st.style.display = 'block';
+    st.innerText = statusText;
+    const prev = document.getElementById('actionResultPreview');
+    prev.style.display = 'none';
+    prev.innerHTML = '';
+    modal.style.display = 'flex';
+}
+
+function showErrorModal(err) {
+    const prev = document.getElementById('actionResultPreview');
+    document.getElementById('modalStatusText').style.display = 'none';
+    prev.style.display = 'block';
+    document.getElementById('modalTitle').innerText = `⚠️ Errore di Comunicazione`;
+    prev.innerHTML = `<div class="alert" style="background:rgba(239,68,68,0.15); border-color:#ef4444; color:#f87171;">${escapeHtml(err.message)}</div>`;
+}
+
+function closeActionModal() {
+    document.getElementById('actionModal').style.display = 'none';
     location.reload();
 }
 
@@ -975,4 +1136,3 @@ function escapeHtml(str) {
 
 </body>
 </html>
-

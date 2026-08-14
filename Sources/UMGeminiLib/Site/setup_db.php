@@ -37,14 +37,29 @@ try {
         chat_type VARCHAR(50) DEFAULT 'group',
         is_active TINYINT(1) DEFAULT 1,
         is_anonymous TINYINT(1) DEFAULT 0,
+        is_news_active TINYINT(1) DEFAULT 1,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         last_quiz_sent_at DATETIME NULL,
+        last_news_sent_at DATETIME NULL,
         UNIQUE KEY uniq_podcast_chat (podcast_id, chat_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
     $pdo->exec($sqlQuizTargets);
     echo "Tabella 'quiz_targets' verificata/creata correttamente.\n";
 
-    // 3. Inserimento dati "Il vino lo porto io" (se non esistono)
+    // 3. Creazione Tabella sent_news
+    $sqlSentNews = "CREATE TABLE IF NOT EXISTS sent_news (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        podcast_id INT NOT NULL,
+        article_title VARCHAR(500) NOT NULL,
+        article_url VARCHAR(500) NOT NULL,
+        sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_podcast_url (podcast_id, article_url(191))
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+    $pdo->exec($sqlSentNews);
+    echo "Tabella 'sent_news' verificata/creata correttamente.\n";
+
+    // 4. Inserimento dati "Il vino lo porto io" (se non esistono)
+
     $sqlInsert = "INSERT IGNORE INTO podcasts 
     (token, username, yaml_file, podcast_name, experts, fallback_prefix, search_photo, final_photo, emoji, start_message, waiting_caption, error_response, final_caption_prefix)
     VALUES 

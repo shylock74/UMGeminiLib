@@ -22,12 +22,13 @@ try {
 }
 
 /**
- * Assicura la presenza e l'allineamento della tabella quiz_targets
+ * Assicura la presenza e l'allineamento delle tabelle quiz_targets e sent_news
  */
 function ensureQuizTables($pdo) {
     static $checked = false;
     if ($checked || !$pdo) return;
     try {
+        // Tabella gruppi / destinazioni Telegram
         $pdo->exec("CREATE TABLE IF NOT EXISTS quiz_targets (
             id INT AUTO_INCREMENT PRIMARY KEY,
             podcast_id INT NOT NULL,
@@ -36,15 +37,37 @@ function ensureQuizTables($pdo) {
             chat_type VARCHAR(50) DEFAULT 'group',
             is_active TINYINT(1) DEFAULT 1,
             is_anonymous TINYINT(1) DEFAULT 0,
+            is_news_active TINYINT(1) DEFAULT 1,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             last_quiz_sent_at DATETIME NULL,
+            last_news_sent_at DATETIME NULL,
             UNIQUE KEY uniq_podcast_chat (podcast_id, chat_id)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+        // Verifica ed eventuale aggiunta colonne per installazioni esistenti
+        try {
+            $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN IF NOT EXISTS is_news_active TINYINT(1) DEFAULT 1 AFTER is_anonymous");
+            $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN IF NOT EXISTS last_news_sent_at DATETIME NULL AFTER last_quiz_sent_at");
+        } catch (\Exception $colEx) {
+            // Ignora se già presenti o non supportato da versione MariaDB
+        }
+
+        // Tabella archivio notizie già inviate
+        $pdo->exec("CREATE TABLE IF NOT EXISTS sent_news (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            podcast_id INT NOT NULL,
+            article_title VARCHAR(500) NOT NULL,
+            article_url VARCHAR(500) NOT NULL,
+            sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_podcast_url (podcast_id, article_url(191))
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
         $checked = true;
     } catch (\Exception $e) {
         // Ignora se la tabella esiste già o non abbiamo permessi DDL runtime
     }
 }
+
 
 /**
  * Registra o aggiorna automaticamente una chat/gruppo Telegram nel database
