@@ -76,7 +76,23 @@ try {
     $pdo->exec($sqlSentNews);
     echo "Tabella 'sent_news' verificata/creata correttamente.\n";
 
-    // 4. Inserimento dati "Il vino lo porto io" (se non esistono)
+    // 4. Creazione Tabella short_links
+    $sqlShortLinks = "CREATE TABLE IF NOT EXISTS short_links (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        code VARCHAR(16) UNIQUE NOT NULL,
+        podcast_id INT NOT NULL,
+        title VARCHAR(255),
+        target_url TEXT NOT NULL,
+        clicks INT DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        last_clicked_at DATETIME NULL,
+        INDEX idx_podcast_code (podcast_id, code)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4";
+    $pdo->exec($sqlShortLinks);
+    echo "Tabella 'short_links' verificata/creata correttamente.\n";
+
+    // 5. Inserimento dati "Il vino lo porto io" (se non esistono)
+
 
     $sqlInsert = "INSERT IGNORE INTO podcasts 
     (token, username, yaml_file, podcast_name, experts, fallback_prefix, search_photo, final_photo, emoji, start_message, waiting_caption, error_response, final_caption_prefix)

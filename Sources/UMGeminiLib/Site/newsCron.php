@@ -1,7 +1,7 @@
 <?php
 /**
  * newsCron.php
- * Esecuzione programmata (Cron Job) o manuale per la generazione e invio della rassegna news Telegram.
+ * Esecuzione programmata (Cron Job) o manuale per la generazione e invio della rassegna news Telegram con immagine e link corto.
  * 
  * Utilizzo CLI:
  *   php newsCron.php [podcast_id]
@@ -29,7 +29,6 @@ if ($isCli) {
         $podcastId = (int)$argv[1];
     }
 } else {
-    // Se chiamato via Web, verifica il secret
     if (defined('CRON_SECRET') && !empty(CRON_SECRET) && CRON_SECRET !== 'YOUR_CRON_SECRET') {
         if ($secret !== CRON_SECRET) {
             http_response_code(403);
@@ -47,14 +46,13 @@ if ($isCli) {
 
 ensureQuizTables($pdo);
 
-// 2. Lookup del podcast (o di tutti i podcast)
+// 2. Lookup del podcast
 try {
     if ($podcastId) {
         $stmt = $pdo->prepare("SELECT * FROM podcasts WHERE id = :id");
         $stmt->execute([':id' => $podcastId]);
         $podcasts = $stmt->fetchAll();
     } else {
-        // Se non specificato, esegui per i podcast con gruppi aventi is_news_active = 1
         $stmt = $pdo->query("SELECT DISTINCT p.* FROM podcasts p INNER JOIN quiz_targets qt ON p.id = qt.podcast_id WHERE qt.is_news_active = 1");
         $podcasts = $stmt->fetchAll();
         
@@ -75,7 +73,7 @@ try {
         $botToken = $podcast['token'];
         $emoji = $podcast['emoji'] ?? '🍷';
 
-        // Recupera i gruppi Telegram abilitati alle news per questo podcast
+        // Recupera i gruppi abilitati alle news
         $stmtTargets = $pdo->prepare("SELECT * FROM quiz_targets WHERE podcast_id = :podcast_id AND is_news_active = 1");
         $stmtTargets->execute([':podcast_id' => $pId]);
         $targets = $stmtTargets->fetchAll();
@@ -85,20 +83,21 @@ try {
                 'podcast_id' => $pId,
                 'podcast_name' => $pName,
                 'status' => 'skipped',
-                'message' => 'Nessun gruppo o canale Telegram abilitato alle news per questo podcast.'
+                'message' => 'Nessun gruppo o canale abilitato alle news per questo podcast.'
             ];
             continue;
         }
 
-        // Generazione del post editoriale con l'IA da Google News
+        // Generazione del post editoriale con immagine e link corto
         $newsResult = NewsCore::generaPostNews($pdo, $pId, [
             'podcastName' => $pName,
             'emoji' => $emoji
         ], DEFAULT_MODEL);
 
         $postText = $newsResult['editorial_post'];
+        $imageUrl = $newsResult['image_url'] ?? null;
         
-        // Conversione Markdown standard per Telegram
+        // Conversione Markdown per Telegram
         $formattedText = preg_replace('/\*\*(.+?)\*\*/s', '*$1*', $postText);
         $formattedText = preg_replace('/__(.+?)__/s', '_$1_', $formattedText);
         $formattedText = preg_replace('/^#{1,6}\s+/m', '', $formattedText);
@@ -112,7 +111,61 @@ try {
             $chatId = $target['chat_id'];
             $chatTitle = $target['chat_title'] ?? $chatId;
 
-            $sendResp = sendTelegramMessage($botToken, $chatId, $formattedText, 'Markdown');
+            $sendResp = null;
+            $usedPhoto = false;
+
+            // Se abbiamo un'immagine (URL o file locale)
+            if (!empty($imageUrl)) {
+                $photoParam = null;
+                if (filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+                    $photoParam = $imageUrl;
+                } elseif (file_exists($imageUrl)) {
+                    $photoParam = new CURLFile(realpath($imageUrl));
+                } elseif (file_exists(__DIR__ . '/' . $imageUrl)) {
+                    $photoParam = new CURLFile(__DIR__ . '/' . $imageUrl);
+                }
+
+                if ($photoParam) {
+                    if (mb_strlen($formattedText, 'UTF-8') <= 1024) {
+                        // Invia direttamente la foto con il testo completo come caption
+                        $sendResp = sendTelegramApiRequest($botToken, 'sendPhoto', [
+                            'chat_id' => $chatId,
+                            'photo' => $photoParam,
+                            'caption' => $formattedText,
+                            'parse_mode' => 'Markdown'
+                        ]);
+                        $usedPhoto = true;
+                    } else {
+                        // Foto con titolo sintetico + messaggio completo
+                        $photoCaption = $emoji . " *Rassegna Notizie:* " . ($newsResult['article_title'] ?? 'Novità dal mondo del vino');
+                        sendTelegramApiRequest($botToken, 'sendPhoto', [
+                            'chat_id' => $chatId,
+                            'photo' => $photoParam,
+                            'caption' => $photoCaption,
+                            'parse_mode' => 'Markdown'
+                        ]);
+                        usleep(300000);
+                        $sendResp = sendTelegramApiRequest($botToken, 'sendMessage', [
+                            'chat_id' => $chatId,
+                            'text' => $formattedText,
+                            'parse_mode' => 'Markdown',
+                            'disable_web_page_preview' => false
+                        ]);
+                        $usedPhoto = true;
+                    }
+                }
+            }
+
+            // Fallback messaggio di solo testo
+            if (!$usedPhoto || empty($sendResp)) {
+                $sendResp = sendTelegramApiRequest($botToken, 'sendMessage', [
+                    'chat_id' => $chatId,
+                    'text' => $formattedText,
+                    'parse_mode' => 'Markdown',
+                    'disable_web_page_preview' => false
+                ]);
+            }
+
             $respData = json_decode($sendResp, true);
 
             if ($respData && !empty($respData['ok'])) {
@@ -128,7 +181,7 @@ try {
                 ];
             } else {
                 $failedCount++;
-                $errorDesc = $respData['description'] ?? 'Errore invio messaggio Telegram';
+                $errorDesc = $respData['description'] ?? 'Errore invio Telegram';
                 $details[] = [
                     'chat_id' => $chatId,
                     'chat_title' => $chatTitle,
@@ -138,7 +191,7 @@ try {
             }
         }
 
-        // Se inviato con successo ad almeno una destinazione, archivia l'articolo in sent_news
+        // Se inviato, archivia in sent_news
         if ($sentCount > 0 && !empty($newsResult['source_url'])) {
             try {
                 $stmtArchive = $pdo->prepare("INSERT INTO sent_news (podcast_id, article_title, article_url) VALUES (:podcast_id, :title, :url)");
@@ -147,9 +200,7 @@ try {
                     ':title' => $newsResult['article_title'] ?: 'Notizia del Giorno',
                     ':url' => $newsResult['source_url']
                 ]);
-            } catch (Exception $eArch) {
-                // Ignora errore salvataggio archivio
-            }
+            } catch (Exception $eArch) {}
         }
 
         $results[] = [
@@ -159,6 +210,8 @@ try {
             'article_title' => $newsResult['article_title'],
             'source_name' => $newsResult['source_name'],
             'source_url' => $newsResult['source_url'],
+            'short_url' => $newsResult['short_url'] ?? null,
+            'image_url' => $newsResult['image_url'] ?? null,
             'sent_count' => $sentCount,
             'failed_count' => $failedCount,
             'details' => $details
@@ -180,10 +233,8 @@ try {
     ];
 }
 
-// Log dell'esecuzione del cron
 @file_put_contents('news_cron.log', "[" . date('Y-m-d H:i:s') . "] " . json_encode($response, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND);
 
-// Output per Web o CLI
 if (!$isCli) {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -195,6 +246,8 @@ if (!$isCli) {
             echo "- Podcast: " . ($res['podcast_name'] ?? 'N/A') . " -> Inviati: " . ($res['sent_count'] ?? 0) . ", Falliti: " . ($res['failed_count'] ?? 0) . "\n";
             if (isset($res['article_title'])) {
                 echo "  Notizia: " . $res['article_title'] . "\n";
+                if (!empty($res['short_url'])) echo "  Link: " . $res['short_url'] . "\n";
+                if (!empty($res['image_url'])) echo "  Immagine: " . $res['image_url'] . "\n";
             }
         }
     }
@@ -204,36 +257,28 @@ if (!$isCli) {
     echo "===========================\n";
 }
 
-/**
- * Helper per inviare messaggi di testo Telegram con fallback Markdown
- */
-function sendTelegramMessage($botToken, $chatId, $text, $parseMode = 'Markdown') {
-    $url = "https://api.telegram.org/bot" . $botToken . "/sendMessage";
-    $params = [
-        'chat_id' => $chatId,
-        'text' => $text,
-        'parse_mode' => $parseMode,
-        'disable_web_page_preview' => false
-    ];
+function sendTelegramApiRequest($botToken, $method, $params) {
+    $url = "https://api.telegram.org/bot" . $botToken . "/" . $method;
 
-    $result = sendCurlRequest($url, $params);
-    $data = json_decode($result, true);
-
-    // Se Telegram rifiuta il Markdown, ritenta senza parse_mode
-    if (!$data || empty($data['ok'])) {
-        unset($params['parse_mode']);
-        $result = sendCurlRequest($url, $params);
-    }
-
-    return $result;
-}
-
-function sendCurlRequest($url, $params) {
     if (function_exists('curl_version')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+
+        $hasFile = false;
+        foreach ($params as $val) {
+            if ($val instanceof CURLFile) {
+                $hasFile = true;
+                break;
+            }
+        }
+
+        if ($hasFile) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        } else {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+        }
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);

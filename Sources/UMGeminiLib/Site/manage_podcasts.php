@@ -1,7 +1,7 @@
 <?php
 /**
  * manage_podcasts.php
- * Console di gestione CRUD per i podcast, Quiz Automatici e Rassegna News Telegram
+ * Console di gestione CRUD per i podcast, Quiz Automatici, Rassegna News Telegram e Statistiche Click
  */
 
 require_once 'db.php';
@@ -109,7 +109,7 @@ if ($action === 'delete_quiz_target' && isset($_GET['target_id'])) {
     }
 }
 
-// 6. Test Invio Immediato Quiz (Pulsante "Invia Quiz Ora")
+// 6. Test Invio Immediato Quiz
 if ($action === 'send_quiz_now') {
     header('Content-Type: application/json');
     $podcastId = (int)($_GET['podcast_id'] ?? 1);
@@ -198,7 +198,7 @@ if ($action === 'send_quiz_now') {
     }
 }
 
-// 7. Test Invio Immediato News (Pulsante "Invia News Ora")
+// 7. Test Invio Immediato News (con Immagine e Link Corto)
 if ($action === 'send_news_now') {
     header('Content-Type: application/json');
     $podcastId = (int)($_GET['podcast_id'] ?? 1);
@@ -216,7 +216,7 @@ if ($action === 'send_news_now') {
         $targets = $stmtTargets->fetchAll();
 
         if (empty($targets)) {
-            throw new Exception("Nessun gruppo abilitato alle News per questo podcast.");
+            throw new Exception("Nessun gruppo abilitato alle News per questo podcast. Attiva lo switch 'News' per almeno un gruppo.");
         }
 
         // Generazione del Post News con l'IA
@@ -226,6 +226,8 @@ if ($action === 'send_news_now') {
         ], DEFAULT_MODEL);
 
         $postText = $newsResult['editorial_post'];
+        $imageUrl = $newsResult['image_url'] ?? null;
+
         $formattedText = preg_replace('/\*\*(.+?)\*\*/s', '*$1*', $postText);
         $formattedText = preg_replace('/__(.+?)__/s', '_$1_', $formattedText);
         $formattedText = preg_replace('/^#{1,6}\s+/m', '', $formattedText);
@@ -238,22 +240,56 @@ if ($action === 'send_news_now') {
             $chatId = $target['chat_id'];
             $chatTitle = $target['chat_title'] ?? $chatId;
 
-            $url = "https://api.telegram.org/bot" . $podcast['token'] . "/sendMessage";
-            $params = [
-                'chat_id' => $chatId,
-                'text' => $formattedText,
-                'parse_mode' => 'Markdown',
-                'disable_web_page_preview' => false
-            ];
+            $sendResp = null;
+            $usedPhoto = false;
 
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-            $sendResp = curl_exec($ch);
-            curl_close($ch);
+            if (!empty($imageUrl)) {
+                $photoParam = null;
+                if (filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+                    $photoParam = $imageUrl;
+                } elseif (file_exists($imageUrl)) {
+                    $photoParam = new CURLFile(realpath($imageUrl));
+                } elseif (file_exists(__DIR__ . '/' . $imageUrl)) {
+                    $photoParam = new CURLFile(__DIR__ . '/' . $imageUrl);
+                }
+
+                if ($photoParam) {
+                    if (mb_strlen($formattedText, 'UTF-8') <= 1024) {
+                        $sendResp = sendTelegramDirectRequest($podcast['token'], 'sendPhoto', [
+                            'chat_id' => $chatId,
+                            'photo' => $photoParam,
+                            'caption' => $formattedText,
+                            'parse_mode' => 'Markdown'
+                        ]);
+                        $usedPhoto = true;
+                    } else {
+                        $photoCaption = ($podcast['emoji'] ?? '🍷') . " *Rassegna Notizie:* " . ($newsResult['article_title'] ?? 'Novità enologiche');
+                        sendTelegramDirectRequest($podcast['token'], 'sendPhoto', [
+                            'chat_id' => $chatId,
+                            'photo' => $photoParam,
+                            'caption' => $photoCaption,
+                            'parse_mode' => 'Markdown'
+                        ]);
+                        usleep(300000);
+                        $sendResp = sendTelegramDirectRequest($podcast['token'], 'sendMessage', [
+                            'chat_id' => $chatId,
+                            'text' => $formattedText,
+                            'parse_mode' => 'Markdown',
+                            'disable_web_page_preview' => false
+                        ]);
+                        $usedPhoto = true;
+                    }
+                }
+            }
+
+            if (!$usedPhoto || empty($sendResp)) {
+                $sendResp = sendTelegramDirectRequest($podcast['token'], 'sendMessage', [
+                    'chat_id' => $chatId,
+                    'text' => $formattedText,
+                    'parse_mode' => 'Markdown',
+                    'disable_web_page_preview' => false
+                ]);
+            }
 
             $respData = json_decode($sendResp, true);
 
@@ -295,6 +331,34 @@ if ($action === 'send_news_now') {
         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         exit;
     }
+}
+
+function sendTelegramDirectRequest($botToken, $method, $params) {
+    $url = "https://api.telegram.org/bot" . $botToken . "/" . $method;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+
+    $hasFile = false;
+    foreach ($params as $val) {
+        if ($val instanceof CURLFile) {
+            $hasFile = true;
+            break;
+        }
+    }
+
+    if ($hasFile) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    } else {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
+    }
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
 }
 
 // --- LOGICA CRUD PODCAST ---
@@ -363,6 +427,7 @@ if ($action === 'edit' && $editId) {
 
 $podcasts = $pdo->query("SELECT * FROM podcasts ORDER BY id ASC")->fetchAll();
 $quizTargets = $pdo->query("SELECT qt.*, p.podcast_name, p.emoji as podcast_emoji FROM quiz_targets qt LEFT JOIN podcasts p ON qt.podcast_id = p.id ORDER BY qt.podcast_id ASC, qt.id DESC")->fetchAll();
+$shortLinks = $pdo->query("SELECT sl.*, p.podcast_name, p.emoji as podcast_emoji FROM short_links sl LEFT JOIN podcasts p ON sl.podcast_id = p.id ORDER BY sl.clicks DESC, sl.id DESC LIMIT 50")->fetchAll();
 
 $displayMsg = $_GET['msg'] ?? $message;
 ?>
@@ -613,6 +678,7 @@ $displayMsg = $_GET['msg'] ?? $message;
         .badge-group { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
         .badge-channel { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
         .badge-private { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+        .badge-clicks { background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700; }
 
         /* Switch Toggle Component */
         .switch {
@@ -906,6 +972,68 @@ $displayMsg = $_GET['msg'] ?? $message;
                     </div>
                 </form>
             </div>
+        </div>
+
+        <!-- Sezione 3: Link Tracciati & Statistiche Click -->
+        <div class="card">
+            <div class="section-title">
+                <span>📊 Link Tracciati & Statistiche Click</span>
+                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: normal;">
+                    Reindirizzamento tramite endpoint <code class="code-box">r.php?c=...</code>
+                </span>
+            </div>
+
+            <?php if (empty($shortLinks)): ?>
+                <div class="empty-state">Nessun link ancora tracciato. Verranno generati automaticamente all'invio delle News.</div>
+            <?php else: ?>
+                <div class="table-responsive">
+                    <table class="groups-table">
+                        <thead>
+                            <tr>
+                                <th>Podcast</th>
+                                <th>Titolo / Descrizione</th>
+                                <th>Link Corto (Tracciato)</th>
+                                <th>Destinazione Originale</th>
+                                <th style="text-align:center;">Click Totali</th>
+                                <th>Ultimo Click</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($shortLinks as $sl): ?>
+                                <?php 
+                                    $host = $_SERVER['HTTP_HOST'] ?? 'ulti.media';
+                                    $scriptDir = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+                                    $shortUrl = 'https://' . $host . $scriptDir . '/r.php?c=' . $sl['code'];
+                                ?>
+                                <tr>
+                                    <td>
+                                        <span><?php echo htmlspecialchars($sl['podcast_emoji'] ?? '🍷'); ?> <?php echo htmlspecialchars($sl['podcast_name']); ?></span>
+                                    </td>
+                                    <td>
+                                        <strong><?php echo htmlspecialchars($sl['title'] ?: 'Notizia'); ?></strong>
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo htmlspecialchars($shortUrl); ?>" target="_blank" class="code-box" style="text-decoration:none;">
+                                            🔗 r.php?c=<?php echo htmlspecialchars($sl['code']); ?>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo htmlspecialchars($sl['target_url']); ?>" target="_blank" style="color:var(--text-muted); font-size:0.8rem; text-decoration:underline; max-width:220px; display:inline-block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                            <?php echo htmlspecialchars($sl['target_url']); ?>
+                                        </a>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <span class="badge badge-clicks"><?php echo (int)$sl['clicks']; ?> click</span>
+                                    </td>
+                                    <td style="font-size: 0.8rem; color: var(--text-muted);">
+                                        <?php echo $sl['last_clicked_at'] ? date('d/m/Y H:i', strtotime($sl['last_clicked_at'])) : 'Nessun click'; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
 
             <!-- Informazioni Cron Job -->
             <div style="margin-top: 2rem; padding: 1.25rem; background: rgba(0,0,0,0.25); border-radius: 0.75rem; border: 1px solid var(--card-border);">
@@ -1077,7 +1205,7 @@ function triggerSendQuiz(podcastId, podcastName) {
 
 // Trigger Invio Immediato News
 function triggerSendNews(podcastId, podcastName) {
-    openModal(`📰 Generazione Rassegna News: ${podcastName}`, 'Scraping Google News RSS, selezione editoriale con IA e invio Telegram...');
+    openModal(`📰 Generazione Rassegna News: ${podcastName}`, 'Scraping Google News RSS, estrazione immagine, link corto e invio Telegram...');
 
     fetch(`manage_podcasts.php?action=send_news_now&podcast_id=${podcastId}`)
         .then(res => res.json())
@@ -1088,11 +1216,24 @@ function triggerSendNews(podcastId, podcastName) {
 
             if (data.status === 'success') {
                 document.getElementById('modalTitle').innerText = `✅ News inviata con successo! (${data.sent_count} destinazioni)`;
-                let html = `<div class="preview-box preview-box-news">
-                    <div style="font-size:0.8rem; text-transform:uppercase; color:#f59e0b; font-weight:700; margin-bottom:0.5rem;">Fonte: ${escapeHtml(data.news.source_name)}</div>
-                    <div style="font-size:0.95rem; line-height:1.6; white-space:pre-wrap;">${escapeHtml(data.news.editorial_post)}</div>
-                    <div style="margin-top:0.75rem;"><a href="${encodeURI(data.news.source_url)}" target="_blank" style="color:#38bdf8; font-size:0.85rem; word-break:break-all;">🔗 Apri articolo originale</a></div>
-                </div>`;
+                let html = `<div class="preview-box preview-box-news">`;
+                
+                if (data.news.image_url) {
+                    html += `<div style="margin-bottom:0.75rem; text-align:center;">
+                        <img src="${escapeHtml(data.news.image_url)}" alt="Copertina notizia" style="max-width:100%; max-height:220px; border-radius:0.5rem; object-fit:cover;">
+                    </div>`;
+                }
+
+                html += `<div style="font-size:0.8rem; text-transform:uppercase; color:#f59e0b; font-weight:700; margin-bottom:0.5rem;">Fonte: ${escapeHtml(data.news.source_name)}</div>
+                    <div style="font-size:0.95rem; line-height:1.6; white-space:pre-wrap;">${escapeHtml(data.news.editorial_post)}</div>`;
+
+                if (data.news.short_url) {
+                    html += `<div style="margin-top:0.75rem; font-size:0.85rem;">
+                        <span style="color:#94a3b8;">Link Tracciato:</span> <a href="${escapeHtml(data.news.short_url)}" target="_blank" style="color:#38bdf8; font-weight:600;">${escapeHtml(data.news.short_url)}</a>
+                    </div>`;
+                }
+
+                html += `</div>`;
                 html += `<div style="font-size:0.85rem; color:#94a3b8;"><strong>Destinatari:</strong> ${data.details.map(d => d.chat_title + ' (' + d.status + ')').join(', ')}</div>`;
                 preview.innerHTML = html;
             } else {

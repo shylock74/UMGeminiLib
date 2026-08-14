@@ -69,6 +69,19 @@ function ensureQuizTables($pdo) {
             INDEX idx_podcast_url (podcast_id, article_url(191))
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
+        // Tabella link corti tracciati
+        $pdo->exec("CREATE TABLE IF NOT EXISTS short_links (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            code VARCHAR(16) UNIQUE NOT NULL,
+            podcast_id INT NOT NULL,
+            title VARCHAR(255),
+            target_url TEXT NOT NULL,
+            clicks INT DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            last_clicked_at DATETIME NULL,
+            INDEX idx_podcast_code (podcast_id, code)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
         $checked = true;
     } catch (\Exception $e) {
         // Ignora se la tabella esiste già o non abbiamo permessi DDL runtime
@@ -99,6 +112,43 @@ function registerTelegramChat($pdo, $podcastId, $chatId, $chatTitle, $chatType =
         // Ignora errori di registrazione chat per non bloccare il webhook
     }
 }
+
+/**
+ * Crea o recupera un link corto tracciato per un URL
+ */
+function createTrackedLink($pdo, $podcastId, $targetUrl, $title = '') {
+    if (empty($targetUrl) || !$pdo) return $targetUrl;
+    ensureQuizTables($pdo);
+
+    try {
+        $stmt = $pdo->prepare("SELECT code FROM short_links WHERE podcast_id = :podcast_id AND target_url = :target_url LIMIT 1");
+        $stmt->execute([':podcast_id' => $podcastId, ':target_url' => $targetUrl]);
+        $existing = $stmt->fetch();
+        if ($existing && !empty($existing['code'])) {
+            $code = $existing['code'];
+        } else {
+            $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $code = '';
+            for ($i = 0; $i < 6; $i++) {
+                $code .= $chars[random_int(0, strlen($chars) - 1)];
+            }
+            $stmtInsert = $pdo->prepare("INSERT INTO short_links (code, podcast_id, title, target_url) VALUES (:code, :podcast_id, :title, :target_url)");
+            $stmtInsert->execute([
+                ':code' => $code,
+                ':podcast_id' => $podcastId,
+                ':title' => $title ?: substr($targetUrl, 0, 100),
+                ':target_url' => $targetUrl
+            ]);
+        }
+
+        $host = $_SERVER['HTTP_HOST'] ?? 'ulti.media';
+        $scriptDir = isset($_SERVER['PHP_SELF']) ? rtrim(dirname($_SERVER['PHP_SELF']), '/\\') : '/UMGemini';
+        return 'https://' . $host . $scriptDir . '/r.php?c=' . $code;
+    } catch (\Exception $e) {
+        return $targetUrl;
+    }
+}
 ?>
+
 
 

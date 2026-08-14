@@ -2,7 +2,7 @@
 /**
  * NewsCore.php
  * Acquisizione, filtraggio ed elaborazione editoriale automatica delle notizie enologiche da Google News.
- * Genera commenti in prima persona coerenti con il podcast "Il vino lo porto io".
+ * Estrazione automatica immagini OpenGraph/RSS e shortener con tracciamento click.
  */
 
 require_once 'Gemini.php';
@@ -16,7 +16,7 @@ class NewsCore {
      * 
      * @param string $query Query di ricerca (default: vino OR enologia OR viticoltura OR sommelier OR cantine)
      * @param int $maxItems Numero massimo di articoli da estrarre
-     * @return array Lista di notizie con title, link, pubDate, source, description
+     * @return array Lista di notizie con title, link, pubDate, source, description, image
      */
     public static function fetchGoogleNewsRss($query = 'vino OR enologia OR viticoltura OR sommelier OR cantine', $maxItems = 15) {
         $url = "https://news.google.com/rss/search?q=" . urlencode($query) . "&hl=it&gl=IT&ceid=IT:it";
@@ -41,7 +41,6 @@ class NewsCore {
         }
 
         $items = [];
-        // Parsing XML con SimpleXML
         libxml_use_internal_errors(true);
         $xml = simplexml_load_string($rssContent, 'SimpleXMLElement', LIBXML_NOCDATA);
 
@@ -53,8 +52,17 @@ class NewsCore {
                 $title = trim((string)$item->title);
                 $link = trim((string)$item->link);
                 $pubDate = trim((string)$item->pubDate);
-                $description = trim(strip_tags((string)$item->description));
+                $rawDesc = (string)$item->description;
+                $description = trim(strip_tags($rawDesc));
                 
+                // Estrae eventuale immagine dal tag enclosure o media o dall'HTML della description
+                $image = null;
+                if (isset($item->enclosure) && isset($item->enclosure['url'])) {
+                    $image = (string)$item->enclosure['url'];
+                } elseif (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $rawDesc, $mImg)) {
+                    $image = $mImg[1];
+                }
+
                 // Estrae la sorgente dal tag <source> se presente o dal titolo (es: "Titolo - Testata")
                 $sourceName = "";
                 if (isset($item->source)) {
@@ -71,7 +79,8 @@ class NewsCore {
                     'link' => $link,
                     'pubDate' => $pubDate,
                     'source' => $sourceName ?: 'Google News',
-                    'description' => $description
+                    'description' => $description,
+                    'image' => $image
                 ];
                 $count++;
             }
@@ -80,6 +89,59 @@ class NewsCore {
         }
 
         return $items;
+    }
+
+    /**
+     * Estrae l'immagine di copertina dall'articolo originale (OpenGraph og:image o twitter:image)
+     * 
+     * @param string $articleUrl URL dell'articolo
+     * @param string|null $rssImage Immagine già estratta dall'RSS
+     * @return string|null URL dell'immagine estratta o null se non trovata
+     */
+    public static function extractArticleImage($articleUrl, $rssImage = null) {
+        if (!empty($rssImage) && filter_var($rssImage, FILTER_VALIDATE_URL)) {
+            return $rssImage;
+        }
+
+        if (empty($articleUrl)) return null;
+
+        if (function_exists('curl_version')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $articleUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+            curl_setopt($ch, CURLOPT_MAXREDIRS, 4);
+            $html = curl_exec($ch);
+            curl_close($ch);
+
+            if ($html) {
+                // Ricerca OpenGraph og:image
+                if (preg_match('/<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                    $img = html_entity_decode(trim($m[1]));
+                    if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                }
+                if (preg_match('/<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']/i', $html, $m)) {
+                    $img = html_entity_decode(trim($m[1]));
+                    if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                }
+                // Ricerca twitter:image
+                if (preg_match('/<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']/i', $html, $m)) {
+                    $img = html_entity_decode(trim($m[1]));
+                    if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                }
+                // Ricerca link image_src
+                if (preg_match('/<link[^>]+rel=["\']image_src["\'][^>]+href=["\']([^"\']+)["\']/i', $html, $m)) {
+                    $img = html_entity_decode(trim($m[1]));
+                    if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -103,6 +165,7 @@ class NewsCore {
         $podcastName = $podcast['podcast_name'] ?? "Il vino lo porto io";
         $experts = $podcast['experts'] ?? "del Sommelier Marco Barbetti e dello Chef/sommelier Gabriele Palermo";
         $emoji = $podcast['emoji'] ?? "🍷";
+        $fallbackPhoto = !empty($podcast['final_photo']) ? $podcast['final_photo'] : 'VinoBot.jpg';
 
         // 2. Recupera articoli già inviati in passato per evitare duplicati
         $stmtSent = $pdo->prepare("SELECT article_url, article_title FROM sent_news WHERE podcast_id = :podcast_id ORDER BY id DESC LIMIT 100");
@@ -208,6 +271,29 @@ EOD;
 
         // 6. Pulizia e validazione del JSON
         $newsData = self::parseAndValidateJson($rawOutput, $freshArticles);
+        
+        // 7. Estrazione dell'immagine dell'articolo originale
+        $rssImg = null;
+        foreach ($freshArticles as $fa) {
+            if ($fa['link'] === $newsData['source_url'] && !empty($fa['image'])) {
+                $rssImg = $fa['image'];
+                break;
+            }
+        }
+        $extractedImage = self::extractArticleImage($newsData['source_url'], $rssImg);
+        $finalImage = $extractedImage ?: $fallbackPhoto;
+
+        // 8. Generazione link corto tracciato per la fonte
+        $shortTrackedUrl = createTrackedLink($pdo, $podcastId, $newsData['source_url'], $newsData['article_title']);
+        
+        // Sostituisce l'URL lungo con l'URL corto tracciato all'interno del post
+        if (!empty($shortTrackedUrl) && $shortTrackedUrl !== $newsData['source_url']) {
+            $newsData['editorial_post'] = str_replace($newsData['source_url'], $shortTrackedUrl, $newsData['editorial_post']);
+        }
+
+        $newsData['short_url'] = $shortTrackedUrl;
+        $newsData['image_url'] = $finalImage;
+        $newsData['is_custom_image'] = ($extractedImage !== null);
         $newsData['model'] = $actualModel;
         $newsData['usage'] = $usage;
 
@@ -233,7 +319,6 @@ EOD;
         }
 
         if (!$decoded || empty($decoded['editorial_post'])) {
-            // Fallback se il JSON non è valido
             $fallback = !empty($fallbackArticles) ? $fallbackArticles[0] : [
                 'title' => 'Notizia Enologica del Giorno',
                 'source' => 'Google News',
@@ -255,7 +340,6 @@ EOD;
         $editorialPost = trim((string)$decoded['editorial_post']);
         $shortSummary = trim((string)($decoded['short_summary'] ?? $articleTitle));
 
-        // Se l'URL nel JSON è vuoto o fittizio, cerca l'URL corrispondente nella lista articoli
         if (empty($sourceUrl) || strpos($sourceUrl, 'http') !== 0) {
             foreach ($fallbackArticles as $fa) {
                 if (similar_text(mb_strtolower($fa['title']), mb_strtolower($articleTitle), $p) && $p > 60) {
