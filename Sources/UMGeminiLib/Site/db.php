@@ -46,10 +46,17 @@ function ensureQuizTables($pdo) {
 
         // Verifica ed eventuale aggiunta colonne per installazioni esistenti
         try {
-            $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN IF NOT EXISTS is_news_active TINYINT(1) DEFAULT 1 AFTER is_anonymous");
-            $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN IF NOT EXISTS last_news_sent_at DATETIME NULL AFTER last_quiz_sent_at");
+            $stmtCols = $pdo->query("SHOW COLUMNS FROM quiz_targets");
+            $existingCols = $stmtCols->fetchAll(PDO::FETCH_COLUMN);
+
+            if (!in_array('is_news_active', $existingCols)) {
+                $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN is_news_active TINYINT(1) DEFAULT 1 AFTER is_anonymous");
+            }
+            if (!in_array('last_news_sent_at', $existingCols)) {
+                $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN last_news_sent_at DATETIME NULL AFTER last_quiz_sent_at");
+            }
         } catch (\Exception $colEx) {
-            // Ignora se già presenti o non supportato da versione MariaDB
+            // Ignora se non accessibile
         }
 
         // Tabella archivio notizie già inviate

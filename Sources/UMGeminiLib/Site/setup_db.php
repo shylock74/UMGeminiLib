@@ -46,6 +46,24 @@ try {
     $pdo->exec($sqlQuizTargets);
     echo "Tabella 'quiz_targets' verificata/creata correttamente.\n";
 
+    // Verifica ed eventuale aggiunta colonne a quiz_targets
+    try {
+        $stmtCols = $pdo->query("SHOW COLUMNS FROM quiz_targets");
+        $existingCols = $stmtCols->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!in_array('is_news_active', $existingCols)) {
+            $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN is_news_active TINYINT(1) DEFAULT 1 AFTER is_anonymous");
+            echo "Colonna 'is_news_active' aggiunta a 'quiz_targets'.\n";
+        }
+        if (!in_array('last_news_sent_at', $existingCols)) {
+            $pdo->exec("ALTER TABLE quiz_targets ADD COLUMN last_news_sent_at DATETIME NULL AFTER last_quiz_sent_at");
+            echo "Colonna 'last_news_sent_at' aggiunta a 'quiz_targets'.\n";
+        }
+    } catch (\Exception $eCols) {
+        echo "Nota colonne: " . $eCols->getMessage() . "\n";
+    }
+
+
     // 3. Creazione Tabella sent_news
     $sqlSentNews = "CREATE TABLE IF NOT EXISTS sent_news (
         id INT AUTO_INCREMENT PRIMARY KEY,
