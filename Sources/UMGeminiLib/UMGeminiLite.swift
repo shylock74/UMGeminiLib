@@ -36,6 +36,7 @@ public struct UMGeminiLite: Codable {
 		case gemini35Flash =			"Gemini 3.5 Flash"
 		case gemini36Flash =			"Gemini 3.6 Flash"
 		case gemini37Flash =			"Gemini 3.7 Flash"
+		case gemini38Flash =			"Gemini 3.8 Flash"
 
 		public var displayName: String { // display name
 			rawValue
@@ -57,6 +58,8 @@ public struct UMGeminiLite: Codable {
 					return "gemini-3.6-flash"
 				case .gemini37Flash:
 					return "gemini-3.7-flash"
+				case .gemini38Flash:
+					return "gemini-3.8-flash"
 			}
 		}
 

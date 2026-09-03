@@ -514,6 +514,7 @@ require_once 'config.php';
 
         // Modelli e relativi prezzi per 1.000.000 di token (Maggio 2026)
         const modelPricing = {
+            'gemini-3.8-flash': { input: 0.25, output: 1.50 },
             'gemini-3.7-flash': { input: 0.25, output: 1.50 },
             'gemini-3.6-flash': { input: 0.25, output: 1.50 },
             'gemini-3.5-flash': { input: 0.25, output: 1.50 },
