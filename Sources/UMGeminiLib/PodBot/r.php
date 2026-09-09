@@ -5,7 +5,7 @@
  * Reindirizza alla destinazione originale registrando i click sul database.
  */
 
-require_once 'db.php';
+require_once __DIR__ . '/db.php';
 
 $code = trim($_GET['c'] ?? '');
 

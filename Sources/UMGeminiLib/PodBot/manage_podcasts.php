@@ -4,10 +4,10 @@
  * Console di gestione CRUD per i podcast, Quiz Automatici, Rassegna News Telegram e Statistiche Click
  */
 
-require_once 'db.php';
-require_once 'config.php';
-require_once 'QuizCore.php';
-require_once 'NewsCore.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/QuizCore.php';
+require_once __DIR__ . '/NewsCore.php';
 
 ensureQuizTables($pdo);
 

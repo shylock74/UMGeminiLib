@@ -5,9 +5,9 @@
  * Utilizza Gemini con fallback trasparente su OpenAI e valida i vincoli nativi di Telegram sendPoll.
  */
 
-require_once 'Gemini.php';
-require_once 'OpenAI.php';
-require_once 'config.php';
+require_once __DIR__ . '/Gemini.php';
+require_once __DIR__ . '/OpenAI.php';
+require_once __DIR__ . '/config.php';
 
 class QuizCore {
     /**

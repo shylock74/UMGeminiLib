@@ -4,7 +4,7 @@
  * Mirrors UMGeminiLite functionality
  */
 
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 class Gemini {
     private $apiKey;
@@ -127,7 +127,7 @@ class Gemini {
             $parts = $result['candidates'][0]['content']['parts'] ?? [];
             if (empty($parts)) {
                 $errorMsg = "Gemini API non ha restituito parti di testo. Motivo: " . $finishReason . ". Risposta completa: " . $response;
-                file_put_contents('gemini_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
+                file_put_contents(__DIR__ . '/gemini_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
                 throw new Exception($errorMsg);
             }
 
@@ -151,7 +151,7 @@ class Gemini {
 
             if (empty(trim($text))) {
                 $errorMsg = "Gemini API ha restituito testo vuoto. Motivo: " . $finishReason . ". Risposta completa: " . $response;
-                file_put_contents('gemini_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
+                file_put_contents(__DIR__ . '/gemini_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
                 throw new Exception($errorMsg);
             }
 

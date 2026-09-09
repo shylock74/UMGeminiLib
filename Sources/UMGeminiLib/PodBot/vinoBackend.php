@@ -5,7 +5,7 @@
  */
 
 header('Content-Type: application/json');
-require_once 'SommelierCore.php';
+require_once __DIR__ . '/SommelierCore.php';
 
 try {
     // Recupero dell'input (JSON, POST o GET)

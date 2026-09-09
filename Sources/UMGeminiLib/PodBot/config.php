@@ -28,7 +28,7 @@ $GEMINI_MODELS = [
     'gemini-3.8-flash' => 'Gemini 3.8 Flash',
 ];
 
-define('DEFAULT_MODEL', 'gemini-3.7-flash');
+define('DEFAULT_MODEL', 'gemini-3.8-flash');
 
 // Telegram Bot Configuration
 define('TELEGRAM_BOT_TOKEN', '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c');

@@ -5,7 +5,7 @@
  */
 
 header('Content-Type: application/json');
-require_once 'PodcastCore.php';
+require_once __DIR__ . '/PodcastCore.php';
 
 try {
     // Recupero dell'input (JSON, POST o GET)

@@ -3,7 +3,7 @@
  * Frontend per il Sommelier AI - "Il vino lo porto io"
  * Design premium con glassmorphism e palette colori vinaccia/oro.
  */
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="it">

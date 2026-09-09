@@ -5,7 +5,7 @@
  * Mirrors Gemini.php functionality.
  */
 
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 class OpenAI {
     private $apiKey;
@@ -158,7 +158,7 @@ class OpenAI {
 
             if (empty(trim($fullText))) {
                 $errorMsg = "OpenAI API ha restituito testo vuoto o formato non riconosciuto. Risposta completa: " . $response;
-                file_put_contents('openai_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
+                file_put_contents(__DIR__ . '/openai_error.log', "[" . date('Y-m-d H:i:s') . "] " . $errorMsg . PHP_EOL, FILE_APPEND);
                 throw new Exception($errorMsg);
             }
 

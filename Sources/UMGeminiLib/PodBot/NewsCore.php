@@ -5,10 +5,10 @@
  * Estrazione automatica immagini OpenGraph/RSS e shortener con tracciamento click.
  */
 
-require_once 'Gemini.php';
-require_once 'OpenAI.php';
-require_once 'config.php';
-require_once 'db.php';
+require_once __DIR__ . '/Gemini.php';
+require_once __DIR__ . '/OpenAI.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/db.php';
 
 class NewsCore {
     /**

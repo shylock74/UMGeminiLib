@@ -13,9 +13,9 @@
 set_time_limit(0);
 ignore_user_abort(true);
 
-require_once 'db.php';
-require_once 'config.php';
-require_once 'NewsCore.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/NewsCore.php';
 
 $isCli = (php_sapi_name() === 'cli' || defined('STDIN'));
 
@@ -233,7 +233,7 @@ try {
     ];
 }
 
-@file_put_contents('news_cron.log', "[" . date('Y-m-d H:i:s') . "] " . json_encode($response, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND);
+@file_put_contents(__DIR__ . '/news_cron.log', "[" . date('Y-m-d H:i:s') . "] " . json_encode($response, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND);
 
 if (!$isCli) {
     header('Content-Type: application/json; charset=utf-8');

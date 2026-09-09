@@ -4,7 +4,7 @@
  * Script di test per verificare la generalizzazione di PodcastCore.php
  */
 
-require_once 'PodcastCore.php';
+require_once __DIR__ . '/PodcastCore.php';
 
 try {
     $domanda = "Quali sono i punti chiave del futuro del coding?";

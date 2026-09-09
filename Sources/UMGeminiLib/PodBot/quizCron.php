@@ -13,9 +13,9 @@
 set_time_limit(0);
 ignore_user_abort(true);
 
-require_once 'db.php';
-require_once 'config.php';
-require_once 'QuizCore.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/QuizCore.php';
 
 $isCli = (php_sapi_name() === 'cli' || defined('STDIN'));
 
@@ -182,7 +182,7 @@ try {
 }
 
 // Log dell'esecuzione del cron
-@file_put_contents('quiz_cron.log', "[" . date('Y-m-d H:i:s') . "] " . json_encode($response, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND);
+@file_put_contents(__DIR__ . '/quiz_cron.log', "[" . date('Y-m-d H:i:s') . "] " . json_encode($response, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND);
 
 // Output per Web o CLI
 if (!$isCli) {
@@ -223,7 +223,7 @@ function sendTelegramPollRequest($botToken, $params) {
         $result = curl_exec($ch);
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
-            @file_put_contents('telegram_error.log', "[" . date('Y-m-d H:i:s') . "] Poll cURL Error: " . $error_msg . PHP_EOL, FILE_APPEND);
+            @file_put_contents(__DIR__ . '/telegram_error.log', "[" . date('Y-m-d H:i:s') . "] Poll cURL Error: " . $error_msg . PHP_EOL, FILE_APPEND);
         }
         curl_close($ch);
         return $result;

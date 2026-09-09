@@ -4,7 +4,7 @@
  */
 
 header('Content-Type: application/json');
-require_once 'Gemini.php';
+require_once __DIR__ . '/Gemini.php';
 
 try {
     $input = json_decode(file_get_contents('php://input'), true);

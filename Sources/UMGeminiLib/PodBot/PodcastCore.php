@@ -5,9 +5,9 @@
  * Permette di specificare il file YAML e personalizzare i parametri del podcast.
  */
 
-require_once 'Gemini.php';
-require_once 'OpenAI.php';
-require_once 'config.php';
+require_once __DIR__ . '/Gemini.php';
+require_once __DIR__ . '/OpenAI.php';
+require_once __DIR__ . '/config.php';
 
 class PodcastCore {
     /**
