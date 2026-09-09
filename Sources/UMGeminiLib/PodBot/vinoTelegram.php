@@ -110,7 +110,9 @@ if (empty($botToken)) {
 }
 
 if (empty($botToken)) {
-    $botToken = '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c';
+    file_put_contents(__DIR__ . '/telegram_error.log', "[" . date('Y-m-d H:i:s') . "] Token Telegram non configurato: definire TELEGRAM_BOT_TOKEN in config.local.php." . PHP_EOL, FILE_APPEND);
+    http_response_code(500);
+    exit;
 }
 
 if ($text === '/start') {

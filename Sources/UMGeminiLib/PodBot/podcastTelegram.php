@@ -12,7 +12,7 @@ require_once __DIR__ . '/PodcastCore.php';
 require_once __DIR__ . '/config.php';
 
 // 1. Identificazione del bot tramite token nella URL (es: podcastTelegram.php?token=ABC)
-$token = $_GET['token'] ?? (defined('TELEGRAM_BOT_TOKEN') && TELEGRAM_BOT_TOKEN !== 'YOUR_TELEGRAM_BOT_TOKEN' ? TELEGRAM_BOT_TOKEN : '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c');
+$token = $_GET['token'] ?? (defined('TELEGRAM_BOT_TOKEN') && TELEGRAM_BOT_TOKEN !== 'YOUR_TELEGRAM_BOT_TOKEN' ? TELEGRAM_BOT_TOKEN : '');
 
 // 2. Lookup della configurazione nel Database
 $defaultConfig = [

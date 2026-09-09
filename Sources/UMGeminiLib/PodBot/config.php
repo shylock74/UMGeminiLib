@@ -31,10 +31,14 @@ $GEMINI_MODELS = [
 define('DEFAULT_MODEL', 'gemini-3.8-flash');
 
 // Telegram Bot Configuration
-define('TELEGRAM_BOT_TOKEN', '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c');
+if (!defined('TELEGRAM_BOT_TOKEN')) {
+    define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: 'YOUR_TELEGRAM_BOT_TOKEN');
+}
 
 // OpenAI API Configuration
-define('OPENAI_API_KEY', 'YOUR_OPENAI_API_KEY');
+if (!defined('OPENAI_API_KEY')) {
+    define('OPENAI_API_KEY', getenv('OPENAI_API_KEY') ?: 'YOUR_OPENAI_API_KEY');
+}
 $OPENAI_MODELS = [
     'gpt-5.5' => 'GPT 5.5',
     'gpt-5.4' => 'GPT 5.4',
@@ -43,7 +47,15 @@ $OPENAI_MODELS = [
 define('DEFAULT_OPENAI_MODEL', 'gpt-5.4-mini');
 
 // Cron Job Security Configuration
-define('CRON_SECRET', 'vino_quiz_cron_secure_key_2026');
+if (!defined('CRON_SECRET')) {
+    define('CRON_SECRET', getenv('CRON_SECRET') ?: 'YOUR_CRON_SECRET');
+}
+
+// Database Configuration (valori reali in config.local.php)
+if (!defined('DB_HOST')) define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+if (!defined('DB_NAME')) define('DB_NAME', getenv('DB_NAME') ?: '');
+if (!defined('DB_USER')) define('DB_USER', getenv('DB_USER') ?: '');
+if (!defined('DB_PASS')) define('DB_PASS', getenv('DB_PASS') ?: '');
 
 /**
  * Returns a friendly name for the model ID

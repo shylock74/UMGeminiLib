@@ -101,7 +101,7 @@ try {
 
     $stmt = $pdo->prepare($sqlInsert);
     $stmt->execute([
-        ':token' => '8466115311:AAEjB-dRka3zEqybZfZFPdjjXQFAVSIEj_c',
+        ':token' => TELEGRAM_BOT_TOKEN,
         ':username' => 'IVLPITest1_bot',
         ':yaml_file' => 'vinoKB.yaml',
         ':podcast_name' => 'Il vino lo porto io',

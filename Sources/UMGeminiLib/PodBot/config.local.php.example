@@ -1,0 +1,15 @@
+<?php
+/**
+ * Template di config.local.php — copiare in config.local.php e riempire i valori.
+ * Questo file di esempio e' tracciato da git e NON deve contenere segreti reali.
+ */
+
+define('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY');
+// define('OPENAI_API_KEY', 'YOUR_OPENAI_API_KEY');
+define('TELEGRAM_BOT_TOKEN', 'YOUR_TELEGRAM_BOT_TOKEN');
+define('CRON_SECRET', 'YOUR_CRON_SECRET');
+
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'YOUR_DB_NAME');
+define('DB_USER', 'YOUR_DB_USER');
+define('DB_PASS', 'YOUR_DB_PASS');

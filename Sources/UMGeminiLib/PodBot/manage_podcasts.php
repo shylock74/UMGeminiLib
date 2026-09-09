@@ -1061,7 +1061,7 @@ $displayMsg = $_GET['msg'] ?? $message;
                 <div class="form-row">
                     <div class="form-group">
                         <label>Token Telegram</label>
-                        <input type="text" name="token" value="<?php echo htmlspecialchars($editData['token'] ?? ''); ?>" required placeholder="8466115311:AAEjB...">
+                        <input type="text" name="token" value="<?php echo htmlspecialchars($editData['token'] ?? ''); ?>" required placeholder="123456789:AA...">
                     </div>
                     <div class="form-group">
                         <label>Username Bot</label>
